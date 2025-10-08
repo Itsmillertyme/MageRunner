@@ -1,0 +1,57 @@
+9/24 - Jacob
+-Fixed Dash moving player in wrong direction sometimes
+-Scaled player object to 1.5
+-Reworked jump physics
+-Added ability to control jump height based on input duration
+-Tweaked Jump values
+-Added collision detection during jump to reset jump velocity
+-Snapped all projectiles to 0 on Z axis to prevent missed shots
+-Fixed turning animation stopping movement but playing animation
+-Turning animation now transitions to correct walking animation, forward or backward
+
+9/25 - Cory
+Created my sandbox.
+Changed code for what spell ui displays.
+Updated Game Events for spells 4-6.
+Added projectiles for spells 3,4,6. These are mainly placeholders.
+Added enum for spawn method. Will utilize later.
+Added the logic to update projectile size. Will utilize later. After doing that there will only be one prefab per spell.
+Locked spell 5. I have to figure out how to do this one still. 
+
+9/25 - Jacob
+-Added coroutine to SpellBook.cs to handle firing 2nd 'ray' projectile for that spell
+
+9/26 - Cory
+Added textures and materials for spells 2 and 3. Adjusted material and trail renderer values for 1-3.
+Modified the devbreak code. It now pauses time rather than the editor. It also unpauses. This way we can skip frame by frame. 
+Something happened to the reticle again. 
+
+9/27 - Cory
+Adjusted spells 1 and 2 vfx.
+Added many textures for use in spells.
+Adjusted code for spells. Temporarily turned off other projectile levels. 
+Fixed bug with spell 3 casting different spell level projectiles.
+
+10/1 - Cory
+Added clamp on z for mouse position tracker. removed clamp from spellbook.
+Reworked spellbooks to have enums for each spell.
+Removed the prefabbed levels of spells. Now the scale is changed per level and we use one prefab. 
+Using the enum, we can now dictate the spawn method per spell. 
+Set up the spawn logic and added to most spells.
+There's an issue with flamethrower going the wrong way when casted too soon. it's projectile mover script related. 
+Reorganized the spell folders.
+Remade the fireball shader material setup to use the same style as ray. 1 less mat, plus less transparent.
+Updated all spell values besides earth shards.
+For all spells that spawn with an offset, removed the parent "base point" empties. With the new spawn system, we no longer need an intermediate party.
+Damage now works for all spells besides earth shards. Earth shards has not been worked on yet. 
+Temporarily commented out the player damage stuff from the script.
+
+10/3 - Cory
+Reordered spells folders and files.
+Added on trigger enter for continuous spells. Moved those spells to is trigger.
+Replaced the flamethrower sounds.
+Reworked the player ui controller for health then moved it to be on the HUD object.
+Created a new player health component. It does not currently derive from the player stats SO.
+Updated damage in projectile mover for player to use the new player health. 
+Changed some of the prefab references for the new health setup.
+Added event listener for health plus the invoke logic.
