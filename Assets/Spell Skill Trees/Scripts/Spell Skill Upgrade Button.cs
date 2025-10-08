@@ -1,37 +1,31 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Unity.VisualScripting;
 
-public class SpellSkillUpgradeButton : MonoBehaviour
-{
+public class SpellSkillUpgradeButton : MonoBehaviour {
     [SerializeField] private SpellSkillNode upgradeNode;
 
     private SpellSkillTree spellTree;
     private Button button;
     private TextMeshProUGUI buttonText;
 
-    private void Awake()
-    {
+    private void Awake() {
         spellTree = GetComponentInParent<SpellSkillTree>();
         button = GetComponent<Button>();
         buttonText = GetComponentInChildren<TextMeshProUGUI>();
     }
 
-    private void Start()
-    {
+    private void Start() {
         button.onClick.AddListener(ApplyUpgrade);
         UpdateButtonState();
     }
 
-    private void ApplyUpgrade()
-    {
+    private void ApplyUpgrade() {
         spellTree.ApplyUpgrade(upgradeNode);
         UpdateButtonState();
     }
 
-    public void UpdateButtonState()
-    {
+    public void UpdateButtonState() {
         if (spellTree.UpgradeOwned(upgradeNode)) // IF OWNED
         {
             button.interactable = false;
