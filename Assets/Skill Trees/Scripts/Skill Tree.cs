@@ -1,34 +1,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpellSkillTree : MonoBehaviour
+public class SkillTree : MonoBehaviour
 {
     [SerializeField] private Spell spell;
     [SerializeField] private int skillPoints;
-    private SpellSkillTreeUIController uiController;
-    private readonly HashSet<SpellSkillNode> ownedUpgrades = new();
+    private SkillTreeUIController uiController;
+    private readonly HashSet<SkillNode> ownedUpgrades = new();
     public int SkillPoints => skillPoints;
     public Spell SelectedSpell => spell;
 
     private void Awake()
     {
-        uiController = GetComponentInParent<SpellSkillTreeUIController>();
+        uiController = GetComponentInParent<SkillTreeUIController>();
     }
 
     // CHECK IF UPGRADE IS ALREADY OWNED
-    public bool UpgradeOwned(SpellSkillNode upgrade)
+    public bool UpgradeOwned(SkillNode upgrade)
     {
         return ownedUpgrades.Contains(upgrade);
     }   
 
     // CHECK IF ELIGIBLE TO UPGRADE
-    public DoubleBool CanUpgrade(SpellSkillNode upgrade)
+    public DoubleBool CanUpgrade(SkillNode upgrade)
     {
         return upgrade.CanUpgrade(ownedUpgrades, skillPoints);
     }
 
     // PERFORM THE UPGRADE
-    public void ApplyUpgrade(SpellSkillNode upgrade)
+    public void ApplyUpgrade(SkillNode upgrade)
     {
         // IF SHOULD NOT UPGRADE, RETURN
         if (UpgradeOwned(upgrade) || !CanUpgrade(upgrade).MeetsAllRequirements())
@@ -42,7 +42,7 @@ public class SpellSkillTree : MonoBehaviour
         skillPoints -= upgrade.UpgradeCost;
 
         // UPDATE BUTTON TEXT AND INTERACTABILITY
-        foreach (var button in FindObjectsByType<SpellSkillUpgradeButton>(FindObjectsSortMode.None))
+        foreach (var button in FindObjectsByType<SkillUpgradeButton>(FindObjectsSortMode.None))
         {
             button.UpdateButtonState();
         }
@@ -55,7 +55,7 @@ public class SpellSkillTree : MonoBehaviour
         skillPoints++;
 
         // UPDATE BUTTON TEXT AND INTERACTABILITY
-        foreach (var button in FindObjectsByType<SpellSkillUpgradeButton>(FindObjectsSortMode.None))
+        foreach (var button in FindObjectsByType<SkillUpgradeButton>(FindObjectsSortMode.None))
         {
             button.UpdateButtonState();
         }

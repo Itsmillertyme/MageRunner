@@ -2,7 +2,7 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Spell Skill Tree/Upgrades/Obstacle Piercing")]
 
-public class UpgradeObstaclePiercing : SpellSkillUpgrade
+public class UpgradeObstaclePiercing : SkillUpgrade
 {
     public override void Apply(Spell spell)
     {

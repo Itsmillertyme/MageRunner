@@ -2,7 +2,7 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Spell Skill Tree/Upgrades/Projectile Size")]
 
-public class UpgradeProjectileSize : SpellSkillUpgrade
+public class UpgradeProjectileSize : SkillUpgrade
 {
     [Header("Only edit one of the two attributes")]
     [Tooltip("Amount to be added to the base value")]

@@ -2,7 +2,7 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Spell Skill Tree/Upgrades/Damage Over Time")]
 
-public class UpgradeDamageOverTime : SpellSkillUpgrade
+public class UpgradeDamageOverTime : SkillUpgrade
 {
     public override void Apply(Spell spell)
     {

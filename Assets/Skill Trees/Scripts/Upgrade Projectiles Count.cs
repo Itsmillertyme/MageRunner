@@ -2,7 +2,7 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Spell Skill Tree/Upgrades/Projectiles Count")]
 
-public class UpgradeProjectilesCount : SpellSkillUpgrade
+public class UpgradeProjectilesCount : SkillUpgrade
 {
     [Tooltip("Amount to be added to the base value of the amount of projectiles")]
     [SerializeField] private int increase;

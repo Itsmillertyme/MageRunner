@@ -2,7 +2,7 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Spell Skill Tree/Upgrades/Mana Increase")]
 
-public class UpgradeMaxMana : SpellSkillUpgrade
+public class UpgradeMaxMana : SkillUpgrade
 {
     [Tooltip("Amount to be added to the base value of mana capacity")]
     [SerializeField] private int increase;

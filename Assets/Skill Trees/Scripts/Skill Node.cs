@@ -3,24 +3,24 @@ using System.Collections.Generic;
 
 [CreateAssetMenu(menuName = "Spell Skill Tree/Upgrade Node")]
 
-public class SpellSkillNode : ScriptableObject
+public class SkillNode : ScriptableObject
 {
     [Tooltip("This name will show on the button's text")]
     [SerializeField] private string upgradeName; // UPGRADE BUTTON TEXT NAME
     [SerializeField] private int upgradeCost; // AMOUNT OF SKILL POINTS REQUIRED TO UPGRADE
-    [SerializeField] private SpellSkillNode[] prerequisiteUpgrades; // UPGRADES REQUIRED BEFORE THIS NODE
-    [SerializeField] private SpellSkillUpgrade upgrade; // BOOST TO APPLY IN UPGRADE
+    [SerializeField] private SkillNode[] prerequisiteUpgrades; // UPGRADES REQUIRED BEFORE THIS NODE
+    [SerializeField] private SkillUpgrade upgrade; // BOOST TO APPLY IN UPGRADE
 
     // GETTERS
     public string UpgradeName => upgradeName;
     public int UpgradeCost => upgradeCost;
 
-    public DoubleBool CanUpgrade(HashSet<SpellSkillNode> ownedUpgrades, int availableSkillPoints)
+    public DoubleBool CanUpgrade(HashSet<SkillNode> ownedUpgrades, int availableSkillPoints)
     {
         bool hasPrereqs = true;
         bool hasSkillPoints = true;
 
-        foreach (SpellSkillNode prerequisite in prerequisiteUpgrades)
+        foreach (SkillNode prerequisite in prerequisiteUpgrades)
         {
             if (!ownedUpgrades.Contains(prerequisite))
             {

@@ -2,7 +2,7 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Spell Skill Tree/Upgrades/Travel Speed")]
 
-public class UpgradeTravelSpeed : SpellSkillUpgrade
+public class UpgradeTravelSpeed : SkillUpgrade
 {
     [Tooltip("Amount to be added to the base value of the move speed")]
     [SerializeField] private float movementIncrease;

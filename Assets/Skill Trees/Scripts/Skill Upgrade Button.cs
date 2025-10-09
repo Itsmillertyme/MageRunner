@@ -2,15 +2,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class SpellSkillUpgradeButton : MonoBehaviour {
-    [SerializeField] private SpellSkillNode upgradeNode;
+public class SkillUpgradeButton : MonoBehaviour {
+    [SerializeField] private SkillNode upgradeNode;
 
-    private SpellSkillTree spellTree;
+    private SkillTree spellTree;
     private Button button;
     private TextMeshProUGUI buttonText;
 
     private void Awake() {
-        spellTree = GetComponentInParent<SpellSkillTree>();
+        spellTree = GetComponentInParent<SkillTree>();
         button = GetComponent<Button>();
         buttonText = GetComponentInChildren<TextMeshProUGUI>();
     }

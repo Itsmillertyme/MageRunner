@@ -3,7 +3,7 @@ using UnityEngine;
 public class SpellLevels : MonoBehaviour
 {
     private int spellIndex = 0;
-    [SerializeField] private SpellSkillTree[] skillTrees;
+    [SerializeField] private SkillTree[] skillTrees;
     [SerializeField] private Spell[] spells;
     
     private SpellBook spellBook;
@@ -11,10 +11,10 @@ public class SpellLevels : MonoBehaviour
     private void Awake()
     {
         // GET REFERENCES THEN DISABLE UI
-        skillTrees = GetComponentsInChildren<SpellSkillTree>();
+        skillTrees = GetComponentsInChildren<SkillTree>();
         spellBook = FindFirstObjectByType<SpellBook>();
 
-        foreach (SpellSkillTree skillTree in skillTrees)
+        foreach (SkillTree skillTree in skillTrees)
         {
             skillTree.gameObject.SetActive(false);
         }

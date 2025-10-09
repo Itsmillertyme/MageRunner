@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class SpellSkillUpgrade : ScriptableObject
+public abstract class SkillUpgrade : ScriptableObject
 {
     public abstract void Apply(Spell spell);
 }

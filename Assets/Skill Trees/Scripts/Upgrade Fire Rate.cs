@@ -2,7 +2,7 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Spell Skill Tree/Upgrades/Fire Rate")]
 
-public class UpgradeFireRate : SpellSkillUpgrade
+public class UpgradeFireRate : SkillUpgrade
 {
     [Tooltip("Amount to be subtracted from the base value of cast cooldown time")]
     [SerializeField] private float reduction;

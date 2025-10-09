@@ -2,7 +2,7 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Spell Skill Tree/Upgrades/Delay Between Spawns")]
 
-public class UpgradeDelayBetweenSpawns : SpellSkillUpgrade
+public class UpgradeDelayBetweenSpawns : SkillUpgrade
 {
     [Tooltip("Amount to be reduced from the base value of the amount of time it takes to spawn projectiles")]
     [SerializeField] private float reduction;

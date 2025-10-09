@@ -2,7 +2,7 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Spell Skill Tree/Upgrades/Damage")]
 
-public class UpgradeDamage : SpellSkillUpgrade
+public class UpgradeDamage : SkillUpgrade
 {
     [Tooltip("Amount to be added to the base value of damage")]
     [SerializeField] private int increase;

@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class SpellSkillTreeUIController : MonoBehaviour
+public class SkillTreeUIController : MonoBehaviour
 {
     [SerializeField] GameObject[] trees;
     [SerializeField] TextMeshProUGUI[] treesTexts;
@@ -63,6 +63,6 @@ public class SpellSkillTreeUIController : MonoBehaviour
 
     public void UpdateSkillPoints()
     {
-        treesTexts[activeTreeIndex].text = $"Skill Points: {trees[activeTreeIndex].GetComponent<SpellSkillTree>().SkillPoints}";
+        treesTexts[activeTreeIndex].text = $"Skill Points: {trees[activeTreeIndex].GetComponent<SkillTree>().SkillPoints}";
     }
 }
