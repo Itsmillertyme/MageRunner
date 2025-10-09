@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public abstract class Spell : ScriptableObject
@@ -8,60 +7,41 @@ public abstract class Spell : ScriptableObject
     [SerializeField] private string description; // UNUSED // NO GETTER
     [SerializeField] private string loreText; // UNUSED // NO GETTER
 
-    [Header("Casting Default Attributes")]
-    [SerializeField] private int defaultCurrentMana;
-    [SerializeField] private int defaultMaxMana;
-    [SerializeField] private int defaultDamage;
-    [SerializeField] private float defaultLifeSpan;
+    [Header("Casting")]
+    [SerializeField] private int currentMana;
+    [SerializeField] private int maxMana;
+    [SerializeField] private int damage;
+    [SerializeField] private float lifeSpan;
     [Tooltip("Delay from click to end of animation to end cast. It's divided by 30 in playercontroller")]
-    [SerializeField] private float defaultCastDelayTime;
+    [SerializeField] private float castDelayTime;
     [Tooltip("Time between casts")]
-    [SerializeField] private float defaultCastCooldownTime;
-    [SerializeField] private float defaultMoveSpeed;
-    [SerializeField] private Vector3 defaultProjectileSize;
-    [SerializeField] private bool defaultDestroyOnEnemyImpact;
-    [SerializeField] private bool defaultDestroyOnEnvironmentImpact;
-    [SerializeField] private bool defaultDamageOverTime;
-    [SerializeField] private bool defaultCanMoveDuringCast;
-    [SerializeField] private bool defaultCanJumpDuringCast;
+    [SerializeField] private float castCooldownTime;
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private Vector3 projectileSize;
+    [SerializeField] private bool destroyOnEnemyImpact;
+    [SerializeField] private bool destroyOnEnvironmentImpact;
+    [SerializeField] private bool damageOverTime;
+    [SerializeField] private bool canMoveDuringCast;
+    [SerializeField] private bool canJumpDuringCast;
 
-    [Header("Leveling Default Attributes")]
-    [SerializeField] private int defaultCurrentLevel;
-    [SerializeField] private int defaultMaxLevel;
-    [SerializeField] private int defaultCurrentXP;
-    [SerializeField] private int xpToLevelUp;
-    [SerializeField] private int[] levelRequirements;
+    [Header("Leveling")]
+    [SerializeField] private int currentLevel;
+    [SerializeField] private int maxLevel;
+    [SerializeField] private int currentXP;
+    [SerializeField] private int baseLevelValue;
+    [SerializeField] private float levelingScalar;
+    private int xpToLevelUp;
+    private int[] levelRequirements;
 
 
     /*
      * lvl 0 req 0 -> to lvl 1
      * lvl 1 req 1 -> to lvl 2
      * .......................
-     * lvl 50 req 50 -> to lvl 51
+     * lvl 49 req 49 -> to lvl 50
      * 
      */
 
-
-    [Header("NO EDIT - Current Attributes")] // TEMP. ONCE WE HAVE SAVES, THIS WILL GO AWAY AND DEFAULT WILL BECOME CURRENT
-    private int currentMana;
-    private int maxMana;
-    private int damage;
-    private float lifeSpan;
-    [Tooltip("Time it takes to perform cast")]
-    private float castDelayTime;
-    [Tooltip("Time between casts")]
-    private float castCooldownTime;
-    private float moveSpeed;
-    private Vector3 projectileSize;
-    private bool destroyOnEnemyImpact;
-    private bool destroyOnEnvironmentImpact;
-    private bool damageOverTime;
-    private bool canMoveDuringCast;
-    private bool canJumpDuringCast;
-
-    private int currentLevel = 0; // ALSO SERVES AS AN INDEX
-    private int maxLevel;
-    private int currentXP;
 
     [Header("Prefab")]
     [SerializeField] private GameObject projectile;
@@ -122,26 +102,26 @@ public abstract class Spell : ScriptableObject
     public int XPToLevelUp => xpToLevelUp;
     #endregion
 
-    public void Initialize()
+    public void SetLevelingData()
     {
-        currentMana = defaultCurrentMana;
-        maxMana = defaultMaxMana;
-        damage = defaultDamage;
-        lifeSpan = defaultLifeSpan;
-        castDelayTime = defaultCastDelayTime;
-        castCooldownTime = defaultCastCooldownTime;
-        moveSpeed = defaultMoveSpeed;
-        projectileSize = defaultProjectileSize;
-        destroyOnEnemyImpact = defaultDestroyOnEnemyImpact;
-        destroyOnEnvironmentImpact = defaultDestroyOnEnvironmentImpact;
-        damageOverTime = defaultDamageOverTime;
-        canMoveDuringCast = defaultCanMoveDuringCast;
-        canJumpDuringCast = defaultCanJumpDuringCast;
-
-        currentLevel = defaultCurrentLevel;
-        maxLevel = defaultMaxLevel;
-        currentXP = defaultCurrentXP;
+        levelRequirements = new int[maxLevel];
+        levelRequirements[0] = baseLevelValue;
         xpToLevelUp = levelRequirements[0];
+
+        for (int i = 1; i < levelRequirements.Length; i++)
+        {
+            levelRequirements[i] = (int)(levelRequirements[i - 1] * levelingScalar);
+        }
+    }
+
+    public void SaveData(Object data)
+    {
+        // READY FOR YA BIG DAWG
+    }
+
+    public void LoadData(Object data)
+    {
+        // READY FOR YA BIG DAWG
     }
 
     public void SetProjectileSize(Vector3 newValue) => projectileSize = newValue;
@@ -159,7 +139,7 @@ public abstract class Spell : ScriptableObject
         currentMana = maxMana;
     }
 
-    public void SetCurrentXP(int newValue) => currentXP += newValue;
+    public void AddToXP(int newValue) => currentXP += newValue;
     public void LeveledUp() => currentLevel++;
 
     public void SetNextLevelUpRequirements()

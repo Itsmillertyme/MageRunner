@@ -11,7 +11,7 @@ public class SpellBook : MonoBehaviour
     [SerializeField] private Transform[] spellSpawnPoints;
 
     private SpellUI spellUI;
-    private SpellLevels spellLevels;
+    private XPSystem spellLevels;
     private GameManager gameManager;
     private LightingController lightingController;
 
@@ -43,13 +43,13 @@ public class SpellBook : MonoBehaviour
     private void Awake()
     {
         spellUI = FindFirstObjectByType<SpellUI>();
-        spellLevels = FindFirstObjectByType<SpellLevels>();
+        spellLevels = FindFirstObjectByType<XPSystem>();
         gameManager = FindFirstObjectByType<GameManager>();
         lightingController = gameManager.GetComponent<LightingController>();
 
         foreach (Spell spell in spellBook)
         {
-            spell.Initialize();
+            spell.SetLevelingData();
         }
 
         UpdateUI();

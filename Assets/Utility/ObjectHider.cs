@@ -1,17 +1,18 @@
 using UnityEngine;
 
-public class ObjectHider : MonoBehaviour {
-    [SerializeField] private GameObject tmpControlsDebug;
+public class ObjectHider : MonoBehaviour
+{
+    [SerializeField] private GameObject[] objectsToHideShow;
     private bool isActive;
 
-    private void Start() {
-        isActive = tmpControlsDebug.activeSelf;
-    }
+    private void Awake()
+    {
+        isActive = objectsToHideShow[0].activeSelf;
+        isActive = !isActive;
 
-    void Update() {
-        if (Input.GetKeyDown(KeyCode.O)) {
-            isActive = !isActive;
-            tmpControlsDebug.SetActive(isActive);
+        foreach (GameObject obj in objectsToHideShow)
+        {
+            obj.SetActive(isActive);
         }
     }
 }

@@ -8,7 +8,7 @@ public class EnemyHealth : MonoBehaviour {
     [SerializeField] private int maxHealth;
     private readonly int minHealth = 0;
     [SerializeField] private int xpGrantedOnDeath;
-    private SpellLevels levelingSystem;
+    private XPSystem levelingSystem;
 
 
     //**FIELDS**
@@ -17,7 +17,7 @@ public class EnemyHealth : MonoBehaviour {
 
     private void Awake()
     {
-        levelingSystem = FindFirstObjectByType<SpellLevels>();
+        levelingSystem = FindFirstObjectByType<XPSystem>();
     }
 
     //**UTILITY METHODS**
@@ -30,8 +30,13 @@ public class EnemyHealth : MonoBehaviour {
         else
         {
             currentHealth = minHealth;
-            levelingSystem.AddXP(xpGrantedOnDeath);
+
             Destroy(this.gameObject);
         }
+    }
+
+    private void OnDestroy()
+    {
+        levelingSystem.AddXP(xpGrantedOnDeath);
     }
 }

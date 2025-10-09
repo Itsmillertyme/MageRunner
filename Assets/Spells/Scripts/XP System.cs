@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SpellLevels : MonoBehaviour
+public class XPSystem : MonoBehaviour
 {
     private int spellIndex = 0;
     [SerializeField] private SkillTree[] skillTrees;
@@ -33,7 +33,7 @@ public class SpellLevels : MonoBehaviour
         // IF MAX LEVEL, RETURN
         if (spells[spellIndex].CurrentLevel == spells[spellIndex].MaxLevel) return;
 
-        spells[spellIndex].SetCurrentXP(xpGained);
+        spells[spellIndex].AddToXP(xpGained);
 
         // IF LEVEL REQUIREMENTS ARE MET, LEVEL UP
         if (spells[spellIndex].CurrentXP >= spells[spellIndex].XPToLevelUp)

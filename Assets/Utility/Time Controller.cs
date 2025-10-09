@@ -2,13 +2,14 @@ using UnityEngine;
 
 public class TimeController : MonoBehaviour
 {
-    [SerializeField] private float slowTimeScale = 0.1f;
+    [SerializeField] private float slowTimeScale;
+    [SerializeField] KeyCode slowTimeKeyCode;
     private bool isTimeRunning = true;
     private bool isTimeSlowed = false;
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetKeyDown(slowTimeKeyCode))
         {
             if (isTimeSlowed)
             {
