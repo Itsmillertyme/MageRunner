@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 public class Lvl1BossGuardCenter : MonoBehaviour, IBehave {
 
-    //**PROPERTIES**    
+    //**Field**    
     [SerializeField] float extraTurnSpeed;
     [SerializeField] float playerSearchRadius;
 
@@ -15,6 +15,10 @@ public class Lvl1BossGuardCenter : MonoBehaviour, IBehave {
 
     bool initialized = false;
     bool playerInRange = false;
+    bool inCutscene = false;
+
+    //**PROPERTIES**
+    public bool InCutscene { get => inCutscene; set => inCutscene = value; }
 
     //**UNITY METHODS**
     private void Awake() {
@@ -24,38 +28,40 @@ public class Lvl1BossGuardCenter : MonoBehaviour, IBehave {
     }
 
     private void Update() {
-
-        //Update Animations
-        if (agent.velocity.magnitude > 0.1f && !agent.isStopped) {
-            animator.SetBool("isWalking", true);
-        }
-        else {
-            animator.SetBool("isWalking", false);
-        }
-
-        if (initialized) {
-            //Look for player
-            if (Vector3.Distance(player.transform.position, transform.position) < playerSearchRadius) {
-                playerInRange = true;
+        if (!inCutscene) {
+            //Update Animations
+            if (agent.velocity.magnitude > 0.1f && !agent.isStopped) {
+                animator.SetBool("isWalking", true);
             }
             else {
-                playerInRange = false;
+                animator.SetBool("isWalking", false);
             }
 
-            //Set destination
-            if (playerInRange) {
-                //Chase
-                if (agent.destination != player.transform.position) {
-                    agent.SetDestination(player.transform.position);
+            if (initialized) {
+                //Look for player
+                if (Vector3.Distance(player.transform.position, transform.position) < playerSearchRadius) {
+                    playerInRange = true;
                 }
-            }
-            else {
-                //Move go to guard position
-                if (agent.destination != guardPosition) {
-                    agent.SetDestination(guardPosition);
+                else {
+                    playerInRange = false;
+                }
+
+                //Set destination
+                if (playerInRange) {
+                    //Chase
+                    if (agent.destination != player.transform.position) {
+                        agent.SetDestination(player.transform.position);
+                    }
+                }
+                else {
+                    //Move go to guard position
+                    if (agent.destination != guardPosition) {
+                        agent.SetDestination(guardPosition);
+                    }
                 }
             }
         }
+
     }
 
 

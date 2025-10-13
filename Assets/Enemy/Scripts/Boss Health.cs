@@ -1,7 +1,6 @@
 using UnityEngine;
 
 public class BossHealth : MonoBehaviour {
-    //**PROPERTIES**
     [Header("Health Base Stats")]
     [SerializeField] private int currentHealth;
     [SerializeField] private int maxHealth;
@@ -13,10 +12,14 @@ public class BossHealth : MonoBehaviour {
     bool isDead = false;
 
     //**FIELDS**
+    BossRoomBase bossRoom;
+
+    //**PROPERTIES**
     public int CurrentHealth => currentHealth;
     public int MaxHealth => maxHealth;
     public int MinHealth => minHealth;
     public bool IsDead => isDead;
+    public BossRoomBase BossRoom { get => bossRoom; set => bossRoom = value; }
 
     //**UTILITY METHODS**
     public void RemoveFromHealth(int amountToRemove) {
@@ -36,9 +39,8 @@ public class BossHealth : MonoBehaviour {
             GetComponent<Collider>().enabled = false;
             isDead = true;
 
-            //show loading screen            
-            StartCoroutine(GameObject.Find("GameManager").GetComponent<GameManager>().ShowAndHideLoadingScreen());
-
+            //Let boss room controller know boss is dead
+            BossRoom.NotifyBossDefeated();
         }
     }
 }

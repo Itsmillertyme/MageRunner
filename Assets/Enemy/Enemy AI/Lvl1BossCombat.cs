@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class Lvl1BossCombat : MonoBehaviour, IBehave {
-    //**PROPERTIES**    
+    //**FIELDS**    
     [Header("Attack Settings")]
     [SerializeField] float meleeAttackCoolDown;
     [SerializeField] float rangedAttackCoolDown;
@@ -30,6 +30,10 @@ public class Lvl1BossCombat : MonoBehaviour, IBehave {
     Animator animator;
     NavMeshAgent agent;
     GameObject player;
+    bool inCutscene = false;
+
+    //**PROPERTIES**
+    public bool InCutscene { get => inCutscene; set => inCutscene = value; }
 
     //**UNITY METHODS**
     private void Awake() {
@@ -40,46 +44,48 @@ public class Lvl1BossCombat : MonoBehaviour, IBehave {
     }
     //
     private void Update() {
+        if (!inCutscene) {
+            //Check if initialized
+            if (initialized && !GetComponent<BossHealth>().IsDead) {
+                //Look for player
+                float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
 
-        //Check if initialized
-        if (initialized && !GetComponent<BossHealth>().IsDead) {
-            //Look for player
-            float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
-
-            //Set range flags based on distance
-            if (distanceToPlayer < meleeAttackRadius) {
-                playerInMeleeRange = true;
-            }
-            else {
-                playerInMeleeRange = false;
-            }
-
-            if (distanceToPlayer < rangedAttackRadius) {
-                playerInRangedRange = true;
-            }
-            else {
-                playerInRangedRange = false;
-            }
-
-            //do attacks
-            if (attackReady) {
-                //Prioritizes melee attacks if in range
-                if (playerInMeleeRange) {
-                    StartCoroutine(SetupAttack(AttackType.Melee));
+                //Set range flags based on distance
+                if (distanceToPlayer < meleeAttackRadius) {
+                    playerInMeleeRange = true;
                 }
-                else if (playerInRangedRange) {
+                else {
+                    playerInMeleeRange = false;
+                }
 
-                    //Roll for super attack
-                    if (superAttackReady && Random.value < superAttackChance) {
-                        superAttackReady = false;
-                        StartCoroutine(SetupAttack(AttackType.Super));
+                if (distanceToPlayer < rangedAttackRadius) {
+                    playerInRangedRange = true;
+                }
+                else {
+                    playerInRangedRange = false;
+                }
+
+                //do attacks
+                if (attackReady) {
+                    //Prioritizes melee attacks if in range
+                    if (playerInMeleeRange) {
+                        StartCoroutine(SetupAttack(AttackType.Melee));
                     }
-                    //Normal ranged attack
-                    else {
-                        StartCoroutine(SetupAttack(AttackType.Ranged));
+                    else if (playerInRangedRange) {
+
+                        //Roll for super attack
+                        if (superAttackReady && Random.value < superAttackChance) {
+                            superAttackReady = false;
+                            StartCoroutine(SetupAttack(AttackType.Super));
+                        }
+                        //Normal ranged attack
+                        else {
+                            StartCoroutine(SetupAttack(AttackType.Ranged));
+                        }
                     }
                 }
             }
+
 
         }
     }

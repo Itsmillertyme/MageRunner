@@ -42,6 +42,7 @@ public class LevelGenerator : MonoBehaviour {
     #region Unity Methods
     //**UNITY METHODS**
     private void Awake() {
+        navMeshSurface.RemoveData();
         Initialize();
     }
     //
@@ -113,11 +114,7 @@ public class LevelGenerator : MonoBehaviour {
             navMeshSurface.BuildNavMesh();
         }
         NavMeshLinkBuilder linkBuilder = GetComponent<NavMeshLinkBuilder>();
-        linkBuilder.BuildAll();
-
-        //Setup boss room environment
-        BossRoomEnvironmentController controller = bossRoomInstance.RoomData.GetComponentInChildren<BossRoomEnvironmentController>();
-        controller.HidePlatforms();
+        linkBuilder.BuildAll(levelGenerationDebug);
 
         //Create mask
         if (!omitMask) {
@@ -129,8 +126,11 @@ public class LevelGenerator : MonoBehaviour {
         //Spawn Enemies
         EnemySpawnerPG2 enemySpawner = GetComponent<EnemySpawnerPG2>();
         enemySpawner.SpawnMobEnemies(placedRooms, enemyParent, enemySpawningDebug);
-        enemySpawner.SpawnBossEnemy(bossRoomInstance, enemyParent, enemySpawningDebug);
+        GameObject bossInstance;
+        enemySpawner.SpawnBossEnemy(bossRoomInstance, enemyParent, out bossInstance, enemySpawningDebug);
 
+        //setup boss room
+        bossRoomInstance.RoomData.GetComponent<BossRoomBase>().Initialize(bossInstance, playerController);
     }
 
     //Clear level

@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour {
     //bool isPaused = false;
     bool topCollided = false;
     bool freezePhysics = false;
+    bool inCutscene = false;
 
     [Header("Player Settings")]
     //Jump Varbiables
@@ -76,6 +77,7 @@ public class PlayerController : MonoBehaviour {
     //**FIELDS**
     public bool IsFacingLeft { get => isFacingLeft; set => isFacingLeft = value; }
     public bool FreezePhysics { get => freezePhysics; set => freezePhysics = value; }
+    public bool InCutscene { get => inCutscene; set => inCutscene = value; }
 
     //**UNITY METHODS**
     void Awake() {
@@ -159,79 +161,80 @@ public class PlayerController : MonoBehaviour {
     }
     //
     void Update() {
+        if (!inCutscene) {
+            //DEV ONLY
+            SetupJumpVariables();
+            //Debug.Log(isFacingLeft);
 
-        //DEV ONLY
-        SetupJumpVariables();
-        //Debug.Log(isFacingLeft);
+            HandleAnimation();
+            //mousePositionTracker.GetMousePosition();
 
-        HandleAnimation();
-        //mousePositionTracker.GetMousePosition();
+            CollisionFlags collisionFlags;
 
-        CollisionFlags collisionFlags;
-
-        if (isRunPressed) {
-            appliedMovement.x = currentRunMovement.x;
-            appliedMovement.z = currentRunMovement.z;
-        }
-        else if (isCrouchPressed) {
-            appliedMovement.x = currentCrouchMovement.x;
-            appliedMovement.z = currentCrouchMovement.z;
-        }
-        else {
-            appliedMovement.x = currentMovement.x;
-            appliedMovement.z = currentMovement.z;
-        }
-
-        //stop movement if turning
-        if (turnAnimation != null) {
-            //stop movement of player controller
-            appliedMovement.x = 0;
-        }
-
-        //Debug.Log("Y axis movement: " + appliedMovement.y);
-
-        if (!freezePhysics) {
-            collisionFlags = characterController.Move(appliedMovement * Time.deltaTime);
-
-            //test for vertical collisions when jumping (BINARY COMPARE bit mask and above flag, make sure they match (i.e. equal 1 because they are the same))
-            if (((collisionFlags & CollisionFlags.Above) != 0) && !topCollided) {
-                currentMovement.y = 0;
-                currentRunMovement.y = 0;
-                currentCrouchMovement.y = 0;
-                topCollided = true;
+            if (isRunPressed) {
+                appliedMovement.x = currentRunMovement.x;
+                appliedMovement.z = currentRunMovement.z;
             }
-            else if ((collisionFlags & CollisionFlags.Above) == 0) {
-                topCollided = false;
+            else if (isCrouchPressed) {
+                appliedMovement.x = currentCrouchMovement.x;
+                appliedMovement.z = currentCrouchMovement.z;
+            }
+            else {
+                appliedMovement.x = currentMovement.x;
+                appliedMovement.z = currentMovement.z;
             }
 
-            //Snap Z coord to 0
-            transform.position = new Vector3(transform.position.x, transform.position.y, -2.5f);
-        }
-
-
-        if (wasFlippedLastFrame) {
-            wasFlippedLastFrame = false;
-        }
-        //Facing player based on Mouse position
-        HandlePlayerDirection();
-
-        HandleGravity();
-        HandleJump();
-
-        if (jumpAnimation == null && !characterController.isGrounded) {
-            //not landed
-            animator.SetBool(landedHash, false);
-            //crossfade into falling
-            animator.CrossFade(fallHash, 0.01f);
-
-        }
-        else if (characterController.isGrounded && !animator.GetBool(landedHash)) {
-            if (isMovementPressed) {
-                animator.CrossFade(walkHash, 0.01f);
+            //stop movement if turning
+            if (turnAnimation != null) {
+                //stop movement of player controller
+                appliedMovement.x = 0;
             }
 
-            //not landed
-            animator.SetBool(landedHash, true);
+            //Debug.Log("Y axis movement: " + appliedMovement.y);
+
+            if (!freezePhysics) {
+                collisionFlags = characterController.Move(appliedMovement * Time.deltaTime);
+
+                //test for vertical collisions when jumping (BINARY COMPARE bit mask and above flag, make sure they match (i.e. equal 1 because they are the same))
+                if (((collisionFlags & CollisionFlags.Above) != 0) && !topCollided) {
+                    currentMovement.y = 0;
+                    currentRunMovement.y = 0;
+                    currentCrouchMovement.y = 0;
+                    topCollided = true;
+                }
+                else if ((collisionFlags & CollisionFlags.Above) == 0) {
+                    topCollided = false;
+                }
+
+                //Snap Z coord to 0
+                transform.position = new Vector3(transform.position.x, transform.position.y, -2.5f);
+            }
+
+
+            if (wasFlippedLastFrame) {
+                wasFlippedLastFrame = false;
+            }
+            //Facing player based on Mouse position
+            HandlePlayerDirection();
+
+            HandleGravity();
+            HandleJump();
+
+            if (jumpAnimation == null && !characterController.isGrounded) {
+                //not landed
+                animator.SetBool(landedHash, false);
+                //crossfade into falling
+                animator.CrossFade(fallHash, 0.01f);
+
+            }
+            else if (characterController.isGrounded && !animator.GetBool(landedHash)) {
+                if (isMovementPressed) {
+                    animator.CrossFade(walkHash, 0.01f);
+                }
+
+                //not landed
+                animator.SetBool(landedHash, true);
+            }
         }
 
     }

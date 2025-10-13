@@ -51,25 +51,33 @@ public class EnemySpawnerPG2 : MonoBehaviour {
         if (debugMode) Debug.Log("[EnemySpawner] Finished spawning enemies.");
     }
 
-    public void SpawnBossEnemy(RoomInstance bossRoom, Transform enemyParent, bool debugMode = false) {
+    public void SpawnBossEnemy(RoomInstance bossRoom, Transform enemyParent, out GameObject bossInstance, bool debugMode = false) {
         if (enemyData == null || enemyData.bossPrefab == null) {
             if (debugMode) Debug.LogWarning("[EnemySpawner] No enemy Scritable Object or no Boss prefabs assigned.");
+            bossInstance = null;
             return;
         }
 
         RoomData roomData = bossRoom.RoomData;
         if (roomData.EnemySpawns == null || roomData.EnemySpawns.Count == 0) {
             if (debugMode) Debug.LogWarning("[EnemySpawner] Boss room has no enemy spawn points.");
+            bossInstance = null;
             return;
         }
 
-        GameObject bossInstance = Instantiate(enemyData.bossPrefab, roomData.EnemySpawns[0].position, Quaternion.identity);
+        bossInstance = Instantiate(enemyData.bossPrefab, roomData.EnemySpawns[0].position, Quaternion.identity);
         bossInstance.name = $"**{enemyData.bossPrefab.name}{bossInstance.GetInstanceID()}**";
         bossInstance.transform.parent = enemyParent;
 
         IBehave[] behaviors = bossInstance.GetComponents<IBehave>();
         foreach (IBehave behavior in behaviors) {
             behavior.Initialize(roomData, debugMode);
+        }
+
+        //setup health script
+        BossHealth bossHealth = bossInstance.GetComponent<BossHealth>();
+        if (bossHealth != null) {
+            bossHealth.BossRoom = bossRoom.RoomData.gameObject.GetComponent<BossRoomBase>();
         }
     }
 
