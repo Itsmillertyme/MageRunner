@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Events;
 
 
 
@@ -8,14 +7,16 @@ public class EnemyDie : MonoBehaviour {
     // DELETE THE BOSS SCRIPT, tack this one onto boss prefab, and set up a listener for boss death to do load screen stuff
 
     [Header("Component References")]
-    [SerializeField] Animator animator;
     [SerializeField] bool isBoss = false;
 
+    Animator animator;
     BossRoomBase bossRoom;
 
-    private UnityEvent levelComplete;
-
     public BossRoomBase BossRoom { get => bossRoom; set => bossRoom = value; }
+
+    private void Awake() {
+        animator = gameObject.GetComponent<Animator>();
+    }
 
     public void Die() {
         //play death animation

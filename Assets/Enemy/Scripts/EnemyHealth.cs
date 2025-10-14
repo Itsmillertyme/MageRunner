@@ -1,7 +1,6 @@
 using UnityEngine;
 
-public class EnemyHealth : MonoBehaviour
-{
+public class EnemyHealth : MonoBehaviour {
     [Header("Health Base Stats")]
     [SerializeField] private int currentHealth;
     [SerializeField] private int maxHealth;
@@ -15,33 +14,29 @@ public class EnemyHealth : MonoBehaviour
     public int CurrentHealth => currentHealth;
     public int MaxHealth => maxHealth;
 
-    private void Awake()
-    {
+    private void Awake() {
         levelingSystem = FindFirstObjectByType<XPSystem>();
         lootSystem = FindFirstObjectByType<LootSystem>();
     }
 
-    public void RemoveFromHealth(int amountToRemove)
-    {
-        if (amountToRemove < currentHealth)
-        {
+    public void RemoveFromHealth(int amountToRemove) {
+        if (amountToRemove < currentHealth) {
             currentHealth -= amountToRemove;
             UpdateUI();
         }
-        else
-        {
+        else {
             currentHealth = 0;
             UpdateUI();
             // call new death script here and move following logic there
             levelingSystem.AddXP(xpGrantedOnDeath);
             lootSystem.DropLoot(transform.position);
-            Destroy(this.gameObject);
+            EnemyDie enemyDie = GetComponent<EnemyDie>();
+            enemyDie.Die();
         }
     }
 
-    private void UpdateUI()
-    {
-        float value = (float)currentHealth / (float)maxHealth;
+    private void UpdateUI() {
+        float value = (float) currentHealth / (float) maxHealth;
         ui.UpdateHealthBar(value);
     }
 }

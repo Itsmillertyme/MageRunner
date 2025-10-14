@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
@@ -68,7 +67,6 @@ public class PlayerController : MonoBehaviour {
 
     [Header("Miscellaneous References")]
     [SerializeField] PlayerAttributes player;
-    private UnityEvent skillTreeMenuButtonPressed = new ();
 
     //**FIELDS**
     public bool IsFacingLeft { get => isFacingLeft; set => isFacingLeft = value; }
