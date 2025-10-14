@@ -46,7 +46,7 @@ public class Lvl1BossCombat : MonoBehaviour, IBehave {
     private void Update() {
         if (!inCutscene) {
             //Check if initialized
-            if (initialized && !GetComponent<BossHealth>().IsDead) {
+            if (initialized && GetComponent<EnemyHealth>().CurrentHealth > 0) {
                 //Look for player
                 float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
 

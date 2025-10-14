@@ -10,12 +10,19 @@ public class SpellBook : MonoBehaviour
     [Tooltip("Must be in the same order as the spells themselves")]
     [SerializeField] private Transform[] spellSpawnPoints;
 
+    // DRIVEN IN CODE
     private SpellUI spellUI;
     private XPSystem spellLevels;
     private GameManager gameManager;
     private LightingController lightingController;
+    private Transform currentSpawnPoint;
+    private float scrollValue;
+    private Coroutine castCooldown;
+    private int currentSpellIndex = 0;
+    private bool isReadyToCast = true;
+    private int previousSpellIndex;
 
-    #region // GETTERS
+    // GETTERS
     public int CurrentSpellIndex => currentSpellIndex;
     public bool IsReadyToCast => isReadyToCast;
     public string GetSpellUIData() => $"{spellBook[currentSpellIndex].CurrentMana} / {spellBook[currentSpellIndex].MaxMana}"; // GETTER FOR ACTIVE SPELL TO USE IN UI TEXT
@@ -23,22 +30,16 @@ public class SpellBook : MonoBehaviour
     public Sprite GetSpellReticleData() => spellBook[currentSpellIndex].Reticle; // GETTER FOR ACTIVE SPELL RETICLE TO USE IN UI
     public AnimationClip GetSpellAnimation() => spellBook[currentSpellIndex].CastAnimation; // GETTER FOR ACTIVE SPELL ANIMATION
     public float GetSpellCastDelayTime() => spellBook[currentSpellIndex].CastDelayTime; // GETTER FOR CAST DELAY TIME
-    public float GetSpellManaCost() => spellBook[currentSpellIndex].CurrentMana; // GETTER FOR ACTIVE SPELL MANA COST
+    public float GetSpellMaxMana() => spellBook[currentSpellIndex].MaxMana; // GETTER FOR ACTIVE SPELL MAX MANA
+    public float GetSpellCurrentMana() => spellBook[currentSpellIndex].CurrentMana; // GETTER FOR ACTIVE SPELL CURRENT MANA
     public AudioClip GetSpellSpawnSound() => spellBook[currentSpellIndex].SpawnSFX; // GETTER FOR ACTIVE SPELL SPAWN SOUND
     public float GetSpellSpawnVolume() => spellBook[currentSpellIndex].SpawnSFXVolume; // GETTER FOR ACTIVE SPELL SFX VOLUME
     public float GetSpellSpawnPitch() => spellBook[currentSpellIndex].SpawnSFXPitch + UtilityTools.RandomVarianceFloat(); // GETTER FOR ACTIVE SPELL SFX PITCH
     public float GetXPBarProgress() => (float)spellBook[currentSpellIndex].CurrentXP / (float)spellBook[currentSpellIndex].XPToLevelUp;
     public int GetSpellCurrentLevel() => spellBook[currentSpellIndex].CurrentLevel;
-    #endregion
 
-    #region // DRIVEN
-    private Transform currentSpawnPoint;
-    private float scrollValue;
-    private Coroutine castCooldown;
-    private int currentSpellIndex = 0;
-    private bool isReadyToCast = true;
-    private int previousSpellIndex;
-    #endregion
+    // SETTERS
+    public void SetCurrentMana(int value) => spellBook[currentSpellIndex].SetCurrentMana(value);
 
     private void Awake()
     {
@@ -86,9 +87,9 @@ public class SpellBook : MonoBehaviour
                 break;
             case ThunderlordsCascade:
                 break;
-            //case WintersWrath:
-            //    currentSpawnPoint = spellSpawnPoints[3];
-            //    break;
+                //case WintersWrath:
+                //    currentSpawnPoint = spellSpawnPoints[3];
+                //    break;
         }
 
         return currentSpawnPoint;
@@ -129,7 +130,7 @@ public class SpellBook : MonoBehaviour
     {
         GameObject newProjectile = Instantiate(af.Projectile, position, Quaternion.identity);
         newProjectile.GetComponent<AbyssalFangProjectileMovement>().SetAttributes(af.MoveSpeed, af.ProjectileSize, direction);
-        newProjectile.GetComponent<EnemyDamager>().SetAttributes(af);
+        newProjectile.GetComponent<SpellDamager>().SetAttributes(af);
     }
 
     public IEnumerator CooldownThenCastAltHandAbyssalFang(AbyssalFang af, float waitTime)
@@ -189,7 +190,7 @@ public class SpellBook : MonoBehaviour
     private void SetThunderlordsCascadeProjectile(ThunderlordsCascade tc, GameObject gameObject)
     {
         // ENEMY DAMAGER
-        gameObject.GetComponentInChildren<EnemyDamager>().SetAttributes(tc);
+        gameObject.GetComponentInChildren<SpellDamager>().SetAttributes(tc);
         Destroy(gameObject, tc.LifeSpan); // DESTROY ON DAMAGER DOESN'T WORK BECAUSE COLLISION LOGIC IS ON CHILD
 
         // PARTICLE SYSTEM REFERENCE SETTING FOR MAIN EFFECT
@@ -328,5 +329,17 @@ public class SpellBook : MonoBehaviour
     public void UpdateUI()
     {
         spellUI.UpdateSpellUI(GetSpellUIData(), GetSpellIconData(), GetSpellReticleData(), GetXPBarProgress(), GetSpellCurrentLevel());
+    }
+
+    public bool ManaIsFull()
+    {
+        bool manaIsFull = true;
+
+        if (GetSpellCurrentMana() < GetSpellMaxMana())
+        {
+            return !manaIsFull;
+        }
+
+        return manaIsFull;
     }
 }

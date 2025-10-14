@@ -34,7 +34,7 @@ public class ShatterstoneBarrageProjectileMovement : MonoBehaviour
         yield return new WaitForSeconds(sb.PauseBetweenPhases);
 
         // ADD DAMAGER COMPONENT AND SET ATTRIBUTES. THERE WERE ISSUES HAVING IT ON THE PREFAB BY DEFAULT.
-        EnemyDamager damager = gameObject.AddComponent<EnemyDamager>();
+        SpellDamager damager = gameObject.AddComponent<SpellDamager>();
         damager.SetAttributes(sb);
 
         // PHASE 2: MOVE TOWARDS RETICLE DIRECTION

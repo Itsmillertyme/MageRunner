@@ -1,17 +1,16 @@
 using UnityEngine;
 
-public class EnemyHealth : MonoBehaviour {
-
-    //**PROPERTIES**
+public class EnemyHealth : MonoBehaviour
+{
     [Header("Health Base Stats")]
     [SerializeField] private int currentHealth;
     [SerializeField] private int maxHealth;
-    private readonly int minHealth = 0;
     [SerializeField] private int xpGrantedOnDeath;
+
+    [Header("References")]
     private XPSystem levelingSystem;
+    [SerializeField] private EnemyHealthUI ui;
 
-
-    //**FIELDS**
     public int CurrentHealth => currentHealth;
     public int MaxHealth => maxHealth;
 
@@ -20,17 +19,18 @@ public class EnemyHealth : MonoBehaviour {
         levelingSystem = FindFirstObjectByType<XPSystem>();
     }
 
-    //**UTILITY METHODS**
-    public void RemoveFromHealth(int amountToRemove) {
-
+    public void RemoveFromHealth(int amountToRemove)
+    {
         if (amountToRemove < currentHealth)
         {
             currentHealth -= amountToRemove;
+            UpdateUI();
         }
         else
         {
-            currentHealth = minHealth;
-
+            currentHealth = 0;
+            UpdateUI();
+            // call new death script here and move following logic there
             Destroy(this.gameObject);
         }
     }
@@ -38,5 +38,11 @@ public class EnemyHealth : MonoBehaviour {
     private void OnDestroy()
     {
         levelingSystem.AddXP(xpGrantedOnDeath);
+    }
+
+    private void UpdateUI()
+    {
+        float value = (float)currentHealth / (float)maxHealth;
+        ui.UpdateHealthBar(value);
     }
 }

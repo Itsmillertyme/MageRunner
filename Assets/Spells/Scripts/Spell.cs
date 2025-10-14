@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public abstract class Spell : ScriptableObject
 {
@@ -124,22 +125,35 @@ public abstract class Spell : ScriptableObject
         // READY FOR YA BIG DAWG
     }
 
-    public void SetProjectileSize(Vector3 newValue) => projectileSize = newValue;
-    public void SetMoveSpeed(float newValue) => moveSpeed = newValue;
-    public void SetCastCooldownTime(float newValue) => castCooldownTime = newValue;
-    public void SetDamage(int newValue) => damage = newValue;
-    public void SetDestroyOnEnemyImpact(bool newValue) => destroyOnEnemyImpact = newValue;
-    public void SetDestroyOnEnvironmentalImpact(bool newValue) => destroyOnEnvironmentImpact = newValue;
+    public void SetProjectileSize(Vector3 value) => projectileSize = value;
+    public void SetMoveSpeed(float value) => moveSpeed = value;
+    public void SetCastCooldownTime(float value) => castCooldownTime = value;
+    public void SetDamage(int value) => damage = value;
+    public void SetDestroyOnEnemyImpact(bool value) => destroyOnEnemyImpact = value;
+    public void SetDestroyOnEnvironmentalImpact(bool value) => destroyOnEnvironmentImpact = value;
     public void SetDamageOverTime(bool value) => damageOverTime = value;
     public void ManaExpended() => currentMana--;
-
-    public void SetMaxMana(int newValue)
+    public void SetCurrentMana(int addition)
     {
-        maxMana = newValue;
+        int manaDeficit = maxMana - currentMana;
+
+        if (addition <= manaDeficit)
+        {
+            currentMana += addition;
+        }
+        else
+        {
+            currentMana = maxMana;
+        }
+    }
+
+    public void SetMaxMana(int value)
+    {
+        maxMana = value;
         currentMana = maxMana;
     }
 
-    public void AddToXP(int newValue) => currentXP += newValue;
+    public void AddToXP(int value) => currentXP += value;
     public void LeveledUp() => currentLevel++;
 
     public void SetNextLevelUpRequirements()

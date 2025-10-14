@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyDamager : MonoBehaviour
+public class SpellDamager : MonoBehaviour
 {
     [SerializeField] private GameObject impactSFXPrefab;
     private int damage;
@@ -20,23 +20,9 @@ public class EnemyDamager : MonoBehaviour
         // ADD SOUND EFFECT ON AN COLLISION
         AddSFXObject();
 
-        if (collided.gameObject.CompareTag("Mob Enemy"))
+        if (collided.gameObject.CompareTag("Mob Enemy") || collided.gameObject.CompareTag("Boss Enemy"))
         {
             collided.gameObject.GetComponent<EnemyHealth>().RemoveFromHealth(damage);
-
-            if (addDamageOverTime && NoDamageOverTimeAlreadyExists(collided.gameObject))
-            {
-                collided.gameObject.AddComponent<EnemyTakeDamageOverTime>();
-            }
-
-            if (destroyOnEnemyImpact)
-            {
-                Destroy(gameObject);
-            }
-        }
-        else if (collided.gameObject.CompareTag("Boss Enemy"))
-        {
-            collided.gameObject.GetComponent<BossHealth>().RemoveFromHealth(damage);
 
             if (addDamageOverTime && NoDamageOverTimeAlreadyExists(collided.gameObject))
             {
