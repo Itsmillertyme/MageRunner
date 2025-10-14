@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -15,11 +13,13 @@ public class GameManager : MonoBehaviour {
     [SerializeField] RectTransform crosshairRect;
     [SerializeField] RectTransform loadingScreen;
     [SerializeField] Image imgLoadingWheel;
+    [SerializeField] LevelGenerator levelCreator;
+
     MusicManager musicManager;
+
 
     [Header("Scritable Object References")]
     [SerializeField] LevelEnemies levelEnemies;
-    [SerializeField] LevelDecorations levelDecorations;
     //
     Vector3 playerPivot;
     //
@@ -29,31 +29,19 @@ public class GameManager : MonoBehaviour {
 
     //DEV ONLY - REMOVE BEFORE BUILD
     [Header("DEV ONLY")]
-    [SerializeField] bool debugLevelGeneration;
-    [SerializeField] bool debugEnemySpawning;
-    [SerializeField] bool debugInput;
-    [SerializeField] bool generateLevelOnLoad;
-    [SerializeField] bool unlockAllPaths;
     Transform cursorPositionObject;
     Transform playerPositionObject;
     public Mesh debugObjectMesh;
     public Material debugMaterial;
+    bool debugMode;
     Material currentPathNodeOriginalMaterial;
     [SerializeField] Material playerRoomMaterial;
-    [Header("Bugs / Issues")]
-    [SerializeField] private List<string> knownBugs = new List<string>();
 
     //**FIELDS**
     public LevelEnemies LevelEnemies { get => levelEnemies; }
-    public LevelDecorations LevelDecorations { get => levelDecorations; }
     public ControlScheme CurrentScheme { get => currentScheme; }
     public Vector3 CrosshairPositionIn3DSpace { get => cursorPositionObject.transform.position; }
     public Transform Player { get => player; }
-    public bool GenerateLevelOnLoad { get => generateLevelOnLoad; set => generateLevelOnLoad = value; }
-    public bool UnlockAllPaths { get => unlockAllPaths; set => unlockAllPaths = value; }
-    public bool DebugLevelGeneration { get => debugLevelGeneration; set => debugLevelGeneration = value; }
-    public bool DebugInput { get => debugInput; set => debugInput = value; }
-    public bool DebugEnemySpawning { get => debugEnemySpawning; set => debugEnemySpawning = value; }
     public int CurrentLevel { get => currentLevel; }
     public RectTransform LoadingScreen { get => loadingScreen; set => loadingScreen = value; }
 
@@ -64,13 +52,6 @@ public class GameManager : MonoBehaviour {
         cursorPositionObject.transform.parent = GameObject.FindWithTag("Player").transform;
         playerPositionObject = new GameObject("PlayerPosObject", typeof(MeshFilter), typeof(MeshRenderer)).transform;
         playerPositionObject.transform.parent = GameObject.FindWithTag("Player").transform;
-
-        if (DebugInput) {
-            cursorPositionObject.GetComponent<MeshFilter>().mesh = debugObjectMesh;
-            cursorPositionObject.GetComponent<MeshRenderer>().material = debugMaterial;
-            playerPositionObject.GetComponent<MeshFilter>().mesh = debugObjectMesh;
-            playerPositionObject.GetComponent<MeshRenderer>().material = debugMaterial;
-        }
 
         musicManager = GameObject.Find("Music Manager").GetComponent<MusicManager>();
 
@@ -154,53 +135,55 @@ public class GameManager : MonoBehaviour {
     }
 
     //**COROUTINES**
-    public IEnumerator ShowAndHideLoadingScreen() {
+    //public IEnumerator ShowLoadingScreenForDuration(float transitionTime = 0.25f, float duration = 5f) {
 
-        //Pause music manager
-        musicManager.PauseMusic();
+    //    //Pause music manager
+    //    musicManager.PauseMusic();
 
-        //Play victory music
-        GetComponent<AudioSource>().Play();
+    //    //Play victory music
+    //    GetComponent<AudioSource>().Play();
 
-        //pause
-        yield return new WaitForSeconds(5);
+    //    //pause
+    //    yield return new WaitForSeconds(5);
 
-        imgLoadingWheel.fillAmount = 0f;
-        loadingScreen.gameObject.SetActive(true);
+    //    imgLoadingWheel.fillAmount = 0f;
+    //    loadingScreen.gameObject.SetActive(true);
 
-        //Show and lerp big        
-        float time = 0f;
-        while (time < 0.25f) {
-            time += Time.unscaledDeltaTime;
-            float normalizedTime = Mathf.Clamp01(time / 0.25f);
-            loadingScreen.transform.localScale = Vector3.Lerp(new Vector3(0.001f, 0.001f, 0.001f), new Vector3(1, 1, 1), normalizedTime);
-            yield return null;
-        }
+    //    //Show and lerp big        
+    //    float time = 0f;
+    //    while (time < transitionTime) {
+    //        time += Time.unscaledDeltaTime;
+    //        float normalizedTime = Mathf.Clamp01(time / transitionTime);
+    //        loadingScreen.transform.localScale = Vector3.Lerp(new Vector3(0.001f, 0.001f, 0.001f), new Vector3(1, 1, 1), normalizedTime);
+    //        yield return null;
+    //    }
 
 
-        //Wait 5 seconds and do loading wheel
-        time = 0f;
-        while (time < 2.9f) { //Shenanigans
-            time += Time.unscaledDeltaTime;
-            imgLoadingWheel.fillAmount = time / 3f;
-            yield return null;
-        }
+    //    //Wait 5 seconds and do loading wheel
+    //    time = 0f;
+    //    while (time < duration) { //Shenanigans
+    //        time += Time.unscaledDeltaTime;
+    //        imgLoadingWheel.fillAmount = time / duration;
+    //        yield return null;
+    //    }
 
-        musicManager.PlayNextTrack();
+    //    //Lerp small and hide
+    //    time = 0f;
+    //    while (time < transitionTime) {
+    //        time += Time.unscaledDeltaTime;
+    //        float normalizedTime = Mathf.Clamp01(time / transitionTime);
+    //        loadingScreen.transform.localScale = Vector3.Lerp(new Vector3(1, 1, 1), new Vector3(0.001f, 0.001f, 0.001f), normalizedTime);
+    //        yield return null;
+    //    }
+    //    loadingScreen.gameObject.SetActive(false);
+    //}
 
-        //reload level
-        //GetComponent<DungeonCreator>().keepSeed = false;
-        //GetComponent<DungeonCreator>().RetryGeneration();
+    public void RespawnPlayer() {
+        //hide screen
+        //ShowLoadingScreenForDuration(0.25f, 3f);
 
-        //Lerp small and hide
-        time = 0f;
-        while (time < 0.25f) {
-            time += Time.unscaledDeltaTime;
-            float normalizedTime = Mathf.Clamp01(time / 0.25f);
-            loadingScreen.transform.localScale = Vector3.Lerp(new Vector3(1, 1, 1), new Vector3(0.001f, 0.001f, 0.001f), normalizedTime);
-            yield return null;
-        }
-        loadingScreen.gameObject.SetActive(false);
+        //move player
+        levelCreator.PlacePlayerInStartRoom();
     }
 
 }

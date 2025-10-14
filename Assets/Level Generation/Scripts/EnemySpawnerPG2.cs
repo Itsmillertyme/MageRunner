@@ -74,10 +74,10 @@ public class EnemySpawnerPG2 : MonoBehaviour {
             behavior.Initialize(roomData, debugMode);
         }
 
-        //setup health script
+        //setup health script 
         BossHealth bossHealth = bossInstance.GetComponent<BossHealth>();
         if (bossHealth != null) {
-            bossHealth.BossRoom = bossRoom.RoomData.gameObject.GetComponent<BossRoomBase>();
+            //bossHealth.BossRoom = bossRoom.RoomData.gameObject.GetComponent<BossRoomBase>();
         }
     }
 

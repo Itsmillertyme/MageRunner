@@ -12,7 +12,6 @@ public class PlayerController : MonoBehaviour {
     CharacterController characterController;
     Animator animator;
     AudioSource audioSource;
-    //[SerializeField] MousePositionTracking mousePositionTracker;
     [SerializeField] GameObject playerModel;
     [SerializeField] Transform projectileSpawn;
     [SerializeField] GameManager gameManager;
@@ -65,14 +64,18 @@ public class PlayerController : MonoBehaviour {
     int castHash;
     int dashForwardHash;
     int dashbackwardHash;
+    int dieHash;
+    int idleHash;
     //
     Coroutine turnAnimation;
     Coroutine jumpAnimation;
     Coroutine dashAnimation;
     Coroutine castAnimation;
+    Coroutine dieAnimation;
 
     [Header("Miscellaneous References")]
     [SerializeField] UnityEvent SpellMenuInputPressed;
+    [SerializeField] PlayerAttributes playerAttributes;
 
     //**FIELDS**
     public bool IsFacingLeft { get => isFacingLeft; set => isFacingLeft = value; }
@@ -104,6 +107,8 @@ public class PlayerController : MonoBehaviour {
         castHash = Animator.StringToHash("Cast");
         dashForwardHash = Animator.StringToHash("Dash_Forward");
         dashbackwardHash = Animator.StringToHash("Dash_Backward");
+        dieHash = Animator.StringToHash("Die");
+        idleHash = Animator.StringToHash("Idle");
         //
         animator.SetBool(landedHash, true);
 
@@ -144,12 +149,12 @@ public class PlayerController : MonoBehaviour {
         actionAsset.Player.HotSwitch.performed += OnHotSwitch;
 
         //DEV ONLY - DEBUG projectile spawn
-        if (gameManager.DebugInput) {
-            projectileSpawn.GetComponent<MeshRenderer>().enabled = true;
-        }
-        else {
-            projectileSpawn.GetComponent<MeshRenderer>().enabled = false;
-        }
+        //if (gameManager.DebugInput) {
+        //    projectileSpawn.GetComponent<MeshRenderer>().enabled = true;
+        //}
+        //else {
+        //    projectileSpawn.GetComponent<MeshRenderer>().enabled = false;
+        //}
 
 
         SetupJumpVariables();
@@ -466,6 +471,9 @@ public class PlayerController : MonoBehaviour {
         }
     }
     //    
+    public void InitiatePlayerDeath() {
+        if (dieAnimation == null) dieAnimation = StartCoroutine(DieAnim());
+    }
     private void HandlePlayerDirection() {
         if (gameManager.CurrentScheme == ControlScheme.KEYBOARDMOUSE) {
             if ((!isFacingLeft && Input.mousePosition.x < Screen.width / 2f) || (isFacingLeft && Input.mousePosition.x > Screen.width / 2f)) {
@@ -691,5 +699,41 @@ public class PlayerController : MonoBehaviour {
 
         //reset cast coroutine variable
         castAnimation = null;
+    }
+
+    IEnumerator DieAnim() {
+        //freeze player and controller
+        inCutscene = true;
+        characterController.enabled = false;
+
+        //play death sfx
+        GameObject go = new GameObject("SFX_Temp");
+        AudioSource src = go.AddComponent<AudioSource>();
+        src.playOnAwake = false;
+        src.loop = false;
+        src.clip = playerAttributes.PlayerDeathSFX;
+        src.volume = 0.2f;
+        src.spatialBlend = 0f;
+        src.Play();
+        Destroy(go, playerAttributes.PlayerDeathSFX.length + 0.1f);
+
+        //move into death animation
+        animator.CrossFade(dieHash, 0.1f);
+
+        //wait for animation to play plus a buffer
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorClipInfo(0)[0].clip.length + 0.5f);
+
+        //tell Game Manager to do player respawn
+        gameManager.RespawnPlayer();
+
+        //move into idle animation
+        animator.CrossFade(idleHash, 0.1f);
+
+        //unfreeze player 
+        inCutscene = false;
+        characterController.enabled = true;
+
+        //reset coroutine variable
+        dieAnimation = null;
     }
 }

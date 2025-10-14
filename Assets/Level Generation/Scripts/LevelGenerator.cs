@@ -281,7 +281,7 @@ public class LevelGenerator : MonoBehaviour {
         }
 
         //Place Player
-        playerController.transform.position = startRoomData.PlayerSpawn.position;
+        PlacePlayerInStartRoom();
         if (levelGenerationDebug) Debug.Log($"[Level Generation] Player placed in scene at {startRoomData.PlayerSpawn.position}");
 
     }
@@ -588,7 +588,6 @@ public class LevelGenerator : MonoBehaviour {
 
         return leftCheck && rightCheck && bottomCheck && topCheck;
     }
-
     //
     bool IsRoomSpaceFree(Vector2Int newPositionIn, RoomData newRoomDataIn) {
         //calc new footprint
@@ -613,6 +612,10 @@ public class LevelGenerator : MonoBehaviour {
             }
         }
         return true; //space is free
+    }
+    //
+    public void PlacePlayerInStartRoom() {
+        playerController.transform.position = startRoomInstance.RoomData.PlayerSpawn.position;
     }
     #endregion
 }

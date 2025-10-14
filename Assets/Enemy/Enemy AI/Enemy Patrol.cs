@@ -16,6 +16,8 @@ public class EnemyPatrol : MonoBehaviour, IBehave {
     GameObject player;
 
     bool initialized = false;
+    bool aiDebugMode = false;
+    bool spawningDebugMode = false;
 
     //DEV ONLY
     [SerializeField] GameObject debugOrb;
@@ -59,7 +61,7 @@ public class EnemyPatrol : MonoBehaviour, IBehave {
                     currentWaypoint %= waypointPositions.Count;
 
                     GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-                    if (gm.DebugEnemySpawning) {
+                    if (aiDebugMode) {
                         targetWaypoint = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                         targetWaypoint.name = $"Agent target";
                         targetWaypoint.transform.position = waypointPositions[currentWaypoint];
@@ -85,7 +87,10 @@ public class EnemyPatrol : MonoBehaviour, IBehave {
     //**UTILITY METHODS**    
     public void Initialize(RoomData roomDataIn, bool spawningDebugMode = false, bool aiDebugMode = false) {
 
-        if (spawningDebugMode) Debug.Log("[Enemy Spawning] Initilizing agent from RoomData");
+        this.spawningDebugMode = spawningDebugMode;
+        this.aiDebugMode = aiDebugMode;
+
+        if (aiDebugMode) Debug.Log("[Enemy Spawning] Initilizing agent from RoomData");
         waypointPositions = new List<Vector3>();
         agent = GetComponent<NavMeshAgent>();
 
@@ -155,7 +160,7 @@ public class EnemyPatrol : MonoBehaviour, IBehave {
         //Set initial destination
         currentWaypoint = Random.Range(0, waypointPositions.Count);
         if (Application.isPlaying) agent.SetDestination(waypointPositions[currentWaypoint]);
-        if (spawningDebugMode) Debug.Log($"[Enemy Spawning] Waypoint {currentWaypoint} set as initial waypoint at {waypointPositions[currentWaypoint]}");
+        if (aiDebugMode) Debug.Log($"[Enemy Spawning] Waypoint {currentWaypoint} set as initial waypoint at {waypointPositions[currentWaypoint]}");
 
         //Flag
         initialized = true;

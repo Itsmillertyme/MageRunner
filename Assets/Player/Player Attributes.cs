@@ -1,10 +1,8 @@
 using UnityEngine;
-using UnityEngine.Events;
 
 [CreateAssetMenu(menuName = "Player/Player Attributes")]
 
-public class PlayerAttributes : ScriptableObject
-{
+public class PlayerAttributes : ScriptableObject {
     [Header("Controller")]
     [SerializeField] private float maxJumpHeight;
     [SerializeField] private float maxJumpTime;
@@ -26,6 +24,10 @@ public class PlayerAttributes : ScriptableObject
     [SerializeField] private int currentXP;
     [SerializeField] private int baseLevelValue;
     [SerializeField] private float levelingScalar;
+
+    [Header("Miscellaneous")]
+    [SerializeField] private AudioClip playerDeathSFX;
+
     private int xpToLevelUp;
     private int[] levelRequirements;
 
@@ -34,40 +36,36 @@ public class PlayerAttributes : ScriptableObject
     public int HealthRegenAmount => healthRegenAmount;
     public float HealthRegenFrequency => healthRegenFrequency;
 
-    public void SaveData(Object data)
-    {
+    public AudioClip PlayerDeathSFX => playerDeathSFX;
+
+    public void SaveData(Object data) {
         // READY FOR YA BIG DAWG
     }
 
-    public void LoadData(Object data)
-    {
+    public void LoadData(Object data) {
         // READY FOR YA BIG DAWG
     }
 
     public void SetCurrentHealth(int value) => currentHealth += value;
-    public void SetMaxHealth(int value)
-    {
+    public void SetMaxHealth(int value) {
         maxHealth += value;
         currentHealth = maxHealth;
     }
 
-    public void SetLevelingData()
-    {
+    public void SetLevelingData() {
         levelRequirements = new int[maxLevel];
         levelRequirements[0] = baseLevelValue;
         xpToLevelUp = levelRequirements[0];
 
-        for (int i = 1; i < levelRequirements.Length; i++)
-        {
-            levelRequirements[i] = (int)(levelRequirements[i - 1] * levelingScalar);
+        for (int i = 1; i < levelRequirements.Length; i++) {
+            levelRequirements[i] = (int) (levelRequirements[i - 1] * levelingScalar);
         }
     }
 
     public void AddToXP(int newValue) => currentXP += newValue;
     public void LeveledUp() => currentLevel++;
 
-    public void SetNextLevelUpRequirements()
-    {
+    public void SetNextLevelUpRequirements() {
         if (currentLevel == maxLevel) return;
 
         xpToLevelUp = levelRequirements[currentLevel];

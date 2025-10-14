@@ -1,23 +1,31 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class EnemyDie : MonoBehaviour
-{
+
+
+[RequireComponent(typeof(Animator))]
+public class EnemyDie : MonoBehaviour {
     // DELETE THE BOSS SCRIPT, tack this one onto boss prefab, and set up a listener for boss death to do load screen stuff
 
     [Header("Component References")]
     [SerializeField] Animator animator;
+    [SerializeField] bool isBoss = false;
+
+    BossRoomBase bossRoom;
 
     private UnityEvent levelComplete;
 
-    public void Die()
-    {
+    public BossRoomBase BossRoom { get => bossRoom; set => bossRoom = value; }
+
+    public void Die() {
         //play death animation
-        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
-        {
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
             animator.CrossFade("Idle", 0f);
         }
         animator.SetTrigger("die");
         GetComponent<Collider>().enabled = false;
+
+        //Let boss fight controller know if this is a boss
+        if (isBoss && bossRoom != null) bossRoom.NotifyBossDefeated();
     }
 }
