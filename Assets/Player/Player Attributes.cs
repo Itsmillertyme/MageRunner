@@ -21,21 +21,31 @@ public class PlayerAttributes : ScriptableObject {
     [Header("Leveling")]
     [SerializeField] private int currentLevel;
     [SerializeField] private int maxLevel;
-    [SerializeField] private int currentXP;
+    private int currentXP;
     [SerializeField] private int baseLevelValue;
     [SerializeField] private float levelingScalar;
-
-    [Header("Miscellaneous")]
-    [SerializeField] private AudioClip playerDeathSFX;
-
     private int xpToLevelUp;
     private int[] levelRequirements;
 
+    [Header("Events")]
+    [SerializeField] private GameEvent playerHasDied;
+    [SerializeField] private GameEvent skillTreeMenuButtonPressed;
+
+    [Header("SFX")]
+    [SerializeField] private AudioClip playerDeathSFX;
+
+    public float MaxJumpHeight => maxJumpHeight;
+    public float MaxJumpTime => maxJumpTime;
+    public float MovementSpeed => movementSpeed;
+    public float SprintMultiplier => sprintMultiplier;
+    public float DodgeForce => dodgeForce;
+    public float Gravity => gravity;
     public int CurrentHealth => currentHealth;
     public int MaxHealth => maxHealth;
     public int HealthRegenAmount => healthRegenAmount;
     public float HealthRegenFrequency => healthRegenFrequency;
-
+    public GameEvent PlayerHasDied => playerHasDied;
+    public GameEvent SkillTreeMenuButtonPressed => skillTreeMenuButtonPressed;
     public AudioClip PlayerDeathSFX => playerDeathSFX;
 
     public void SaveData(Object data) {
@@ -69,5 +79,10 @@ public class PlayerAttributes : ScriptableObject {
         if (currentLevel == maxLevel) return;
 
         xpToLevelUp = levelRequirements[currentLevel];
+    }
+
+    public void SetGravity(float gravity)
+    {
+        this.gravity = gravity;
     }
 }

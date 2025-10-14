@@ -37,16 +37,9 @@ public class PlayerController : MonoBehaviour {
 
     [Header("Player Settings")]
     //Jump Varbiables
-    [SerializeField] float maxJumpHeight; //SII
-    [SerializeField] float maxJumpTime; //SII
     float initJumpVelocity;
     bool isJumping = false;
     //Movement Varbiables
-    [SerializeField] float movementSpeed;
-    [SerializeField] float sprintMultiplier;
-    [SerializeField] float dashForce;
-    //Gravity Variables
-    [SerializeField][Range(-0.1f, -20f)] float gravity = -9.8f; //SII
     float groundedGravity = -0.05f;
     //Animation Variables
     int isWalkingHash;
@@ -74,8 +67,8 @@ public class PlayerController : MonoBehaviour {
     Coroutine dieAnimation;
 
     [Header("Miscellaneous References")]
-    [SerializeField] UnityEvent SpellMenuInputPressed;
-    [SerializeField] PlayerAttributes playerAttributes;
+    [SerializeField] PlayerAttributes player;
+    private UnityEvent skillTreeMenuButtonPressed = new ();
 
     //**FIELDS**
     public bool IsFacingLeft { get => isFacingLeft; set => isFacingLeft = value; }
@@ -144,7 +137,7 @@ public class PlayerController : MonoBehaviour {
         //
         actionAsset.Player.DEVBREAK.performed += Devbreak;
         //
-        actionAsset.Player.OpenSpellMenu.performed += OnSpellMenuInput;
+        actionAsset.Player.OpenSpellMenu.performed += OnSkillTreeMenuInput;
         //
         actionAsset.Player.HotSwitch.performed += OnHotSwitch;
 
@@ -256,9 +249,9 @@ public class PlayerController : MonoBehaviour {
 
     //**UTILITY METHODS**
     void SetupJumpVariables() {
-        float timeToApex = maxJumpTime / 2;
-        gravity = (-2 * maxJumpHeight) / Mathf.Pow(timeToApex, 2);
-        initJumpVelocity = (2 * maxJumpHeight) / timeToApex;
+        float timeToApex = player.MaxJumpTime / 2;
+        player.SetGravity((-2 * player.MaxJumpHeight) / Mathf.Pow(timeToApex, 2));
+        initJumpVelocity = (2 * player.MaxJumpHeight) / timeToApex;
     }
     //Wrapper for movement input callbacks
     public void OnMovementInput(InputAction.CallbackContext context) {
@@ -274,9 +267,9 @@ public class PlayerController : MonoBehaviour {
         }
 
         //Setup movement vectors, part by part
-        currentMovement.x = currentMovementInput * movementSpeed;
-        currentRunMovement.x = currentMovementInput * sprintMultiplier * movementSpeed;
-        currentCrouchMovement.x = currentMovementInput * 0.5f * movementSpeed;
+        currentMovement.x = currentMovementInput * player.MovementSpeed;
+        currentRunMovement.x = currentMovementInput * player.SprintMultiplier * player.MovementSpeed;
+        currentCrouchMovement.x = currentMovementInput * 0.5f * player.MovementSpeed;
 
         //Set flag
         isMovementPressed = currentMovementInput != 0;
@@ -323,8 +316,8 @@ public class PlayerController : MonoBehaviour {
 
     }
     //Wrapper for spell menu input callbacks
-    public void OnSpellMenuInput(InputAction.CallbackContext context) {
-        SpellMenuInputPressed.Invoke();
+    public void OnSkillTreeMenuInput(InputAction.CallbackContext context) {
+        player.SkillTreeMenuButtonPressed.Raise();
     }
     //Wrapper for hot switch input callbacks
     public void OnHotSwitch(InputAction.CallbackContext context) {
@@ -437,14 +430,14 @@ public class PlayerController : MonoBehaviour {
         //applies gravity when falling scaled by mult
         else if (isFalling) {
             float prevYVelocity = currentMovement.y;
-            currentMovement.y = currentMovement.y + (gravity * fallMultiplier * Time.deltaTime);
+            currentMovement.y = currentMovement.y + (player.Gravity * fallMultiplier * Time.deltaTime);
             appliedMovement.y = Mathf.Max((prevYVelocity + currentMovement.y) * .5f, -20.0f);
         }
         //applies gravity every frame when not grounded
         else {
             //apply velocity verlet intergration
             float prevYVelocity = currentMovement.y;
-            currentMovement.y = currentMovement.y + (gravity * Time.deltaTime);
+            currentMovement.y = currentMovement.y + (player.Gravity * Time.deltaTime);
             appliedMovement.y = (prevYVelocity + currentMovement.y) * .5f;
 
             //Debug.Log("Weird gravity");
@@ -603,18 +596,18 @@ public class PlayerController : MonoBehaviour {
     }
 
     IEnumerator DashAnim() {
-        float dashX = dashForce;
+        float dodgeX = player.DodgeForce;
         animator.CrossFade(dashForwardHash, 0.1f);
 
         //test direction and flip force
         if (!isFacingLeft) {
-            dashX *= -1;
+            dodgeX *= -1;
         }
 
         //apply dash force        
-        currentMovement.x = dashX;
-        currentRunMovement.x = dashX;
-        currentCrouchMovement.x = dashX;
+        currentMovement.x = dodgeX;
+        currentRunMovement.x = dodgeX;
+        currentCrouchMovement.x = dodgeX;
 
         //wait for animation
         yield return new WaitForSeconds(0.4f);
@@ -622,12 +615,12 @@ public class PlayerController : MonoBehaviour {
         //reset movement i X dimension
         float temp = 0;
         if (isMovementPressed) {
-            temp = movementSpeed;
+            temp = player.MovementSpeed;
             if (!isFacingLeft) {
                 temp *= -1;
             }
             if (isRunPressed) {
-                temp *= sprintMultiplier;
+                temp *= player.SprintMultiplier;
             }
         }
 
@@ -637,7 +630,7 @@ public class PlayerController : MonoBehaviour {
 
         //reset flipped force
         if (!isFacingLeft) {
-            dashX *= -1;
+            dodgeX *= -1;
         }
 
         dashAnimation = null;
@@ -711,11 +704,11 @@ public class PlayerController : MonoBehaviour {
         AudioSource src = go.AddComponent<AudioSource>();
         src.playOnAwake = false;
         src.loop = false;
-        src.clip = playerAttributes.PlayerDeathSFX;
+        src.clip = player.PlayerDeathSFX;
         src.volume = 0.2f;
         src.spatialBlend = 0f;
         src.Play();
-        Destroy(go, playerAttributes.PlayerDeathSFX.length + 0.1f);
+        Destroy(go, player.PlayerDeathSFX.length + 0.1f);
 
         //move into death animation
         animator.CrossFade(dieHash, 0.1f);

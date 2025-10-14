@@ -9,6 +9,7 @@ public class EnemyHealth : MonoBehaviour
 
     [Header("References")]
     private XPSystem levelingSystem;
+    private LootSystem lootSystem;
     [SerializeField] private EnemyHealthUI ui;
 
     public int CurrentHealth => currentHealth;
@@ -17,6 +18,7 @@ public class EnemyHealth : MonoBehaviour
     private void Awake()
     {
         levelingSystem = FindFirstObjectByType<XPSystem>();
+        lootSystem = FindFirstObjectByType<LootSystem>();
     }
 
     public void RemoveFromHealth(int amountToRemove)
@@ -31,13 +33,10 @@ public class EnemyHealth : MonoBehaviour
             currentHealth = 0;
             UpdateUI();
             // call new death script here and move following logic there
+            levelingSystem.AddXP(xpGrantedOnDeath);
+            lootSystem.DropLoot(transform.position);
             Destroy(this.gameObject);
         }
-    }
-
-    private void OnDestroy()
-    {
-        levelingSystem.AddXP(xpGrantedOnDeath);
     }
 
     private void UpdateUI()

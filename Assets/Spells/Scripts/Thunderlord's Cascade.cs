@@ -5,7 +5,7 @@ using UnityEngine;
 public class ThunderlordsCascade : Spell
 {
     [Header("Unique Spell Attributes")]
-    [SerializeField] private int defaultBoltCount = 3;
+    [SerializeField] private int defaultProjectileCount = 3;
     [SerializeField] private int defaultVolleyCount = 1;
     [SerializeField] private float defaultBoltSpread;
     [SerializeField] private float volleyCooldown;
@@ -16,12 +16,12 @@ public class ThunderlordsCascade : Spell
     [SerializeField] private float dimIntensityScale;
 
     // TEMP UNTIL WE HAVE A SAVE SYSTEM
-    private int boltCount;
+    private int projectileCount;
     private int volleyCount;
     private float boltSpread;
 
     // GETTERS
-    public int BoltCount => boltCount;
+    public int ProjectileCount => projectileCount;
     public int VolleyCount => volleyCount;
     public float BoltSpread => boltSpread;
     public float VolleyCooldown => volleyCooldown;
@@ -32,7 +32,7 @@ public class ThunderlordsCascade : Spell
 
     private void OnEnable()
     {
-        boltCount = defaultBoltCount;
+        projectileCount = defaultProjectileCount;
         volleyCount = defaultVolleyCount;
         boltSpread = defaultBoltSpread;
     }
@@ -40,7 +40,7 @@ public class ThunderlordsCascade : Spell
     // SETTERS
     public void SetProjectileCount(int newValue)
     {
-        boltCount = newValue;
+        projectileCount = newValue;
         boltSpread += 3;
     }
     public void SetVolleyCount(int value) => volleyCount = value;

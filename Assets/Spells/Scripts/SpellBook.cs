@@ -170,13 +170,13 @@ public class SpellBook : MonoBehaviour
         lightingController.DimLights(tc.DimTimeFrame, tc.DimIntensityScale);
 
         // BEGIN CASTING LOGIC
-        float boltSpacing = tc.BoltSpread / (tc.BoltCount - 1);
+        float boltSpacing = tc.BoltSpread / (tc.ProjectileCount - 1);
 
         for (int i = 0; i < tc.VolleyCount; i++)
         {
             Vector3 spawnPosition = new(gameManager.CrosshairPositionIn3DSpace.x - (tc.BoltSpread / 2), gameManager.Player.position.y, gameManager.CrosshairPositionIn3DSpace.z);
 
-            for (int j = 0; j < tc.BoltCount; j++)
+            for (int j = 0; j < tc.ProjectileCount; j++)
             {
                 GameObject newProjectile = Instantiate(tc.Projectile, spawnPosition, Quaternion.identity);
                 spawnPosition = new(spawnPosition.x + boltSpacing, spawnPosition.y, spawnPosition.z);

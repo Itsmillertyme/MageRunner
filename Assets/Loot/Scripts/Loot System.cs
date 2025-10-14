@@ -8,6 +8,7 @@ public class LootSystem : MonoBehaviour
     [SerializeField] Mana[] manaLootPool;
 
     [Header("Loot Drop Settings")]
+    [Tooltip("The maximum amount of mana drops that can drop at one time")]
     [SerializeField] int manaDropMax;
 
     private readonly List<Loot> lootToDrop = new();

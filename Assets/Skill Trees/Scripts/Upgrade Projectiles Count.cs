@@ -15,7 +15,7 @@ public class UpgradeProjectilesCount : SkillUpgrade
                 sb.SetProjectileCount(sb.ProjectileCount + increase);
                 break;
             case ThunderlordsCascade tc:
-                tc.SetProjectileCount(tc.BoltCount + increase);
+                tc.SetProjectileCount(tc.ProjectileCount + increase);
                 break;
             default:
                 break;

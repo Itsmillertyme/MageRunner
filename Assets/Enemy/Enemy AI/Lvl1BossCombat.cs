@@ -100,7 +100,7 @@ public class Lvl1BossCombat : MonoBehaviour, IBehave {
         //test if still in range
         if (playerInMeleeRange) {
             //apply damage
-            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+            PlayerAbilities playerHealth = player.GetComponent<PlayerAbilities>();
 
             //Remove health
             if (playerHealth != null) {

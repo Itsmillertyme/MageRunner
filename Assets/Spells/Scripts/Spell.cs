@@ -149,7 +149,7 @@ public abstract class Spell : ScriptableObject
 
     public void SetMaxMana(int value)
     {
-        maxMana = value;
+        maxMana += value;
         currentMana = maxMana;
     }
 

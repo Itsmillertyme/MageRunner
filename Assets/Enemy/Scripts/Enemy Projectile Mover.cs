@@ -30,7 +30,7 @@ public class EnemyProjectileMover : MonoBehaviour {
         //Check if hit player
         if (other.CompareTag("Player")) {
             //Deal damage to player
-            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
+            PlayerAbilities playerHealth = other.GetComponent<PlayerAbilities>();
 
             if (playerHealth != null) {
                 playerHealth.RemoveFromHealth(damage);
