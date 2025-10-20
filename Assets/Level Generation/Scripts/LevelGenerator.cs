@@ -43,6 +43,7 @@ public class LevelGenerator : MonoBehaviour {
     //**UNITY METHODS**
     private void Awake() {
         navMeshSurface.RemoveData();
+        ClearLevel();
         Initialize();
     }
     //
@@ -616,6 +617,10 @@ public class LevelGenerator : MonoBehaviour {
     //
     public void PlacePlayerInStartRoom() {
         playerController.transform.position = startRoomInstance.RoomData.PlayerSpawn.position;
+    }
+    //
+    public void PlacePlayerInBossRoom() {
+        playerController.transform.position = bossRoomInstance.RoomData.PlayerSpawn.position;
     }
     #endregion
 }

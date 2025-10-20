@@ -38,8 +38,6 @@ public class EnemySpawnerPG2 : MonoBehaviour {
                 enemyInstance.transform.parent = enemyParent;
 
                 //Initialize AI
-                //EnemyPatrol enemyAI = enemyInstance.GetComponent<EnemyPatrol>();
-                //enemyAI.Initialize(roomData, debugMode);
                 IBehave[] behaviors = enemyInstance.GetComponents<IBehave>();
                 foreach (IBehave behavior in behaviors) {
                     behavior.Initialize(roomData, debugMode);
@@ -75,9 +73,9 @@ public class EnemySpawnerPG2 : MonoBehaviour {
         }
 
         //setup health script 
-        BossHealth bossHealth = bossInstance.GetComponent<BossHealth>();
-        if (bossHealth != null) {
-            //bossHealth.BossRoom = bossRoom.RoomData.gameObject.GetComponent<BossRoomBase>();
+        EnemyDie ed = bossInstance.GetComponent<EnemyDie>();
+        if (ed != null) {
+            ed.BossRoom = bossRoom.RoomData.gameObject.GetComponent<BossRoomBase>();
         }
     }
 

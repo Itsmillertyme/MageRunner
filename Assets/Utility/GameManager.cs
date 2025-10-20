@@ -186,6 +186,21 @@ public class GameManager : MonoBehaviour {
         levelCreator.PlacePlayerInStartRoom();
     }
 
+    public void TeleportToBossRoom() {
+        PlayerController pc = player.GetComponent<PlayerController>();
+        CharacterController cc = player.GetComponent<CharacterController>();
+
+        //freeze player and controller
+        pc.InCutscene = true;
+        cc.enabled = false;
+
+        levelCreator.PlacePlayerInBossRoom();
+
+        //unfreeze player 
+        pc.InCutscene = false;
+        cc.enabled = true;
+    }
+
 }
 
 public enum ControlScheme {

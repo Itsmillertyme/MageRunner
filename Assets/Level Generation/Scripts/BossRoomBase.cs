@@ -65,7 +65,8 @@ public abstract class BossRoomBase : MonoBehaviour {
     #region Fight Flow 
     //Optional short cutscene / setup before the fight actually starts.</summary>
     public virtual void BeginPreFightSequence() {
-        //override in room child.
+        //turn off collider
+        GetComponent<Collider>().enabled = false;
     }
 
     //Start the actual boss fight
@@ -80,7 +81,7 @@ public abstract class BossRoomBase : MonoBehaviour {
 
     //Clean up hazards/effects at fight end
     public virtual void EndBossFight() {
-        // Optional; none by default.
+        // Optional; none by default
     }
 
     //Hook to pass music into your music system.

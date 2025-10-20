@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -45,5 +46,33 @@ public class CameraController : MonoBehaviour {
 
         //set current cam priority
         vCams[activeCam].Priority += CAM_PRIORITY_OFFSET;
+    }
+
+    public void SetToCutSceneCamera(Transform target) {
+        vCams[activeCam].Priority -= CAM_PRIORITY_OFFSET;
+
+        //set cutscene cam priority
+        vCams[1].Priority += CAM_PRIORITY_OFFSET;
+        vCams[1].GetComponent<CinemachineVirtualCamera>().Follow = target;
+        vCams[1].GetComponent<CinemachineVirtualCamera>().LookAt = target;
+    }
+
+    public void SetToCurrentCamera(Transform target) {
+        int currentActiveIndex = -1;
+        int currentHighestPriority = Int32.MinValue;
+        for (int i = 0; i < vCams.Count; i++) {
+            if (vCams[i].Priority > currentHighestPriority) {
+                currentActiveIndex = i;
+                currentHighestPriority = vCams[i].Priority;
+            }
+        }
+
+        vCams[currentActiveIndex].Priority -= CAM_PRIORITY_OFFSET;
+        vCams[currentActiveIndex].GetComponent<CinemachineVirtualCamera>().Follow = target;
+        vCams[currentActiveIndex].GetComponent<CinemachineVirtualCamera>().LookAt = target;
+
+        vCams[activeCam].Priority += CAM_PRIORITY_OFFSET;
+        vCams[activeCam].GetComponent<CinemachineVirtualCamera>().Follow = target;
+        vCams[activeCam].GetComponent<CinemachineVirtualCamera>().LookAt = target;
     }
 }
