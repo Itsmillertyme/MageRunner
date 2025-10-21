@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
-
+    #region Variables
     //**PROPERTIES**
     [Header("Component References")]
     [SerializeField] Canvas hud;
@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField] RectTransform loadingScreen;
     [SerializeField] Image imgLoadingWheel;
     [SerializeField] LevelGenerator levelCreator;
+    [SerializeField] SaveManager saveManager;
 
     MusicManager musicManager;
 
@@ -42,10 +43,12 @@ public class GameManager : MonoBehaviour {
     public ControlScheme CurrentScheme { get => currentScheme; }
     public Vector3 CrosshairPositionIn3DSpace { get => cursorPositionObject.transform.position; }
     public Transform Player { get => player; }
-    public int CurrentLevel { get => currentLevel; }
+    public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
     public RectTransform LoadingScreen { get => loadingScreen; set => loadingScreen = value; }
 
-    //**UNITY METHODS**
+    #endregion
+
+    #region Unity Methods
     private void Awake() {
         //DEV ONLY - REMOVE BEFORE BUILD - setup debug object
         cursorPositionObject = new GameObject("CursorPosObject", typeof(MeshFilter), typeof(MeshRenderer)).transform;
@@ -55,17 +58,25 @@ public class GameManager : MonoBehaviour {
 
         musicManager = GameObject.Find("Music Manager").GetComponent<MusicManager>();
 
-        //foreach (string bug in knownBugs) {
-        //    if (bug != "") {
-        //        Debug.LogWarning(bug);
-        //    }
-        //}
-
-        //Enable HUD is disabled
+        //Enable HUD if disabled
         hud.gameObject.SetActive(true);
 
-        //shenanigans        
+    }
+    //
+    private void Start() {
+        // Check if SplashManager requested a save load
+        if (PlayerPrefs.HasKey("LoadSaveOnStart")) {
+            int flag = PlayerPrefs.GetInt("LoadSaveOnStart", 0);
+            if (flag == 1 && saveManager != null) {
+                saveManager.LoadGame();
+                PlayerPrefs.DeleteKey("LoadSaveOnStart");
+                Debug.Log("[GameManager] Loaded existing save on start.");
+                return;
+            }
+        }
 
+        // Otherwise start a new run
+        StartNewGame();
     }
     //
     private void Update() {
@@ -85,8 +96,16 @@ public class GameManager : MonoBehaviour {
     private void OnApplicationFocus(bool focus) {
         Cursor.visible = false;
     }
+    //
+    private void OnApplicationQuit() {
+        if (saveManager != null) {
+            saveManager.SaveGame();
+            Debug.Log("[GameManager] Autosaved on application quit.");
+        }
+    }
+    #endregion
 
-    //**UTILITY METHODS**
+    #region Utility Methods
     void MoveProjectileSpawn() {
 
         //get mouse input position
@@ -133,51 +152,7 @@ public class GameManager : MonoBehaviour {
     public void LoadMainMenu() {
         SceneManager.LoadScene("Splash");
     }
-
-    //**COROUTINES**
-    //public IEnumerator ShowLoadingScreenForDuration(float transitionTime = 0.25f, float duration = 5f) {
-
-    //    //Pause music manager
-    //    musicManager.PauseMusic();
-
-    //    //Play victory music
-    //    GetComponent<AudioSource>().Play();
-
-    //    //pause
-    //    yield return new WaitForSeconds(5);
-
-    //    imgLoadingWheel.fillAmount = 0f;
-    //    loadingScreen.gameObject.SetActive(true);
-
-    //    //Show and lerp big        
-    //    float time = 0f;
-    //    while (time < transitionTime) {
-    //        time += Time.unscaledDeltaTime;
-    //        float normalizedTime = Mathf.Clamp01(time / transitionTime);
-    //        loadingScreen.transform.localScale = Vector3.Lerp(new Vector3(0.001f, 0.001f, 0.001f), new Vector3(1, 1, 1), normalizedTime);
-    //        yield return null;
-    //    }
-
-
-    //    //Wait 5 seconds and do loading wheel
-    //    time = 0f;
-    //    while (time < duration) { //Shenanigans
-    //        time += Time.unscaledDeltaTime;
-    //        imgLoadingWheel.fillAmount = time / duration;
-    //        yield return null;
-    //    }
-
-    //    //Lerp small and hide
-    //    time = 0f;
-    //    while (time < transitionTime) {
-    //        time += Time.unscaledDeltaTime;
-    //        float normalizedTime = Mathf.Clamp01(time / transitionTime);
-    //        loadingScreen.transform.localScale = Vector3.Lerp(new Vector3(1, 1, 1), new Vector3(0.001f, 0.001f, 0.001f), normalizedTime);
-    //        yield return null;
-    //    }
-    //    loadingScreen.gameObject.SetActive(false);
-    //}
-
+    //  
     public void RespawnPlayer() {
         //hide screen
         //ShowLoadingScreenForDuration(0.25f, 3f);
@@ -185,7 +160,7 @@ public class GameManager : MonoBehaviour {
         //move player
         levelCreator.PlacePlayerInStartRoom();
     }
-
+    //
     public void TeleportToBossRoom() {
         PlayerController pc = player.GetComponent<PlayerController>();
         CharacterController cc = player.GetComponent<CharacterController>();
@@ -200,7 +175,20 @@ public class GameManager : MonoBehaviour {
         pc.InCutscene = false;
         cc.enabled = true;
     }
+    //
+    private void StartNewGame() {
+        Debug.Log("[GameManager] Starting new game.");
 
+        CurrentLevel = 1;
+        levelCreator.Seed = Random.Range(int.MinValue, int.MaxValue);
+        levelCreator.GenerateLevel();
+
+        if (saveManager != null) {
+            saveManager.SaveGame();
+        }
+    }
+
+    #endregion
 }
 
 public enum ControlScheme {

@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.AI.Navigation;
 using UnityEngine;
+
+
 [RequireComponent(typeof(NavMeshLinkBuilder))]
 [RequireComponent(typeof(MaskGeneratorPG2))]
 [RequireComponent(typeof(EnemySpawnerPG2))]
@@ -24,6 +27,7 @@ public class LevelGenerator : MonoBehaviour {
     [SerializeField] bool enemySpawningDebug;
     [SerializeField] bool enemyAIDebug;
     [SerializeField] bool omitMask;
+    [SerializeField] int seed;
 
     [Header("Miscellaneous References")]
     [SerializeField] Transform levelParent;
@@ -37,6 +41,9 @@ public class LevelGenerator : MonoBehaviour {
     Queue<PortalTask> openPortals;
     RoomInstance startRoomInstance;
     RoomInstance bossRoomInstance;
+
+    //**PROPERTIES**
+    public int Seed { get => seed; set => seed = value; }
     #endregion
 
     #region Unity Methods
@@ -60,6 +67,9 @@ public class LevelGenerator : MonoBehaviour {
     //**MAIN GENERATION METHOD**
     public void GenerateLevel() {
         if (levelGenerationDebug) Debug.Log("[Level Generation] ========== START GENERATION RUN ==========");
+
+        //Initialize seed
+        UnityEngine.Random.InitState(seed);
         bool generationValid = false;
 
         do {
@@ -89,10 +99,17 @@ public class LevelGenerator : MonoBehaviour {
     }
 
     //**GENERATION METHODS**
-    void Initialize() {
+    void Initialize(int seedIn = Int32.MinValue) {
         roomSelector = new RoomSelector(levelData, deadEndChance);
         placedRooms = new Dictionary<Vector2Int, RoomInstance>();
         openPortals = new Queue<PortalTask>();
+
+        if (seedIn != Int32.MinValue) {
+            seed = seedIn;
+        }
+        else {
+            seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+        }
     }
 
     //finish level gen
@@ -435,7 +452,7 @@ public class LevelGenerator : MonoBehaviour {
             return;
         }
 
-        GameObject connectorPrefab = connectorList[Random.Range(0, connectorList.Count)];
+        GameObject connectorPrefab = connectorList[UnityEngine.Random.Range(0, connectorList.Count)];
 
         // --- Instantiate connector first so portals are initialized/active on the instance ---
         GameObject connectorInstanceObj = Instantiate(connectorPrefab, Vector3.zero, Quaternion.identity, levelParent);

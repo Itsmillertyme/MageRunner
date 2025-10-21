@@ -1,50 +1,43 @@
 using UnityEngine;
 
-public class XPSystem : MonoBehaviour
-{
+public class XPSystem : MonoBehaviour {
     private int spellIndex = 0;
     [SerializeField] private SkillTree[] skillTrees;
     [SerializeField] private Spell[] spells;
-    
+
     private SpellBook spellBook;
 
-    private void Awake()
-    {
+    private void Awake() {
         // GET REFERENCES THEN DISABLE UI
         skillTrees = GetComponentsInChildren<SkillTree>();
         spellBook = FindFirstObjectByType<SpellBook>();
 
-        foreach (SkillTree skillTree in skillTrees)
-        {
+        foreach (SkillTree skillTree in skillTrees) {
             skillTree.gameObject.SetActive(false);
         }
 
         // FILL SPELL ARRAY WITH SPELLS
         spells = new Spell[skillTrees.Length];
 
-        for (int i = 0; i < skillTrees.Length; i++)
-        {
+        for (int i = 0; i < skillTrees.Length; i++) {
             spells[i] = skillTrees[i].SelectedSpell;
         }
     }
 
-    public void AddXP(int xpGained)
-    {
+    public void AddXP(int xpGained) {
         // IF MAX LEVEL, RETURN
         if (spells[spellIndex].CurrentLevel == spells[spellIndex].MaxLevel) return;
 
         spells[spellIndex].AddToXP(xpGained);
 
         // IF LEVEL REQUIREMENTS ARE MET, LEVEL UP
-        if (spells[spellIndex].CurrentXP >= spells[spellIndex].XPToLevelUp)
-        {
+        if (spells[spellIndex].CurrentXP >= spells[spellIndex].XPToLevelUp) {
             LevelUp();
             spellBook.UpdateUI();
         }
     }
 
-    private void LevelUp()
-    {
+    private void LevelUp() {
         // LEVEL UP, UPDATE XP TO NEXT LEVEL REQUIREMENT, & TELL SKILL TREE TO ADD A SKILL POINT
         spells[spellIndex].LeveledUp();
         spells[spellIndex].SetNextLevelUpRequirements();
@@ -53,4 +46,11 @@ public class XPSystem : MonoBehaviour
     }
 
     public void SetIndex(int index) => spellIndex = index;
+
+    #region Save System
+    public SkillTree[] GetSkillTrees() {
+        return skillTrees;
+    }
+    #endregion
+
 }

@@ -44,6 +44,8 @@ public class PlayerAttributes : ScriptableObject {
     public int MaxHealth => maxHealth;
     public int HealthRegenAmount => healthRegenAmount;
     public float HealthRegenFrequency => healthRegenFrequency;
+    public int CurrentLevel => currentLevel; //Save System
+    public int CurrentXP => currentXP; //Save System
     public GameEvent PlayerHasDied => playerHasDied;
     public GameEvent SkillTreeMenuButtonPressed => skillTreeMenuButtonPressed;
     public AudioClip PlayerDeathSFX => playerDeathSFX;
@@ -81,8 +83,18 @@ public class PlayerAttributes : ScriptableObject {
         xpToLevelUp = levelRequirements[currentLevel];
     }
 
-    public void SetGravity(float gravity)
-    {
+    public void SetGravity(float gravity) {
         this.gravity = gravity;
     }
+
+    #region Save System
+
+    public void LoadLevelAndXP(int level, int xp) {
+        currentLevel = level;
+        currentXP = xp;
+    }
+
+
+    #endregion
+
 }

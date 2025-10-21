@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2223046570297707300}
   - component: {fileID: 2617570577317528333}
   - component: {fileID: 3198225612389829774}
+  - component: {fileID: 5928870630900096859}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameController
@@ -57,6 +58,7 @@ MonoBehaviour:
   loadingScreen: {fileID: 0}
   imgLoadingWheel: {fileID: 0}
   levelCreator: {fileID: 0}
+  saveManager: {fileID: 5928870630900096859}
   levelEnemies: {fileID: 11400000, guid: 6979f6b60b369ba48886a650d9c4e7e6, type: 2}
   debugObjectMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   debugMaterial: {fileID: 2100000, guid: 9957a56b95ddd0e468392818e58da742, type: 2}
@@ -232,4 +234,20 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ee6576cf31e0f344dbf05e845c1e04a5, type: 2}
   - {fileID: 11400000, guid: cf52c1210f1eaf246936347d8b189048, type: 2}
   - {fileID: 11400000, guid: 52c89cab65b715e448229136150d0bc7, type: 2}
-  manaDropMax: 3
+  manaDropMax: 1
+--- !u!114 &5928870630900096859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020309084726206776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff1e44d8fac06384b90ee3972c920801, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAttributes: {fileID: 11400000, guid: fc1129db13eaf9544b4c1af5f6f6362f, type: 2}
+  xpSystem: {fileID: 0}
+  levelGenerator: {fileID: 0}
+  gameManager: {fileID: 6934601227346008653}

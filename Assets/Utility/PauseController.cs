@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PauseController : MonoBehaviour {
     //**PROPERTIES**
-    [Header("Pause Menu Refernces")]
+    [Header("Pause Menu References")]
     [SerializeField] RectTransform pauseMenu;
     [SerializeField] AudioSource pauseMenuAudio;
     [SerializeField] AudioClip pauseMenuClip;
@@ -66,13 +66,18 @@ public class PauseController : MonoBehaviour {
     public void MainMenu() {
         pauseMenuAudio.clip = pauseMenuClip;
         pauseMenuAudio.Play();
+
+        FindFirstObjectByType<SaveManager>().SaveGame();
+
         StartCoroutine(GoToMainMenu());
     }
 
     public void Exit() {
         pauseMenuAudio.clip = pauseMenuClip;
         pauseMenuAudio.Play();
-        Application.Quit();
+
+        FindFirstObjectByType<SaveManager>().SaveGame();
+
         StartCoroutine(ExitGame());
     }
 
@@ -125,11 +130,7 @@ public class PauseController : MonoBehaviour {
     }
     //
     IEnumerator GoToMainMenu() {
-
-
-        Debug.Log("Here");
         yield return new WaitForSeconds(1.613f);
-        Debug.Log("Here");
 
         //Load Title Scene
         SceneManager.LoadScene("Splash");
