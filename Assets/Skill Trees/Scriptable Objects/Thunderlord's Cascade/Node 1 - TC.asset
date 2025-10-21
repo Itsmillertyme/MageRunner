@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:247b410e68da1475f8a2f646bd4f661ab5dad8d399a00bbae8a84cc93a4f0ddf
-size 625
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52758d0caa60256449371c5fbebb8fe5, type: 3}
+  m_Name: Node 1 - TC
+  m_EditorClassIdentifier: 
+  upgradeName: Reduced Mana Cost
+  upgradeCost: 1
+  prerequisiteUpgrades:
+  - {fileID: 11400000, guid: 8a00053bd270ce540b5adfad48b4fcf3, type: 2}
+  upgrade: {fileID: 11400000, guid: 455e4e12f7e697c4086f582c8988105a, type: 2}

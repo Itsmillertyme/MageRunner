@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:13ed4329de782a821e237e9031449e1f229f931cbfe64a4ad1c04155ffb1d714
-size 421
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fafacd7ff0b1ad4fb98716354da69ee, type: 3}
+  m_Name: Upgrade 5 Obstacle Piercing - AF
+  m_EditorClassIdentifier: 

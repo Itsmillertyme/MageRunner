@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1859f1a39184be5aef8026bf00dc9bb4bf4a0ecb85878a9fe4e9e4e840667341
-size 430
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed809aecc6d8ce74b8a1b9d1ac3f7dfe, type: 3}
+  m_Name: Upgrade 3 Fire Rate - AF
+  m_EditorClassIdentifier: 
+  reduction: 0.5

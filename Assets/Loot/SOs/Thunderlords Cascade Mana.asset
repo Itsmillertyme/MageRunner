@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:61f0a32eb48e6e66e9e753f18d5a8a59ae9733c21622dcaa31d6c1d5b4f23087
-size 622
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef815d4a2dfe3da42b128b4e2434c9bc, type: 3}
+  m_Name: Thunderlords Cascade Mana
+  m_EditorClassIdentifier: 
+  itemName: 
+  dropChance: 50
+  lifeSpan: 5
+  upwardForce: 10
+  outwardForce: 5
+  torqueStrength: 5
+  lootDrop: {fileID: 1902279238067960212, guid: bf9df407f8dcb7742bd51d8c01773eba, type: 3}
+  manaDropped: 2

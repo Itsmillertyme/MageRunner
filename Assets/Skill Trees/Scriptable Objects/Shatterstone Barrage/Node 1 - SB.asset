@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:39bbc96a3c060c99ab574ecd02457687810d8b9d693b114a3f18ba4311371cc4
-size 554
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52758d0caa60256449371c5fbebb8fe5, type: 3}
+  m_Name: Node 1 - SB
+  m_EditorClassIdentifier: 
+  upgradeName: Projectile Size
+  upgradeCost: 1
+  prerequisiteUpgrades: []
+  upgrade: {fileID: 11400000, guid: ed5adef4ad6ff7448a07b85f96914fd0, type: 2}

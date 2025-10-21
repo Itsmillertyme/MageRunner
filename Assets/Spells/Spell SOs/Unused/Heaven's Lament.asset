@@ -1,3 +1,48 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e78f35afd777d42a2a9c59534e629ee12363fd3504eb21990fc883913284628a
-size 1706
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b292c78f33503448f25ac717a0a14a, type: 3}
+  m_Name: Heaven's Lament
+  m_EditorClassIdentifier: 
+  name: Heaven's Lament
+  description: 
+  loreText: 
+  defaultCurrentMana: 0
+  defaultMaxMana: 0
+  defaultDamage: 20
+  defaultLifeSpan: 1
+  defaultCastDelayTime: 0.3
+  defaultCastCooldownTime: 1
+  defaultMoveSpeed: 0
+  defaultProjectileSize: {x: 2.2, y: 1, z: 1}
+  defaultDestroyOnEnemyImpact: 0
+  defaultDestroyOnEnvironmentImpact: 0
+  defaultDamageOverTime: 0
+  defaultCanMoveDuringCast: 0
+  defaultCanJumpDuringCast: 0
+  defaultCurrentLevel: 0
+  defaultMaxLevel: 0
+  defaultCurrentXP: 0
+  xpToLevelUp: 0
+  levelRequirements: 00000000
+  projectile: {fileID: 6217830414919029886, guid: b17c54899f071eb49ba7583372e662e6, type: 3}
+  spawnSFX: {fileID: 8300000, guid: d078d1af61f4b3046b3c112735abdcf9, type: 3}
+  spawnSFXVolume: 0
+  spawnSFXPitch: 0
+  hitSFX: {fileID: 8300000, guid: 4872456dc12dd4d4da6e98de793d365e, type: 3}
+  hitSFXVolume: 0
+  hitSFXPitch: 0
+  hitSFXPrefab: {fileID: 3504064766699411386, guid: 4609a9ad124764942b0af0e484dab43f, type: 3}
+  castAnimation: {fileID: 7400000, guid: 923c3e14b6a36064d867f4530b447b9d, type: 2}
+  icon: {fileID: 21300000, guid: 916cbc7dd18d79d439f504fa46087f68, type: 3}
+  reticle: {fileID: 21300000, guid: 82968af8344fa0b468e5b4971940b6d3, type: 3}
+  isUnlocked: 0
+  vfxPrefab: {fileID: 4539411528033638731, guid: 6ddd438cfa780b34c8ee3b5305edad30, type: 3}

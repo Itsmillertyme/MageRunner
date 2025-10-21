@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:395c6e11951573363dfa3cd27f8f0f7fd0a1b8386c38769514ca14d14a35a14a
-size 738
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6450b3e432146f046a15522886c633ad, type: 3}
+  m_Name: 01Castle_BossRoomBehavior
+  m_EditorClassIdentifier: 
+  bossMusic: {fileID: 0}
+  introDelay: 6
+  autoCloseDoorOnEnter: 1
+  autoOpenDoorOnDefeat: 1
+  showPlatformsOnEnter: 1
+  hidePlatformsOnStart: 0
+  useHazards: 0
+  introSFX: {fileID: 8300000, guid: 50a0fa632fb45e1419a5342f8ec44b26, type: 3}
+  bossDefeatSFX: {fileID: 8300000, guid: d1e8945c23f32804f8b7b5b5ce87dba3, type: 3}

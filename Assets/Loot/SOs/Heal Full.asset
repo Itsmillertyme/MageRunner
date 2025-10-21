@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:06cc959986f909d9880d000793387bf56ec526c32c7dafb07881933cc2438c97
-size 610
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8238c672697fb5d47ab9c3c60ea5363a, type: 3}
+  m_Name: Heal Full
+  m_EditorClassIdentifier: 
+  itemName: 
+  dropChance: 75
+  lifeSpan: 5
+  upwardForce: 10
+  outwardForce: 5
+  torqueStrength: 5
+  lootDrop: {fileID: 8151058196545274552, guid: a6ccdbcc50df4d74cb1b8578dc5ab803, type: 3}
+  healthDropped: 100
