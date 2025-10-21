@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 15d9c0886165cf8409011b43bf5614d6, type: 3}
-  m_Name: Player Attributes
+  m_Name: Player
   m_EditorClassIdentifier: 
   maxJumpHeight: 6
   maxJumpTime: 1.5

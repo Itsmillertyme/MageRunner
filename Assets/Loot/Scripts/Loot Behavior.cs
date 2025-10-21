@@ -20,16 +20,16 @@ public class LootBehavior : MonoBehaviour
     {
         // MOVEMENT
         // UPWARD
-        Vector3 up = Vector3.up * loot.UpwardForce;
+        Vector3 up = Vector3.up * (loot.UpwardForce + UtilityTools.RandomVarianceFloat(-1f, 1f));
 
         // OUTWARD
-        float randomX = UtilityTools.RandomVarianceFloat(1f);
+        float randomX = UtilityTools.RandomVarianceFloat(-1f, 1f);
         Vector3 outward = new Vector3(randomX, 0f, 0f).normalized * loot.OutwardForce;
 
         // SPIN
-        float torqueX = UtilityTools.RandomVarianceFloat(loot.TorqueStrength);
-        float torqueY = UtilityTools.RandomVarianceFloat(loot.TorqueStrength);
-        float torqueZ = UtilityTools.RandomVarianceFloat(loot.TorqueStrength);
+        float torqueX = UtilityTools.RandomVarianceFloat(-loot.TorqueStrength, loot.TorqueStrength);
+        float torqueY = UtilityTools.RandomVarianceFloat(-loot.TorqueStrength, loot.TorqueStrength);
+        float torqueZ = UtilityTools.RandomVarianceFloat(-loot.TorqueStrength, loot.TorqueStrength);
         Vector3 spin = new(torqueX, torqueY, torqueZ);
 
         return (up, outward, spin);

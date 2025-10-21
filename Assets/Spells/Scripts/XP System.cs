@@ -5,7 +5,7 @@ public class XPSystem : MonoBehaviour
     private int spellIndex = 0;
     [SerializeField] private SkillTree[] skillTrees;
     [SerializeField] private Spell[] spells;
-    
+
     private SpellBook spellBook;
 
     private void Awake()
@@ -24,7 +24,7 @@ public class XPSystem : MonoBehaviour
 
         for (int i = 0; i < skillTrees.Length; i++)
         {
-            spells[i] = skillTrees[i].SelectedSpell;
+            spells[i] = (Spell)skillTrees[i].AbilityToUpgrade;
         }
     }
 
@@ -53,4 +53,5 @@ public class XPSystem : MonoBehaviour
     }
 
     public void SetIndex(int index) => spellIndex = index;
+
 }

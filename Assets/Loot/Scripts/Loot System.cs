@@ -4,12 +4,17 @@ using UnityEngine;
 public class LootSystem : MonoBehaviour
 {
     [Header("Loot Pools")]
-    [SerializeField] Item[] itemLootPool;
-    [SerializeField] Mana[] manaLootPool;
+    [SerializeField] private Health[] healthLootPool;
+    [SerializeField] private Item[] itemLootPool;
+    [SerializeField] private Mana[] manaLootPool;
+    [SerializeField] private Upgrade[] itemPerkPool;
 
     [Header("Loot Drop Settings")]
     [Tooltip("The maximum amount of mana drops that can drop at one time")]
-    [SerializeField] int manaDropMax;
+    [SerializeField] private int manaDropMax;
+
+    [Header("References")]
+    [SerializeField] private Player player;
 
     private readonly List<Loot> lootToDrop = new();
 
@@ -49,13 +54,11 @@ public class LootSystem : MonoBehaviour
 
     private Item GetItemToDrop()
     {
-        int randomNumber = Random.Range(0, 101); // 0 - 100
         List<Item> eligibleToSpawn = new();
-
 
         foreach (Item item in itemLootPool)
         {
-            if (randomNumber <= item.DropChance)
+            if (RandomNumber() <= item.DropChance)
             {
                 eligibleToSpawn.Add(item);
             }
@@ -72,13 +75,12 @@ public class LootSystem : MonoBehaviour
 
     private Mana[] GetManaToDrop()
     {
-        int randomNumber = Random.Range(0, 101); // 0 - 100
         int dropCount = Random.Range(1, manaDropMax + 1); // 0 - manaDropMax STACKS OF MANA
         List<Mana> eligibleToSpawn = new();
 
         foreach (Mana mana in manaLootPool)
         {
-            if (randomNumber <= mana.DropChance)
+            if (RandomNumber() <= mana.DropChance)
             {
                 eligibleToSpawn.Add(mana);
             }
@@ -102,5 +104,17 @@ public class LootSystem : MonoBehaviour
     private void SpawnLoot(Loot loot, Vector3 position)
     {
         Instantiate(loot.LootDrop, position, Quaternion.identity);
+    }
+
+    public void SpawnNonRandomLoot(Loot loot, Vector3 position)
+    {
+        Instantiate(loot.LootDrop, position, Quaternion.identity);
+    }
+
+    private int RandomNumber()
+    {
+        int dropChance = Random.Range(0, 101); // 0 - 100
+        dropChance += (int)(dropChance * player.LootDropLuck);
+        return dropChance;
     }
 }

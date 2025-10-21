@@ -23,10 +23,11 @@ public class SpellBook : MonoBehaviour
     private int previousSpellIndex;
 
     // GETTERS
+    public Spell[] AllSpells => spellBook;
     public int CurrentSpellIndex => currentSpellIndex;
     public bool IsReadyToCast => isReadyToCast;
     public string GetSpellUIData() => $"{spellBook[currentSpellIndex].CurrentMana} / {spellBook[currentSpellIndex].MaxMana}"; // GETTER FOR ACTIVE SPELL TO USE IN UI TEXT
-    public Sprite GetSpellIconData() => spellBook[currentSpellIndex].SpellIcon; // GETTER FOR ACTIVE SPELL ICON TO USE IN UI
+    public Sprite GetSpellIconData() => spellBook[currentSpellIndex].Icon; // GETTER FOR ACTIVE SPELL ICON TO USE IN UI
     public Sprite GetSpellReticleData() => spellBook[currentSpellIndex].Reticle; // GETTER FOR ACTIVE SPELL RETICLE TO USE IN UI
     public AnimationClip GetSpellAnimation() => spellBook[currentSpellIndex].CastAnimation; // GETTER FOR ACTIVE SPELL ANIMATION
     public float GetSpellCastDelayTime() => spellBook[currentSpellIndex].CastDelayTime; // GETTER FOR CAST DELAY TIME

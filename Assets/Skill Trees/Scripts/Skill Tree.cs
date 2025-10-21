@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class SkillTree : MonoBehaviour
 {
-    [SerializeField] private Spell spell;
+    [SerializeField] private Ability ability;
     [SerializeField] private int skillPoints;
     private SkillTreeUIController uiController;
     private readonly HashSet<SkillNode> ownedUpgrades = new();
     public int SkillPoints => skillPoints;
-    public Spell SelectedSpell => spell;
+    public Ability AbilityToUpgrade => ability;
 
     private void Awake()
     {
@@ -19,7 +19,7 @@ public class SkillTree : MonoBehaviour
     public bool UpgradeOwned(SkillNode upgrade)
     {
         return ownedUpgrades.Contains(upgrade);
-    }   
+    }
 
     // CHECK IF ELIGIBLE TO UPGRADE
     public DoubleBool CanUpgrade(SkillNode upgrade)
@@ -38,7 +38,7 @@ public class SkillTree : MonoBehaviour
 
         // UPGRADE
         ownedUpgrades.Add(upgrade);
-        upgrade.ApplyUpgrade(spell);
+        upgrade.ApplyUpgrade(ability);
         skillPoints -= upgrade.UpgradeCost;
 
         // UPDATE BUTTON TEXT AND INTERACTABILITY
