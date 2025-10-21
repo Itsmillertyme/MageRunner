@@ -8,9 +8,9 @@ public static class UtilityTools
         return variance;
     }
 
-    public static float RandomVarianceFloat(float value)
+    public static float RandomVarianceFloat(float lower, float upper)
     {
-        float variance = Random.Range(-value, value);
+        float variance = Random.Range(lower, upper);
         return variance;
     }
 }

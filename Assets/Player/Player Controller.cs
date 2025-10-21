@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour {
     Coroutine dieAnimation;
 
     [Header("Miscellaneous References")]
-    [SerializeField] PlayerAttributes player;
+    [SerializeField] Player player;
 
     //**FIELDS**
     public bool IsFacingLeft { get => isFacingLeft; set => isFacingLeft = value; }

@@ -1,14 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillTree : MonoBehaviour {
-    [SerializeField] private Spell spell;
+
+public class SkillTree : MonoBehaviour
+{
+    [SerializeField] private Ability ability;
     [SerializeField] private int skillPoints;
     [SerializeField] List<SkillNode> allNodes;
     private SkillTreeUIController uiController;
     private readonly HashSet<SkillNode> ownedUpgrades = new();
     public int SkillPoints => skillPoints;
-    public Spell SelectedSpell => spell;
+    public Ability AbilityToUpgrade => ability;
 
     private void Awake() {
         uiController = GetComponentInParent<SkillTreeUIController>();
@@ -33,7 +35,7 @@ public class SkillTree : MonoBehaviour {
 
         // UPGRADE
         ownedUpgrades.Add(upgrade);
-        upgrade.ApplyUpgrade(spell);
+        upgrade.ApplyUpgrade(ability);
         skillPoints -= upgrade.UpgradeCost;
 
         // UPDATE BUTTON TEXT AND INTERACTABILITY

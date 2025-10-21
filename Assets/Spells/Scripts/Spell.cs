@@ -1,12 +1,11 @@
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
-public abstract class Spell : ScriptableObject
+public abstract class Spell : Ability
 {
     [Header("Metadata")]
     [SerializeField] private new string name;
-    [SerializeField] private string description; // UNUSED // NO GETTER
-    [SerializeField] private string loreText; // UNUSED // NO GETTER
+    //[SerializeField] private string description;
+    //[SerializeField] private string loreText;
 
     [Header("Casting")]
     [SerializeField] private int currentMana;
@@ -24,25 +23,6 @@ public abstract class Spell : ScriptableObject
     [SerializeField] private bool damageOverTime;
     [SerializeField] private bool canMoveDuringCast;
     [SerializeField] private bool canJumpDuringCast;
-
-    [Header("Leveling")]
-    [SerializeField] private int currentLevel;
-    [SerializeField] private int maxLevel;
-    [SerializeField] private int currentXP;
-    [SerializeField] private int baseLevelValue;
-    [SerializeField] private float levelingScalar;
-    private int xpToLevelUp;
-    private int[] levelRequirements;
-
-
-    /*
-     * lvl 0 req 0 -> to lvl 1
-     * lvl 1 req 1 -> to lvl 2
-     * .......................
-     * lvl 49 req 49 -> to lvl 50
-     * 
-     */
-
 
     [Header("Prefab")]
     [SerializeField] private GameObject projectile;
@@ -70,7 +50,6 @@ public abstract class Spell : ScriptableObject
     [Header("Unlock Status")]
     [SerializeField] private bool isUnlocked;
 
-    #region GETTERS
     public string Name => name;
     public int CurrentMana => currentMana;
     public int MaxMana => maxMana;
@@ -92,35 +71,18 @@ public abstract class Spell : ScriptableObject
     public float HitSFXVolume => hitSFXVolume;
     public GameObject HitSFXPrefab => hitSFXPrefab;
     public AnimationClip CastAnimation => castAnimation;
-    public Sprite SpellIcon => icon;
+    public Sprite Icon => icon;
     public Sprite Reticle => reticle;
     public bool IsUnlocked => isUnlocked;
     public bool CanMoveDuringCast => canMoveDuringCast;
     public bool CanJumpDuringCast => canJumpDuringCast;
-    public int CurrentLevel => currentLevel;
-    public int MaxLevel => maxLevel;
-    public int CurrentXP => currentXP;
-    public int XPToLevelUp => xpToLevelUp;
-    #endregion
 
-    public void SetLevelingData()
-    {
-        levelRequirements = new int[maxLevel];
-        levelRequirements[0] = baseLevelValue;
-        xpToLevelUp = levelRequirements[0];
-
-        for (int i = 1; i < levelRequirements.Length; i++)
-        {
-            levelRequirements[i] = (int)(levelRequirements[i - 1] * levelingScalar);
-        }
-    }
-
-    public void SaveData(Object data)
+    public void SaveData(GameObject data)
     {
         // READY FOR YA BIG DAWG
     }
 
-    public void LoadData(Object data)
+    public void LoadData(GameObject data)
     {
         // READY FOR YA BIG DAWG
     }
@@ -151,15 +113,5 @@ public abstract class Spell : ScriptableObject
     {
         maxMana += value;
         currentMana = maxMana;
-    }
-
-    public void AddToXP(int value) => currentXP += value;
-    public void LeveledUp() => currentLevel++;
-
-    public void SetNextLevelUpRequirements()
-    {
-        if (currentLevel == maxLevel) return;
-
-        xpToLevelUp = levelRequirements[currentLevel];
     }
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-[CreateAssetMenu(menuName = "Spell Skill Tree/Upgrade Node")]
+[CreateAssetMenu(menuName = "Upgrades/Node")]
 
 public class SkillNode : ScriptableObject
 {
@@ -9,7 +9,7 @@ public class SkillNode : ScriptableObject
     [SerializeField] private string upgradeName; // UPGRADE BUTTON TEXT NAME
     [SerializeField] private int upgradeCost; // AMOUNT OF SKILL POINTS REQUIRED TO UPGRADE
     [SerializeField] private SkillNode[] prerequisiteUpgrades; // UPGRADES REQUIRED BEFORE THIS NODE
-    [SerializeField] private SkillUpgrade upgrade; // BOOST TO APPLY IN UPGRADE
+    [SerializeField] private Upgrade upgrade; // BOOST TO APPLY IN UPGRADE
 
     // GETTERS
     public string UpgradeName => upgradeName;
@@ -36,9 +36,9 @@ public class SkillNode : ScriptableObject
         return new DoubleBool(hasPrereqs, hasSkillPoints);
     }
 
-    public void ApplyUpgrade(Spell spell)
+    public void ApplyUpgrade(Ability ability)
     {
-        upgrade.Apply(spell);
+        upgrade.Apply(ability);
     }
 }
 
