@@ -398,6 +398,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spell: {fileID: 11400000, guid: f6966100e1ad25a4aa1ec3f18f316f28, type: 2}
   skillPoints: 8
+  allNodes:
+  - {fileID: 11400000, guid: 188c380b7fcf4cd4392df9d799e7cf99, type: 2}
+  - {fileID: 11400000, guid: 0afa7d7454da4d8469de563f6d40d30a, type: 2}
+  - {fileID: 11400000, guid: 5cc78686e2a504a46b8fcf4c1be47e6a, type: 2}
+  - {fileID: 11400000, guid: 0f975e836e7956341ac3a52c11c1c0b5, type: 2}
+  - {fileID: 11400000, guid: 6310e2caffd933a45a8302a275338012, type: 2}
+  - {fileID: 11400000, guid: f34957df2815ebc4ba89970115182b03, type: 2}
 --- !u!1 &1667052063122673103
 GameObject:
   m_ObjectHideFlags: 0

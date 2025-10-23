@@ -15,14 +15,14 @@ MonoBehaviour:
   name: Abyssal Fang
   description: 
   loreText: 
-  currentMana: 999
+  currentMana: 981
   maxMana: 50
   damage: 500
   lifeSpan: 1
   castDelayTime: 11
-  castCooldownTime: 2
-  moveSpeed: 30
-  projectileSize: {x: 0.95, y: 1.2, z: 0.95}
+  castCooldownTime: 0.5
+  moveSpeed: 20
+  projectileSize: {x: 0.75, y: 1, z: 0.75}
   destroyOnEnemyImpact: 1
   destroyOnEnvironmentImpact: 1
   damageOverTime: 0
