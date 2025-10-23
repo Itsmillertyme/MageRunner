@@ -2,8 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class SkillTree : MonoBehaviour
-{
+public class SkillTree : MonoBehaviour {
     [SerializeField] private Ability ability;
     [SerializeField] private int skillPoints;
     [SerializeField] List<SkillNode> allNodes;
@@ -58,8 +57,8 @@ public class SkillTree : MonoBehaviour
     #region Save System
     public List<string> GetUnlockedUpgradeNames() {
         List<string> names = new();
-        foreach (var upgrade in ownedUpgrades) {
-            names.Add(upgrade.name);
+        foreach (SkillNode upgrade in ownedUpgrades) {
+            names.Add(upgrade.UpgradeName);
         }
         return names;
     }
@@ -73,10 +72,11 @@ public class SkillTree : MonoBehaviour
         ownedUpgrades.Clear();
 
         foreach (string name in data.unlockedUpgrades) {
-            SkillNode node = allNodes.Find(n => n.name == name);
-            if (node != null) {
-                ownedUpgrades.Add(node);
-                node.ApplyUpgrade(spell);
+            SkillNode upgradeNode = allNodes.Find(node => node.UpgradeName == name);
+
+            if (upgradeNode != null) {
+                ownedUpgrades.Add(upgradeNode);
+                upgradeNode.ApplyUpgrade(ability);
             }
             else {
                 Debug.LogWarning($"[SkillTree] Could not find node named '{name}' in {this.name}");

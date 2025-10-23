@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15d9c0886165cf8409011b43bf5614d6, type: 3}
+  m_Name: PLAYER_DEFAULT
+  m_EditorClassIdentifier: 
+  currentLevel: 3
+  maxLevel: 10
+  currentXP: 0
+  baseLevelValue: 100
+  levelingScalar: 1.7
+  maxJumpHeight: 6
+  maxJumpTime: 1.5
+  movementSpeed: 6
+  sprintMultiplier: 1.5
+  dodgeForce: 10
+  gravity: -20
+  inventoryCapacity: 0
+  currentHealth: 100
+  maxHealth: 100
+  healthRegenAmount: 1
+  healthRegenFrequency: 3
+  maxStamina: 0
+  staminaRegenAmount: 0
+  staminaRegenFrequency: 0
+  meleeDamage: 0
+  playerHasDied: {fileID: 11400000, guid: 641c5fc0f46586f44a8419cca58f2d53, type: 2}
+  skillTreeMenuButtonPressed: {fileID: 11400000, guid: 4f01a213d4a830b47b7b4745e210f4d1, type: 2}
+  playerDeathSFX: {fileID: 8300000, guid: de4e1d318cb1dd842af7723ffd06046a, type: 3}

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
     #region Variables
-    //**PROPERTIES**
+    //**FIELDS**
     [Header("Component References")]
     [SerializeField] Canvas hud;
     [SerializeField] Transform projectileSpawn;
@@ -17,10 +17,6 @@ public class GameManager : MonoBehaviour {
     [SerializeField] SaveManager saveManager;
 
     MusicManager musicManager;
-
-
-    [Header("Scritable Object References")]
-    [SerializeField] LevelEnemies levelEnemies;
     //
     Vector3 playerPivot;
     //
@@ -38,8 +34,7 @@ public class GameManager : MonoBehaviour {
     Material currentPathNodeOriginalMaterial;
     [SerializeField] Material playerRoomMaterial;
 
-    //**FIELDS**
-    public LevelEnemies LevelEnemies { get => levelEnemies; }
+    //**PROPERTIES**
     public ControlScheme CurrentScheme { get => currentScheme; }
     public Vector3 CrosshairPositionIn3DSpace { get => cursorPositionObject.transform.position; }
     public Transform Player { get => player; }
@@ -64,6 +59,10 @@ public class GameManager : MonoBehaviour {
     }
     //
     private void Start() {
+
+        //load default spell and player SO values
+        saveManager.InitilalizeDefaults();
+
         // Check if SplashManager requested a save load
         if (PlayerPrefs.HasKey("LoadSaveOnStart")) {
             int flag = PlayerPrefs.GetInt("LoadSaveOnStart", 0);
@@ -179,6 +178,7 @@ public class GameManager : MonoBehaviour {
     private void StartNewGame() {
         Debug.Log("[GameManager] Starting new game.");
 
+        //set default values
         CurrentLevel = 1;
         levelCreator.Seed = Random.Range(int.MinValue, int.MaxValue);
         levelCreator.GenerateLevel();
@@ -187,6 +187,8 @@ public class GameManager : MonoBehaviour {
             saveManager.SaveGame();
         }
     }
+    //
+
 
     #endregion
 }

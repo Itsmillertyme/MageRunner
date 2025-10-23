@@ -2,8 +2,8 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Player/Player")]
 
-public class Player : Ability
-{
+public class Player : Ability {
+
     [Header("Controller")]
     [SerializeField] private float maxJumpHeight;
     [SerializeField] private float maxJumpTime;
@@ -64,43 +64,38 @@ public class Player : Ability
     public GameEvent SkillTreeMenuButtonPressed => skillTreeMenuButtonPressed;
     public AudioClip PlayerDeathSFX => playerDeathSFX;
 
-    private void OnEnable()
-    {
+    private void OnEnable() {
         healthRegenLimit = maxHealth / 2;
         currentStamina = maxStamina;
     }
 
-    public void SaveData(Object data)
-    {
+    public void SaveData(Object data) {
         // READY FOR YA BIG DAWG
     }
 
-    public void LoadData(Object data)
-    {
+    public void LoadData(Object data) {
         // READY FOR YA BIG DAWG
     }
 
-    public void SetGravity(float gravity)
-    {
+    public void SetGravity(float gravity) {
         this.gravity = gravity;
     }
 
     public void IncreaseInventoryCapacity() => inventoryCapacity++;
 
-    public void Heal(int value)
-    {
-        int adjustedValue = value + (int)healingEfficiency * value;
+    public void Heal(int value) {
+        int adjustedValue = value + (int) healingEfficiency * value;
         currentHealth += adjustedValue;
     }
 
-    public void TakeDamage(int value)
-    {
-        int adjustedValue = value - (int)damageResistance * value;
+    public void TakeDamage(int value) {
+        int adjustedValue = value - (int) damageResistance * value;
         currentHealth -= adjustedValue;
     }
 
-    public void SetMaxHealth(int value)
-    {
+    public void SetCurrentHealth(int value) => currentHealth = value;
+
+    public void SetMaxHealth(int value) {
         maxHealth += value;
         currentHealth = maxHealth;
         healthRegenLimit = maxHealth / 2;

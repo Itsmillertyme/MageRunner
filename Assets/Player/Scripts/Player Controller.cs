@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
-    //**PROPERTIES**
+    //**FIELDS**
     [Header("Component References")]
     ActionAsset actionAsset;
     CharacterController characterController;
@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] Transform projectileSpawn;
     [SerializeField] GameManager gameManager;
     [SerializeField] RectTransform crosshairRect;
+    [SerializeField] SpellBook spellBook;
 
     //Player variables
     float currentMovementInput;
@@ -30,6 +31,7 @@ public class PlayerController : MonoBehaviour {
     bool wasFlippedLastFrame;
     bool isJumpPressed = false;
     //bool isPaused = false;
+    bool isSpellMenuOpen = false;
     bool topCollided = false;
     bool freezePhysics = false;
     bool inCutscene = false;
@@ -68,10 +70,12 @@ public class PlayerController : MonoBehaviour {
     [Header("Miscellaneous References")]
     [SerializeField] Player player;
 
-    //**FIELDS**
+    //**PROPERTIES**
     public bool IsFacingLeft { get => isFacingLeft; set => isFacingLeft = value; }
     public bool FreezePhysics { get => freezePhysics; set => freezePhysics = value; }
     public bool InCutscene { get => inCutscene; set => inCutscene = value; }
+    public Player Player { get => player; }
+    public SpellBook SpellBook { get => spellBook; }
 
     //**UNITY METHODS**
     void Awake() {
@@ -315,6 +319,13 @@ public class PlayerController : MonoBehaviour {
     }
     //Wrapper for spell menu input callbacks
     public void OnSkillTreeMenuInput(InputAction.CallbackContext context) {
+
+        //Set flags
+        isSpellMenuOpen = !isSpellMenuOpen;
+        inCutscene = isSpellMenuOpen;
+        Cursor.visible = isSpellMenuOpen;
+
+        //raise event
         player.SkillTreeMenuButtonPressed.Raise();
     }
     //Wrapper for hot switch input callbacks
@@ -635,9 +646,6 @@ public class PlayerController : MonoBehaviour {
     }
 
     IEnumerator CastAnim() {
-
-        //get reference to spellbook
-        SpellBook spellBook = GetComponent<SpellBook>();
 
         //get active spell anim clip
         AnimationClip clip = spellBook.GetSpellAnimation();
