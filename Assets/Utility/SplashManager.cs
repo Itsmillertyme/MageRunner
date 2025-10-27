@@ -23,26 +23,11 @@ public class SplashManager : MonoBehaviour {
         if (musicManager != null)
             musicManager.SwitchPlaylist(0);
     }
-
     private void Start() {
         if (continueButton != null) {
-            SetContinueButtonState(SaveSystem.SaveExists());
+            continueButton.interactable = SaveSystem.SaveExists();
         }
     }
-
-    void SetContinueButtonState(bool isInteractable) {
-        if (isInteractable) {
-            continueButton.interactable = true;
-            continueButton.transform.GetChild(1).gameObject.SetActive(true);
-            continueButton.transform.GetChild(2).gameObject.SetActive(false);
-        }
-        else {
-            continueButton.interactable = false;
-            continueButton.transform.GetChild(1).gameObject.SetActive(false);
-            continueButton.transform.GetChild(2).gameObject.SetActive(true);
-        }
-    }
-
     #endregion
 
     #region Utility Methods
@@ -71,6 +56,15 @@ public class SplashManager : MonoBehaviour {
 
         StartCoroutine(BeginGame(true));
     }
+    public void QuitGame() {
+        // Play audio
+        if (menuAudio != null && startGameClip != null) {
+            menuAudio.clip = startGameClip;
+            menuAudio.Play();
+        }
+
+        StartCoroutine(QuitGameRoutine());
+    }
     private IEnumerator BeginGame(bool loadSave) {
         yield return new WaitForSeconds(startGameClip.length + 0.1f);
 
@@ -87,7 +81,13 @@ public class SplashManager : MonoBehaviour {
         if (musicManager != null)
             musicManager.SwitchPlaylist(1);
     }
+    private IEnumerator QuitGameRoutine() {
 
+        yield return new WaitForSeconds(startGameClip.length + 0.1f);
+
+        // Quit application
+        Application.Quit();
+    }
     #endregion
 
 }

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 5d0bb36379e4a3949bbb27cbfab8dd6d
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 206302
+  packageName: OBSIDIAN UI - RPG / MMORPG / ARPG
+  packageVersion: 1.0
+  assetPath: Assets/Blink/Art/UI/Obsidian_UI/Prefabs_Obsidian/Buttons_Obsidian/ExpandButton.prefab
+  uploadId: 462322

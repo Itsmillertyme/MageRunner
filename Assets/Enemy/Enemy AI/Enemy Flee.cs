@@ -15,7 +15,7 @@ public class EnemyFlee : MonoBehaviour, IBehave {
 
     List<Vector3> cornerPoints = new List<Vector3>();
 
-    bool initialized = false;
+    bool initialized;
     bool playerInRange = false;
 
 
@@ -23,6 +23,7 @@ public class EnemyFlee : MonoBehaviour, IBehave {
 
     //**UNITY METHODS**
     private void Awake() {
+        initialized = false;
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         player = GameObject.FindWithTag("Player");
@@ -66,41 +67,6 @@ public class EnemyFlee : MonoBehaviour, IBehave {
 
     //**UTILITY METHODS**   
     public void Initialize(RoomData roomDataIn, bool spawningDebugMode = false, bool aiDebugMode = false) {
-
-        ////Helper
-        //float navMeshSampleRadius = 6f;
-
-        ////Find corner points
-        //Vector3 cBottomLeft = new Vector3(roomDataIn.TopLeftObject.position.x, roomDataIn.BottomRightObject.position.y, -2.5f);
-        //Vector3 cTopLeft = new Vector3(roomDataIn.TopLeftObject.position.x, roomDataIn.TopLeftObject.position.y, -2.5f);
-        //Vector3 cTopRight = new Vector3(roomDataIn.BottomRightObject.position.x, roomDataIn.TopLeftObject.position.y, -2.5f);
-        //Vector3 cBottomRight = new Vector3(roomDataIn.BottomRightObject.position.x, roomDataIn.BottomRightObject.position.y, -2.5f);
-
-        ////Sample
-        //NavMeshHit hit;
-        //if (NavMesh.SamplePosition(cBottomLeft, out hit, navMeshSampleRadius, NavMesh.AllAreas)) {
-        //    cBottomLeft = hit.position;
-        //}
-        //if (NavMesh.SamplePosition(cTopLeft, out hit, navMeshSampleRadius, NavMesh.AllAreas)) {
-        //    cTopLeft = hit.position;
-        //}
-        //if (NavMesh.SamplePosition(cTopRight, out hit, navMeshSampleRadius, NavMesh.AllAreas)) {
-        //    cTopRight = hit.position;
-        //}
-        //if (NavMesh.SamplePosition(cBottomRight, out hit, navMeshSampleRadius, NavMesh.AllAreas)) {
-        //    cBottomRight = hit.position;
-        //}
-
-        ////DEBUG
-
-        //cornerPoints.Add(cBottomLeft);
-        //cornerPoints.Add(cTopLeft);
-        //cornerPoints.Add(cTopRight);
-        //cornerPoints.Add(cBottomRight);
-
-        ////Flag
-        //initialized = true;
-
         float navMeshSampleRadius = 6f;
         int maxRetries = 5;
 

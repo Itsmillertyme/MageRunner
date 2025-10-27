@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 88dbedfb5d30f214ab382e7084db6ec1
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 206302
+  packageName: OBSIDIAN UI - RPG / MMORPG / ARPG
+  packageVersion: 1.0
+  assetPath: Assets/Blink/Art/UI/Obsidian_UI/Prefabs_Obsidian/CharacterSelection.prefab
+  uploadId: 462322

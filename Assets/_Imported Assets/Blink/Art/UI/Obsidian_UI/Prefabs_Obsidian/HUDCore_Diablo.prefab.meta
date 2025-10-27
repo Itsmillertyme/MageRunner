@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 1c89bf0c710171a4087d0e0f915705e9
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 206302
+  packageName: OBSIDIAN UI - RPG / MMORPG / ARPG
+  packageVersion: 1.0
+  assetPath: Assets/Blink/Art/UI/Obsidian_UI/Prefabs_Obsidian/HUDCore_Diablo.prefab
+  uploadId: 462322

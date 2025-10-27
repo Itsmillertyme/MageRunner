@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: db7833143da866545b130bd4576b0bc9
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 206302
+  packageName: OBSIDIAN UI - RPG / MMORPG / ARPG
+  packageVersion: 1.0
+  assetPath: Assets/Blink/Art/UI/Obsidian_UI/Prefabs_Obsidian/Buttons_Obsidian/Close_Button.prefab
+  uploadId: 462322
