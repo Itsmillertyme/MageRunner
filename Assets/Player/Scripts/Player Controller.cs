@@ -74,6 +74,7 @@ public class PlayerController : MonoBehaviour {
     public bool IsFacingLeft { get => isFacingLeft; set => isFacingLeft = value; }
     public bool FreezePhysics { get => freezePhysics; set => freezePhysics = value; }
     public bool InCutscene { get => inCutscene; set => inCutscene = value; }
+    public bool IsSpellMenuOpen { get => isSpellMenuOpen; }
     public Player Player { get => player; }
     public SpellBook SpellBook { get => spellBook; }
 
@@ -308,7 +309,7 @@ public class PlayerController : MonoBehaviour {
     //Wrapper for cast input callbacks
     public void OnCast(InputAction.CallbackContext context) {
         //Stop input on pause
-        if (gameManager.GetComponent<PauseController>().IsPaused) {
+        if (gameManager.GetComponent<PauseController>().IsPaused || inCutscene) {
             return;
         }
 

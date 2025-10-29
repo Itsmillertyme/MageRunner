@@ -7,7 +7,6 @@ public class GameManager : MonoBehaviour {
     #region Variables
     //**FIELDS**
     [Header("Component References")]
-    [SerializeField] Canvas hud;
     [SerializeField] Transform projectileSpawn;
     [SerializeField] Transform player;
     [SerializeField] RectTransform crosshairRect;
@@ -52,9 +51,6 @@ public class GameManager : MonoBehaviour {
         playerPositionObject.transform.parent = GameObject.FindWithTag("Player").transform;
 
         musicManager = GameObject.Find("Music Manager").GetComponent<MusicManager>();
-
-        //Enable HUD if disabled
-        hud.gameObject.SetActive(true);
 
     }
     //

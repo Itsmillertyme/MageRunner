@@ -48,7 +48,8 @@ public class PauseController : MonoBehaviour {
 
     //**UTILITY METHODS**
     public void ShowHidePauseMenu() {
-        if (!isAnimationHappening && SceneManager.GetActiveScene().name != "Splash") {
+        PlayerController pc = GetComponent<GameManager>().Player.gameObject.GetComponent<PlayerController>();
+        if (!isAnimationHappening && SceneManager.GetActiveScene().name != "Splash" && !pc.IsSpellMenuOpen) {
             isAnimationHappening = true;
 
             if (isPaused) {

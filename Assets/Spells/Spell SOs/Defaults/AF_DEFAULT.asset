@@ -20,7 +20,7 @@ MonoBehaviour:
   name: Abyssal Fang
   currentMana: 50
   maxMana: 50
-  damage: 5
+  damage: 500
   lifeSpan: 1
   castDelayTime: 11
   castCooldownTime: 2

@@ -28,7 +28,7 @@ MonoBehaviour:
   maxHealth: 100
   healthRegenAmount: 1
   healthRegenFrequency: 3
-  maxStamina: 0
+  maxStamina: 10
   staminaRegenAmount: 0
   staminaRegenFrequency: 0
   meleeDamage: 0

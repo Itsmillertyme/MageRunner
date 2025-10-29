@@ -22,13 +22,13 @@ MonoBehaviour:
   movementSpeed: 6
   sprintMultiplier: 1.5
   dodgeForce: 10
-  gravity: -20
+  gravity: -21.333334
   inventoryCapacity: 0
   currentHealth: 100
-  maxHealth: 500
+  maxHealth: 100
   healthRegenAmount: 1
   healthRegenFrequency: 3
-  maxStamina: 0
+  maxStamina: 10
   staminaRegenAmount: 0
   staminaRegenFrequency: 0
   meleeDamage: 0
