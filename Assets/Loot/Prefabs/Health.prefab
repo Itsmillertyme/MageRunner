@@ -14664,9 +14664,9 @@ GameObject:
   - component: {fileID: 3565140121323184392}
   - component: {fileID: 4011500144111268615}
   - component: {fileID: 1324381534457182646}
-  - component: {fileID: 4872595488743012436}
+  - component: {fileID: 7705343736543382846}
   m_Layer: 0
-  m_Name: Heal Full
+  m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19503,7 +19503,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 30199
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
@@ -19524,7 +19524,7 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 30199
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -19534,7 +19534,7 @@ CapsuleCollider:
   m_Height: 3.5346854
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4872595488743012436
+--- !u!114 &7705343736543382846
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19543,7 +19543,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8151058196545274552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 359e7ed18e90c2243bd1ad1e5b7d73ab, type: 3}
+  m_Script: {fileID: 11500000, guid: 0709c40746774934ca2bf846db1f4793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   loot: {fileID: 11400000, guid: e12c2460239c6b245871c97c0fb7d5b9, type: 2}

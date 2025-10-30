@@ -15,8 +15,8 @@ MonoBehaviour:
   itemName: 
   dropChance: 75
   lifeSpan: 5
-  upwardForce: 10
-  outwardForce: 5
+  upwardForce: 12
+  outwardForce: 3
   torqueStrength: 5
   lootDrop: {fileID: 6745808954368080374, guid: 69833ad7fb0c79944921524afe2c8cbd, type: 3}
   manaDropped: 3

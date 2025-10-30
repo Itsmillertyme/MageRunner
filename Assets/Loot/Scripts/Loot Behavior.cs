@@ -1,12 +1,12 @@
 using System.Collections;
 using UnityEngine;
 
-public class LootBehavior : MonoBehaviour
+public abstract class LootBehavior : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private Loot loot;
-
-    private Rigidbody rb;
+    public Loot loot;
+    [SerializeField] private GameObject blinkingParent;
+    [HideInInspector] public Rigidbody rb;
     private Coroutine coroutine;
 
     private void Awake()
@@ -16,10 +16,11 @@ public class LootBehavior : MonoBehaviour
         DisappearAfterTime();
     }
 
-    private (Vector3, Vector3, Vector3) GetPhysicsValues()
+    public abstract void OnTriggerEnter(Collider collided);
+
+    public virtual (Vector3, Vector3, Vector3) GetPhysicsValues()
     {
-        // MOVEMENT
-        // UPWARD
+        // MOVEMENT UPWARD
         Vector3 up = Vector3.up * (loot.UpwardForce + UtilityTools.RandomVarianceFloat(-1f, 1f));
 
         // OUTWARD
@@ -41,6 +42,7 @@ public class LootBehavior : MonoBehaviour
         rb.AddTorque(vectors.Item3, ForceMode.Impulse);
     }
 
+
     private void DisappearAfterTime()
     {
         Destroy(this.gameObject, loot.LifeSpan);
@@ -49,50 +51,18 @@ public class LootBehavior : MonoBehaviour
 
     private IEnumerator BlinkWhenCloseToDestroy()
     {
-        float quarterLifeRemaining = loot.LifeSpan * 0.75f;
-        float blinkRepeatSpeed = quarterLifeRemaining / 10f;
-        yield return new WaitForSeconds(quarterLifeRemaining);
+        //float quarterLifeRemaining = loot.LifeSpan - (loot.LifeSpan * 0.75f);
+        //float blinkRepeatSpeed = quarterLifeRemaining / 4;
+        //yield return new WaitForSeconds(quarterLifeRemaining);
 
-        while (true)
-        {
-            yield return new WaitForSeconds(blinkRepeatSpeed);
-        }
-    }
+        //while (true)
+        //{
+        //    blinkingParent.SetActive(false);
+        //    yield return new WaitForSeconds(blinkRepeatSpeed);
+        //    blinkingParent.SetActive(true);
+        //}
 
-    private void OnTriggerEnter(Collider collided)
-    {
-        // if loot is mana and player active spell mana is not full, pickup
-        // otherwise add item
-        if (!collided.CompareTag("Player")) // temp while debugging. 
-        {
-            //Debug.Log(collided.name);
-            return;
-        }
-
-        switch (loot)
-        {
-            case Item item:
-                // TBD I'm thinking do like a DoT type deal. tack on a script that has a kill timer. it records default values, adds to them, then ondestroy changes them back.
-                // item modifier created for this. 
-                break;
-            case Health health:
-                PlayerAbilities player = collided.GetComponent<PlayerAbilities>();
-                if (!player.HealthIsFull())
-                {
-                    player.AddToHealth(health.HealAmount);
-                    Destroy(this.gameObject);
-                }
-                break;
-            case Mana mana:
-                SpellBook spellBook = collided.GetComponent<SpellBook>();
-                if (!spellBook.ManaIsFull())
-                {
-                    spellBook.SetCurrentMana(mana.ManaRecoverAmount);
-                    spellBook.UpdateUI();
-                    Destroy(this.gameObject);
-                }
-                break;
-        }
+        yield return null;
     }
 
     private void OnDestroy()

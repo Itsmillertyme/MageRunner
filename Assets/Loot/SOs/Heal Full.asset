@@ -15,8 +15,8 @@ MonoBehaviour:
   itemName: 
   dropChance: 75
   lifeSpan: 5
-  upwardForce: 10
-  outwardForce: 5
+  upwardForce: 12
+  outwardForce: 3
   torqueStrength: 5
   lootDrop: {fileID: 8151058196545274552, guid: a6ccdbcc50df4d74cb1b8578dc5ab803, type: 3}
   healthDropped: 100

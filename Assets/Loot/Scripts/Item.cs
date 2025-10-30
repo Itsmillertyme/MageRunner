@@ -6,10 +6,14 @@ public class Item : Loot
 {
     [Header("Unique Attributes")]
     [SerializeField] private Rarity rarity;
+    [SerializeField] private BodyPart bodyPart;
 
     private int perkCount;
     [Tooltip("1.0f = 100%")]
     private float perkBoostAmount;
+    private int bodyPartIndex;
+
+    public int BodyPartIndex => bodyPartIndex;
 
     private void OnEnable()
     {
@@ -44,6 +48,7 @@ public class Item : Loot
                 break;
         }
 
+        bodyPartIndex = (int)bodyPart;
         float perkBoostFactor = perkBoostAmount / 2;
         perkBoostAmount = perkBoostAmount + UtilityTools.RandomVarianceFloat(-5f, 5f);
         return perkBoostAmount * perkBoostFactor;
@@ -69,4 +74,13 @@ public enum Rarity
     Rare,
     Uncommon,
     Common
+}
+
+public enum BodyPart
+{
+    Head,
+    Torso,
+    Arms,
+    Legs,
+    Feet
 }

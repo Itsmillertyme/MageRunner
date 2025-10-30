@@ -9817,9 +9817,9 @@ GameObject:
   - component: {fileID: 9098838344604428835}
   - component: {fileID: 7967038453549459356}
   - component: {fileID: 8479184769294219707}
-  - component: {fileID: 2973748492715646175}
   - component: {fileID: 2315897512039291813}
   - component: {fileID: 7050168281982113714}
+  - component: {fileID: 3035453913955181523}
   m_Layer: 0
   m_Name: Thunderlords Cascade Mana
   m_TagString: Untagged
@@ -14639,19 +14639,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &2973748492715646175
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1902279238067960212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 359e7ed18e90c2243bd1ad1e5b7d73ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  loot: {fileID: 11400000, guid: 52c89cab65b715e448229136150d0bc7, type: 2}
 --- !u!54 &2315897512039291813
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -14671,7 +14658,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 30199
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
@@ -14692,7 +14679,7 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 30199
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -14702,6 +14689,19 @@ CapsuleCollider:
   m_Height: 3.5346854
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3035453913955181523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1902279238067960212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6466a13668b32cc4a81db691764d81da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loot: {fileID: 11400000, guid: 52c89cab65b715e448229136150d0bc7, type: 2}
 --- !u!1 &6414118812801651895
 GameObject:
   m_ObjectHideFlags: 0

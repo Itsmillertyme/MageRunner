@@ -1,16 +1,23 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
     [SerializeField] Player player;
 
-    private List<Item> items;
-    private int currentCapacity;
+    private Item[] items;
+    private int currentCapacity = 1;
+    private int maxCapacity = 5;
 
     public void AddToInventory(Item item)
     {
-
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (item.BodyPartIndex == i)
+            {
+                items[i] = item;
+            }
+            
+        }
     }
 
     public void RemoveFromInventory(Item item)
@@ -20,6 +27,10 @@ public class Inventory : MonoBehaviour
 
     public void IncreaseCapacity()
     {
-
+        if (currentCapacity == maxCapacity)
+        {
+            return;
+        }
+        currentCapacity++;
     }
 }
