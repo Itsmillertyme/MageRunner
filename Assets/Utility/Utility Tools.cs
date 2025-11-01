@@ -13,4 +13,10 @@ public static class UtilityTools
         float variance = Random.Range(lower, upper);
         return variance;
     }
+
+    public static int RandomVarianceInt(int lower, int upper)
+    {
+        int variance = Random.Range(lower, upper + 1);
+        return variance;
+    }
 }

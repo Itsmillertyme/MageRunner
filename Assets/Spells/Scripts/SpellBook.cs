@@ -1,7 +1,8 @@
 using System.Collections;
 using UnityEngine;
 
-public class SpellBook : MonoBehaviour {
+public class SpellBook : MonoBehaviour
+{
     [Header("Spell List")]
     [SerializeField] private Spell[] spellBook;
 
@@ -25,7 +26,7 @@ public class SpellBook : MonoBehaviour {
     public Spell[] AllSpells => spellBook;
     public int CurrentSpellIndex => currentSpellIndex;
     public bool IsReadyToCast => isReadyToCast;
-    public SpellManaData GetSpellManaUIData() => new SpellManaData(spellBook[currentSpellIndex].CurrentMana, spellBook[currentSpellIndex].MaxMana); // GETTER FOR ACTIVE SPELL TO USE IN UI TEXT
+    public SpellManaData GetSpellManaUIData() => new(spellBook[currentSpellIndex].CurrentMana, spellBook[currentSpellIndex].MaxMana); // GETTER FOR ACTIVE SPELL TO USE IN UI TEXT
     public Sprite GetSpellIconData() => spellBook[currentSpellIndex].Icon; // GETTER FOR ACTIVE SPELL ICON TO USE IN UI
     public Sprite GetSpellReticleData() => spellBook[currentSpellIndex].Reticle; // GETTER FOR ACTIVE SPELL RETICLE TO USE IN UI
     public AnimationClip GetSpellAnimation() => spellBook[currentSpellIndex].CastAnimation; // GETTER FOR ACTIVE SPELL ANIMATION
@@ -35,19 +36,22 @@ public class SpellBook : MonoBehaviour {
     public AudioClip GetSpellSpawnSound() => spellBook[currentSpellIndex].SpawnSFX; // GETTER FOR ACTIVE SPELL SPAWN SOUND
     public float GetSpellSpawnVolume() => spellBook[currentSpellIndex].SpawnSFXVolume; // GETTER FOR ACTIVE SPELL SFX VOLUME
     public float GetSpellSpawnPitch() => spellBook[currentSpellIndex].SpawnSFXPitch + UtilityTools.RandomVarianceFloat(); // GETTER FOR ACTIVE SPELL SFX PITCH
-    public float GetXPBarProgress() => (float) spellBook[currentSpellIndex].CurrentXP / (float) spellBook[currentSpellIndex].XPToLevelUp;
+    public float GetXPBarProgress() => (float)spellBook[currentSpellIndex].CurrentXP / (float)spellBook[currentSpellIndex].XPToLevelUp;
     public int GetSpellCurrentLevel() => spellBook[currentSpellIndex].CurrentLevel;
 
     // SETTERS
-    public void SetCurrentMana(int value) => spellBook[currentSpellIndex].SetCurrentMana(value);
+    public void SetCurrentSpellMana(int value) => spellBook[currentSpellIndex].SetCurrentMana(value);
+    public void SetSpecificSpellMana(Spell spell, int value) => spell.SetCurrentMana(value);
 
-    private void Awake() {
+    private void Awake()
+    {
         spellUI = FindFirstObjectByType<SpellUI>();
         spellLevels = FindFirstObjectByType<XPSystem>();
         gameManager = FindFirstObjectByType<GameManager>();
         lightingController = gameManager.GetComponent<LightingController>();
 
-        foreach (Spell spell in spellBook) {
+        foreach (Spell spell in spellBook)
+        {
             spell.SetLevelingData();
         }
 
@@ -60,14 +64,17 @@ public class SpellBook : MonoBehaviour {
         scrollValue = Input.mouseScrollDelta.y; // REFACTOR TO NEW INPUT WHEN MERGED
 
         // TEMP WORKAROUND UNTIL INPUT SYSTEM METHOD IS PRESENT
-        if (scrollValue != 0) {
+        if (scrollValue != 0)
+        {
             SetSpell();
         }
     }
 
-    public Transform GetSpellSpawnPosition() {
+    public Transform GetSpellSpawnPosition()
+    {
         // POSITIONS: 0 IS LH, 1 IS RH, 2 IS CHEST, 3 IS GROUND, 4 IS SKY
-        switch (spellBook[currentSpellIndex]) {
+        switch (spellBook[currentSpellIndex])
+        {
             case AbyssalFang:
                 currentSpawnPoint = spellSpawnPoints[0];
                 break;
@@ -90,8 +97,10 @@ public class SpellBook : MonoBehaviour {
         return currentSpawnPoint;
     }
 
-    public void Cast() {
-        if (isReadyToCast && spellBook[currentSpellIndex].CurrentMana > 0) {
+    public void Cast()
+    {
+        if (isReadyToCast && spellBook[currentSpellIndex].CurrentMana > 0)
+        {
             HandleSpellLogic();
 
             castCooldown = StartCoroutine(CastCooldown(spellBook[CurrentSpellIndex].CastCooldownTime));
@@ -100,8 +109,10 @@ public class SpellBook : MonoBehaviour {
         }
     }
 
-    private void HandleSpellLogic() {
-        switch (spellBook[currentSpellIndex]) {
+    private void HandleSpellLogic()
+    {
+        switch (spellBook[currentSpellIndex])
+        {
             case AbyssalFang af:
                 CastAbyssalFang(af, currentSpawnPoint.position, gameManager.CrosshairPositionIn3DSpace);
                 isReadyToCast = false;
@@ -117,21 +128,25 @@ public class SpellBook : MonoBehaviour {
     }
 
     #region ABYSSAL FANG
-    public void CastAbyssalFang(AbyssalFang af, Vector3 position, Vector3 direction) {
+    public void CastAbyssalFang(AbyssalFang af, Vector3 position, Vector3 direction)
+    {
         GameObject newProjectile = Instantiate(af.Projectile, position, Quaternion.identity);
         newProjectile.GetComponent<AbyssalFangProjectileMovement>().SetAttributes(af.MoveSpeed, af.ProjectileSize, direction);
         newProjectile.GetComponent<SpellDamager>().SetAttributes(af);
     }
 
-    public IEnumerator CooldownThenCastAltHandAbyssalFang(AbyssalFang af, float waitTime) {
+    public IEnumerator CooldownThenCastAltHandAbyssalFang(AbyssalFang af, float waitTime)
+    {
         yield return new WaitForSeconds(waitTime);
         CastAbyssalFang(af, spellSpawnPoints[1].position, gameManager.CrosshairPositionIn3DSpace);
     }
     #endregion
 
     #region SHATTERSTONE BARRAGE
-    private IEnumerator ShatterstoneSpawnProjectiles(ShatterstoneBarrage sb) {
-        for (int i = 0; i < sb.ProjectileCount; i++) {
+    private IEnumerator ShatterstoneSpawnProjectiles(ShatterstoneBarrage sb)
+    {
+        for (int i = 0; i < sb.ProjectileCount; i++)
+        {
             // CREATE RANDOM OFFSET FROM BASE SPAWN POSITION
             Vector3 spawnOffset = Random.insideUnitSphere * sb.SpawnRadius; // RANDOM OFFSET POSITION AROUND THE SPAWN CENTER
             //spawnOffset.y = 0; // CLAMP TO 0 TO REMOVE RANDOMNESS OF VERTICAL SPAWN POSITION
@@ -159,10 +174,12 @@ public class SpellBook : MonoBehaviour {
         // BEGIN CASTING LOGIC
         float boltSpacing = tc.BoltSpread / (tc.ProjectileCount - 1);
 
-        for (int i = 0; i < tc.VolleyCount; i++) {
+        for (int i = 0; i < tc.VolleyCount; i++)
+        {
             Vector3 spawnPosition = new(gameManager.CrosshairPositionIn3DSpace.x - (tc.BoltSpread / 2), gameManager.Player.position.y, gameManager.CrosshairPositionIn3DSpace.z);
 
-            for (int j = 0; j < tc.ProjectileCount; j++) {
+            for (int j = 0; j < tc.ProjectileCount; j++)
+            {
                 GameObject newProjectile = Instantiate(tc.Projectile, spawnPosition, Quaternion.identity);
                 spawnPosition = new(spawnPosition.x + boltSpacing, spawnPosition.y, spawnPosition.z);
                 SetThunderlordsCascadeProjectile(tc, newProjectile);
@@ -172,7 +189,8 @@ public class SpellBook : MonoBehaviour {
         }
     }
 
-    private void SetThunderlordsCascadeProjectile(ThunderlordsCascade tc, GameObject gameObject) {
+    private void SetThunderlordsCascadeProjectile(ThunderlordsCascade tc, GameObject gameObject)
+    {
         // ENEMY DAMAGER
         gameObject.GetComponentInChildren<SpellDamager>().SetAttributes(tc);
         Destroy(gameObject, tc.LifeSpan); // DESTROY ON DAMAGER DOESN'T WORK BECAUSE COLLISION LOGIC IS ON CHILD
@@ -215,7 +233,8 @@ public class SpellBook : MonoBehaviour {
     #endregion
 
     // TEST TO SEE HOW THIS WORKS WITH SWITCHING SPELLS. HARD TO TEST WITH TOUCHPAD.
-    private IEnumerator CastCooldown(float waitTime) {
+    private IEnumerator CastCooldown(float waitTime)
+    {
         isReadyToCast = false;
         yield return new WaitForSeconds(waitTime);
 
@@ -225,26 +244,33 @@ public class SpellBook : MonoBehaviour {
 
     // REVIEW THIS
     // SPELL INVENTORY CYCLING
-    private void SetSpell() {
+    private void SetSpell()
+    {
         // IF SCROLLING THE MOUSE WHEEL
-        if (scrollValue < 0f) {
-            do {
+        if (scrollValue < 0f)
+        {
+            do
+            {
                 previousSpellIndex = currentSpellIndex;
                 currentSpellIndex++;
 
-                if (currentSpellIndex >= spellBook.Length) {
+                if (currentSpellIndex >= spellBook.Length)
+                {
                     currentSpellIndex = 0;
                 }
             }
             while (!spellBook[currentSpellIndex].IsUnlocked);
         }
 
-        else if (scrollValue > 0f) {
-            do {
+        else if (scrollValue > 0f)
+        {
+            do
+            {
                 previousSpellIndex = currentSpellIndex;
                 currentSpellIndex--;
 
-                if (currentSpellIndex < 0) {
+                if (currentSpellIndex < 0)
+                {
                     currentSpellIndex = spellBook.Length - 1;
                 }
             }
@@ -285,27 +311,34 @@ public class SpellBook : MonoBehaviour {
     //}
 
     //// REVIEW THIS.
-    public void HotSwitchSpell() {
+    public void HotSwitchSpell()
+    {
         //SetSpellByIndex(lastActiveSpell);
     }
 
-    private bool SetIsReadyToCast() {
-        if (spellBook[CurrentSpellIndex].CurrentMana > 0) {
+    private bool SetIsReadyToCast()
+    {
+        if (spellBook[CurrentSpellIndex].CurrentMana > 0)
+        {
             return true;
         }
-        else {
+        else
+        {
             return false;
         }
     }
 
-    public void UpdateUI() {
+    public void UpdateUI()
+    {
         spellUI.UpdateSpellUI(GetSpellManaUIData(), GetSpellIconData(), GetSpellReticleData(), GetXPBarProgress(), GetSpellCurrentLevel());
     }
 
-    public bool ManaIsFull() {
+    public bool ManaIsFull()
+    {
         bool manaIsFull = true;
 
-        if (GetSpellCurrentMana() < GetSpellMaxMana()) {
+        if (GetSpellCurrentMana() < GetSpellMaxMana())
+        {
             return !manaIsFull;
         }
 
@@ -313,11 +346,13 @@ public class SpellBook : MonoBehaviour {
     }
 }
 
-public struct SpellManaData {
+public struct SpellManaData
+{
     public float currentMana;
     public float MaxMana;
 
-    public SpellManaData(float currentManaIn, float maxManaIn) {
+    public SpellManaData(float currentManaIn, float maxManaIn)
+    {
         currentMana = currentManaIn;
         MaxMana = maxManaIn;
     }

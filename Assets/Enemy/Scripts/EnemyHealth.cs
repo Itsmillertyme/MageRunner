@@ -29,7 +29,7 @@ public class EnemyHealth : MonoBehaviour {
             UpdateUI();
             // call new death script here and move following logic there
             levelingSystem.AddXP(xpGrantedOnDeath);
-            lootSystem.DropLoot(transform.position);
+            lootSystem.SelectThenDropLoot(transform.position);
             EnemyDie enemyDie = GetComponent<EnemyDie>();
             enemyDie.Die();
         }

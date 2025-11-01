@@ -2,6 +2,29 @@ using UnityEngine;
 
 public class ItemBehavior : LootBehavior
 {
+    private Item item;
+
+    public override void Awake()
+    {
+        item = (Item)loot;
+        base.Awake();
+    }
+
+    public override void OnTriggerEnter(Collider collided)
+    {
+        if (collided.CompareTag("Player"))
+        {
+
+        }
+        else  // IF ENVIRONMENT, CHECK TO SEE IF THE LOOT IS ABOVE THE PLATFORM. IF SO, STOP MOVEMENT
+        {
+            if (base.ShouldLootStopMovement(base.lootCollider, collided))
+            {
+                StopRigidbodyMovement();
+            }
+        }
+    }
+
     public override (Vector3, Vector3, Vector3) GetPhysicsValues()
     {
         // MOVEMENT UPWARD
@@ -17,14 +40,5 @@ public class ItemBehavior : LootBehavior
         return (up, outward, spin);
     }
 
-    public override void OnTriggerEnter(Collider collided)
-    {
-        switch (loot)
-        {
-            case Item item:
-                // TBD I'm thinking do like a DoT type deal. tack on a script that has a kill timer. it records default values, adds to them, then ondestroy changes them back.
-                // item modifier created for this. 
-                break;
-        }
-    }
+    // TURN THE VFX OFF UNTIL STOPPED FOR THE GROUND VFX. MIGHT NEED TO LIFT THE COLLIDER A BIT TOO
 }

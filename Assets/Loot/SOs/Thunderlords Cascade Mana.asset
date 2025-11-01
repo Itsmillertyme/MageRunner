@@ -19,4 +19,9 @@ MonoBehaviour:
   outwardForce: 3
   torqueStrength: 5
   lootDrop: {fileID: 1902279238067960212, guid: bf9df407f8dcb7742bd51d8c01773eba, type: 3}
-  manaDropped: 2
+  maxManaDropped: 2
+  matchingSpell: {fileID: 11400000, guid: 79da248aa9ba0ed4686afea072603736, type: 2}
+  pursuitRange: 10
+  pursuitSpeed: 7
+  pursuitDelay: 1
+  minManaScale: 0.25

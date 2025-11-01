@@ -22,7 +22,7 @@ MonoBehaviour:
   movementSpeed: 6
   sprintMultiplier: 1.5
   dodgeForce: 10
-  gravity: -21.333334
+  gravity: -20
   inventoryCapacity: 0
   currentHealth: 100
   maxHealth: 100

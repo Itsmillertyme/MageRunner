@@ -7,12 +7,12 @@ public class DeveloperScript : MonoBehaviour
 {
     #region SINGLETON // CALL INSTANCE
     private static DeveloperScript instance;
-    
+
     public static DeveloperScript Instance
     {
         get
         {
-            if(instance == null)
+            if (instance == null)
             {
                 instance = FindFirstObjectByType<DeveloperScript>();
             }
@@ -67,7 +67,7 @@ public class DeveloperScript : MonoBehaviour
     {
         for (int i = 0; i < uiElements.Length; i++)
         {
-            uiElements[i].gameObject.SetActive(debugEnabled);
+            uiElements[i].SetActive(debugEnabled);
         }
     }
 
@@ -83,14 +83,14 @@ public class DeveloperScript : MonoBehaviour
         {
             hideButton.GetComponentInChildren<TextMeshProUGUI>().text = "HIDE";
             rectTransform.sizeDelta = testButton.GetComponent<RectTransform>().sizeDelta;
-            rectTransform.anchoredPosition = new (3.75f, -45f);
+            rectTransform.anchoredPosition = new(3.75f, -45f);
             image.color = testButton.image.color;
         }
         else
         {
             hideButton.GetComponentInChildren<TextMeshProUGUI>().text = ">";
-            rectTransform.sizeDelta = new (35, 260);
-            rectTransform.anchoredPosition = new (0, 0);
+            rectTransform.sizeDelta = new(35, 260);
+            rectTransform.anchoredPosition = new(0, 0);
             image.color = new Color32(255, 255, 255, 30);
         }
     }
@@ -103,10 +103,18 @@ public class DeveloperScript : MonoBehaviour
         Debug.Log(debugMessage);
     }
 
-    public void debugToScreen(string message)
+    public void debug(string message, bool printToScreen)
     {
-        debugCallCounter++;
-        debugText.text = $"{message}: ({debugCallCounter})";
+        if (printToScreen)
+        {
+            debugCallCounter++;
+            debugText.text = $"{message}: ({debugCallCounter})";
+        }
+        else
+        {
+            debugMessage = message;
+            Debug.Log(debugMessage);
+        }
     }
 
     public void ClearDebugToScreenText()
@@ -120,8 +128,7 @@ public class DeveloperScript : MonoBehaviour
     public void SpawnLoot()
     {
         LootSystem ls = testingObject.GetComponent<LootSystem>();
-        ls.DropLoot(testObjectPosition.transform.position);
-        debugToScreen($"Spawned Loot");
+        ls.SelectThenDropLoot(testObjectPosition.transform.position);
     }
     #endregion
 }

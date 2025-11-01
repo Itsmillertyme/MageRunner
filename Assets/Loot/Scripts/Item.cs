@@ -50,7 +50,7 @@ public class Item : Loot
 
         bodyPartIndex = (int)bodyPart;
         float perkBoostFactor = perkBoostAmount / 2;
-        perkBoostAmount = perkBoostAmount + UtilityTools.RandomVarianceFloat(-5f, 5f);
+        perkBoostAmount += UtilityTools.RandomVarianceFloat(-0.5f, 0.5f);
         return perkBoostAmount * perkBoostFactor;
     }
 

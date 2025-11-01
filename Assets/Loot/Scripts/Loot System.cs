@@ -17,7 +17,7 @@ public class LootSystem : MonoBehaviour {
 
     private readonly List<Loot> lootToDrop = new();
 
-    public void DropLoot(Vector3 location) {
+    public void SelectThenDropLoot(Vector3 location) {
         // GET ITEM TO DROP
         Item itemDrop = GetItemToDrop();
 
