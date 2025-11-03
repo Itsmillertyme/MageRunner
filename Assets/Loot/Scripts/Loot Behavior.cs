@@ -1,8 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public abstract class LootBehavior : MonoBehaviour
-{
+public abstract class LootBehavior : MonoBehaviour {
     [Header("References")]
     public Loot loot;
     [SerializeField] private GameObject blinkingParent;
@@ -10,8 +9,7 @@ public abstract class LootBehavior : MonoBehaviour
     [HideInInspector] public Collider lootCollider;
     private Coroutine coroutine;
 
-    public virtual void Awake()
-    {
+    public virtual void Awake() {
         rb = GetComponent<Rigidbody>();
         lootCollider = GetComponent<Collider>();
         FlingLoot(GetPhysicsValues());
@@ -20,16 +18,13 @@ public abstract class LootBehavior : MonoBehaviour
 
     public abstract void OnTriggerEnter(Collider collided);
 
-    private void OnDestroy()
-    {
-        if (coroutine != null)
-        {
+    private void OnDestroy() {
+        if (coroutine != null) {
             StopCoroutine(coroutine);
         }
     }
 
-    public virtual (Vector3, Vector3, Vector3) GetPhysicsValues()
-    {
+    public virtual (Vector3, Vector3, Vector3) GetPhysicsValues() {
         // MOVEMENT UPWARD
         Vector3 up = Vector3.up * (loot.UpwardForce + UtilityTools.RandomVarianceFloat(-1f, 1f));
 
@@ -46,27 +41,23 @@ public abstract class LootBehavior : MonoBehaviour
         return (up, outward, spin);
     }
 
-    public void FlingLoot((Vector3, Vector3, Vector3) vectors)
-    {
+    public void FlingLoot((Vector3, Vector3, Vector3) vectors) {
         rb.AddForce(vectors.Item1 + vectors.Item2, ForceMode.Impulse);
         rb.AddTorque(vectors.Item3, ForceMode.Impulse);
     }
 
-    public void StopRigidbodyMovement()
-    {
+    public void StopRigidbodyMovement() {
         rb.useGravity = false;
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
     }
 
-    public bool ShouldLootStopMovement(Collider lootCollider, Collider environmentCollider)
-    {
+    public bool ShouldLootStopMovement(Collider lootCollider, Collider environmentCollider) {
         bool result = false;
 
         if (Physics.ComputePenetration(lootCollider, lootCollider.transform.position,
             lootCollider.transform.rotation, environmentCollider, environmentCollider.transform.position,
-            environmentCollider.transform.rotation, out Vector3 direction, out _))
-        {
+            environmentCollider.transform.rotation, out Vector3 direction, out _)) {
             if (direction.y >= 0.5f) // ENVIRONMENT IS ABOVE LOOT
             {
                 result = true;
@@ -79,14 +70,12 @@ public abstract class LootBehavior : MonoBehaviour
         return result;
     }
 
-    private void DisappearAfterTime()
-    {
+    private void DisappearAfterTime() {
         Destroy(this.gameObject, loot.LifeSpan);
         coroutine = StartCoroutine(BlinkWhenCloseToDestroy());
     }
 
-    private IEnumerator BlinkWhenCloseToDestroy()
-    {
+    private IEnumerator BlinkWhenCloseToDestroy() {
         //float quarterLifeRemaining = loot.LifeSpan - (loot.LifeSpan * 0.75f);
         //float blinkRepeatSpeed = quarterLifeRemaining / 4;
         //yield return new WaitForSeconds(quarterLifeRemaining);

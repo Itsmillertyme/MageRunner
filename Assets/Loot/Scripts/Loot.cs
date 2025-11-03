@@ -1,7 +1,6 @@
 using UnityEngine;
 
-public class Loot : ScriptableObject
-{
+public class Loot : ScriptableObject {
     [Header("Loot Attributes")]
     [SerializeField] private string itemName;
     [Tooltip("0 - 100 (Whole Numbers")]
@@ -16,6 +15,7 @@ public class Loot : ScriptableObject
     [Tooltip("Prefab")]
     [SerializeField] private GameObject lootDrop;
 
+    public string ItemName => itemName;
     public int DropChance => dropChance;
     public float LifeSpan => lifeSpan;
     public GameObject LootDrop => lootDrop;
