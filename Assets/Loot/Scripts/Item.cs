@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Item : Loot {
     [Header("Unique Attributes")]
-    private string itemName;
     [SerializeField] private Rarity rarity;
     [SerializeField] private BodyPart bodyPart;
     [SerializeField] private Sprite itemIcon;
@@ -61,11 +60,9 @@ public class Item : Loot {
         return perkBoostAmount * perkBoostFactor;
     }
 
-    private Upgrade[] ChooseRandomPerks()
-    {
+    private Upgrade[] ChooseRandomPerks() {
         Upgrade[] perkList = new Upgrade[perkCount];
-        for (int i = 0; i < perkList.Length; i++)
-        {
+        for (int i = 0; i < perkList.Length; i++) {
             int selection = Random.Range(0, perkList.Length);
             perkList[i] = perkList[selection];
         }

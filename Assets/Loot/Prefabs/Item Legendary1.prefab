@@ -12,13 +12,8 @@ GameObject:
   - component: {fileID: 6139108032598288909}
   - component: {fileID: 1491056288871698487}
   - component: {fileID: 2516633695234776291}
-<<<<<<<< HEAD:Assets/Loot/Prefabs/Item Legendary1.prefab
   m_Layer: 15
   m_Name: Item Legendary
-========
-  m_Layer: 0
-  m_Name: Jacobs Legendary Item
->>>>>>>> 8a696122c1d09d04d20b4bec18913f78fcc803d4:Assets/Loot/Prefabs/Jacobs Legendary Item.prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
