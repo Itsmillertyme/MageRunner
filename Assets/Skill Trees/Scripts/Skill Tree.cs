@@ -8,11 +8,15 @@ public class SkillTree : MonoBehaviour {
     [SerializeField] List<SkillNode> allNodes;
     private SkillTreeUIController uiController;
     private readonly HashSet<SkillNode> ownedUpgrades = new();
+    private bool isActive;
+
     public int SkillPoints => skillPoints;
     public Ability AbilityToUpgrade => ability;
+    public bool IsActive { get => isActive; set => isActive = value; }
 
     private void Awake() {
         uiController = GetComponentInParent<SkillTreeUIController>();
+        isActive = false;
     }
 
     // CHECK IF UPGRADE IS ALREADY OWNED

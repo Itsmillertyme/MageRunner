@@ -33,8 +33,7 @@ public class ItemUIController : MonoBehaviour {
             isOnRightSide = playerTransform.position.x > transform.position.x; //Test if player on left
 
             if (prevUIPosition != isOnRightSide) {
-                //swap position
-                //itemCanvasRect.position = new Vector3(isOnRightSide ? itemCanvasRect.position.x + 8 : itemCanvasRect.position.x - 8, itemCanvasRect.position.y, itemCanvasRect.position.z); //8 px is good enough for now                
+                //swap position             
                 itemCanvasRect.anchoredPosition = new Vector2(-itemCanvasRect.anchoredPosition.x, itemCanvasRect.anchoredPosition.y);
             }
         }

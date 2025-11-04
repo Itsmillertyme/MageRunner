@@ -4,10 +4,10 @@ using UnityEngine;
 public static class SaveSystem {
     private static string SavePath => Path.Combine(Application.persistentDataPath, "save.json");
 
-    public static void SaveGame(SaveData data) {
+    public static void SaveGame(SaveData data, bool debugMode = false) {
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(SavePath, json);
-        Debug.Log($"[SaveSystem] Game saved to {SavePath}");
+        if (debugMode) Debug.Log($"[SaveSystem] Game saved to {SavePath}");
     }
 
     public static SaveData LoadGame() {

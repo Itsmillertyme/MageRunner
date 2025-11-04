@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour {
             if (flag == 1 && saveManager != null) {
                 saveManager.LoadGame();
                 PlayerPrefs.DeleteKey("LoadSaveOnStart");
-                Debug.Log("[GameManager] Loaded existing save on start.");
+                if (saveManager.DebugMode) Debug.Log("[GameManager] Loaded existing save on start.");
                 return;
             }
         }
@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour {
     private void OnApplicationQuit() {
         if (saveManager != null) {
             saveManager.SaveGame();
-            Debug.Log("[GameManager] Autosaved on application quit.");
+            if (saveManager.DebugMode) Debug.Log("[GameManager] Autosaved on application quit.");
         }
     }
     #endregion
@@ -172,7 +172,7 @@ public class GameManager : MonoBehaviour {
     }
     //
     private void StartNewGame() {
-        Debug.Log("[GameManager] Starting new game.");
+        if (debugMode) Debug.Log("[GameManager] Starting new game.");
 
         //set default values
         CurrentLevel = 1;

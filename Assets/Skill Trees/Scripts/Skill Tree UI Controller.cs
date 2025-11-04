@@ -1,8 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class SkillTreeUIController : MonoBehaviour
-{
+public class SkillTreeUIController : MonoBehaviour {
     [SerializeField] GameObject[] trees;
     [SerializeField] TextMeshProUGUI[] treesTexts;
     private int activeTreeIndex = 0;
@@ -20,49 +19,46 @@ public class SkillTreeUIController : MonoBehaviour
     //    }
     //}
 
-    public void SetUIVisibility()
-    {
+    public void SetUIVisibility() {
         uiEnabled = !uiEnabled;
         trees[activeTreeIndex].SetActive(uiEnabled);
+        trees[activeTreeIndex].GetComponent<SkillTree>().IsActive = uiEnabled;
         UpdateSkillPoints();
     }
 
-    public void NextTree()
-    {
+    public void NextTree() {
         trees[activeTreeIndex].SetActive(false);
+        trees[activeTreeIndex].GetComponent<SkillTree>().IsActive = false;
 
-        if (activeTreeIndex < trees.Length - 1)
-        {
+        if (activeTreeIndex < trees.Length - 1) {
             activeTreeIndex++;
         }
-        else
-        {
+        else {
             activeTreeIndex = 0;
         }
 
         trees[activeTreeIndex].SetActive(true);
+        trees[activeTreeIndex].GetComponent<SkillTree>().IsActive = true;
         UpdateSkillPoints();
     }
 
-    public void PreviousTree()
-    {
+    public void PreviousTree() {
         trees[activeTreeIndex].SetActive(false);
+        trees[activeTreeIndex].GetComponent<SkillTree>().IsActive = false;
 
-        if (activeTreeIndex > 0)
-        {
+        if (activeTreeIndex > 0) {
             activeTreeIndex--;
         }
-        else
-        {
+        else {
             activeTreeIndex = trees.Length - 1;
         }
 
         trees[activeTreeIndex].SetActive(true);
+        trees[activeTreeIndex].GetComponent<SkillTree>().IsActive = true;
         UpdateSkillPoints();
     }
 
-    public void UpdateSkillPoints()
-    {
+    public void UpdateSkillPoints() {
         treesTexts[activeTreeIndex].text = $"Skill Points: {trees[activeTreeIndex].GetComponent<SkillTree>().SkillPoints}";
     }
 }

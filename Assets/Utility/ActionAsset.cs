@@ -145,6 +145,15 @@ public partial class @ActionAsset: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""OpenStatMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""80a42127-7f6a-476b-aaf9-6d38f5c02988"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""DEVBREAK"",
                     ""type"": ""Button"",
                     ""id"": ""bd792491-9502-447c-a921-a320be48e987"",
@@ -157,15 +166,6 @@ public partial class @ActionAsset: IInputActionCollection2, IDisposable
                     ""name"": ""HotSwitch"",
                     ""type"": ""Button"",
                     ""id"": ""7a7af214-85a2-401f-a348-b2b928b80f51"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""OpenStatMenu"",
-                    ""type"": ""Button"",
-                    ""id"": ""e16b24d6-826b-42ff-a214-24d344743ce3"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -483,6 +483,17 @@ public partial class @ActionAsset: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""4481e005-cdfe-4a4a-b6e4-fa79fd4928f4"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenStatMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""571c55d6-942b-4cd9-a8fb-e124ed9e149c"",
                     ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
@@ -568,17 +579,6 @@ public partial class @ActionAsset: IInputActionCollection2, IDisposable
                     ""action"": ""Aim"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b00aff0c-3294-4d07-998f-6b0e1e5358b9"",
-                    ""path"": ""<Keyboard>/r"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""OpenStatMenu"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -628,9 +628,9 @@ public partial class @ActionAsset: IInputActionCollection2, IDisposable
         m_Player_MoveCamera = m_Player.FindAction("MoveCamera", throwIfNotFound: true);
         m_Player_OpenSpellMenu = m_Player.FindAction("OpenSpellMenu", throwIfNotFound: true);
         m_Player_OpenPauseMenu = m_Player.FindAction("OpenPauseMenu", throwIfNotFound: true);
+        m_Player_OpenStatMenu = m_Player.FindAction("OpenStatMenu", throwIfNotFound: true);
         m_Player_DEVBREAK = m_Player.FindAction("DEVBREAK", throwIfNotFound: true);
         m_Player_HotSwitch = m_Player.FindAction("HotSwitch", throwIfNotFound: true);
-        m_Player_OpenStatMenu = m_Player.FindAction("OpenStatMenu", throwIfNotFound: true);
     }
 
     ~@ActionAsset()
@@ -710,9 +710,9 @@ public partial class @ActionAsset: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_MoveCamera;
     private readonly InputAction m_Player_OpenSpellMenu;
     private readonly InputAction m_Player_OpenPauseMenu;
+    private readonly InputAction m_Player_OpenStatMenu;
     private readonly InputAction m_Player_DEVBREAK;
     private readonly InputAction m_Player_HotSwitch;
-    private readonly InputAction m_Player_OpenStatMenu;
     public struct PlayerActions
     {
         private @ActionAsset m_Wrapper;
@@ -730,9 +730,9 @@ public partial class @ActionAsset: IInputActionCollection2, IDisposable
         public InputAction @MoveCamera => m_Wrapper.m_Player_MoveCamera;
         public InputAction @OpenSpellMenu => m_Wrapper.m_Player_OpenSpellMenu;
         public InputAction @OpenPauseMenu => m_Wrapper.m_Player_OpenPauseMenu;
+        public InputAction @OpenStatMenu => m_Wrapper.m_Player_OpenStatMenu;
         public InputAction @DEVBREAK => m_Wrapper.m_Player_DEVBREAK;
         public InputAction @HotSwitch => m_Wrapper.m_Player_HotSwitch;
-        public InputAction @OpenStatMenu => m_Wrapper.m_Player_OpenStatMenu;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -781,15 +781,15 @@ public partial class @ActionAsset: IInputActionCollection2, IDisposable
             @OpenPauseMenu.started += instance.OnOpenPauseMenu;
             @OpenPauseMenu.performed += instance.OnOpenPauseMenu;
             @OpenPauseMenu.canceled += instance.OnOpenPauseMenu;
+            @OpenStatMenu.started += instance.OnOpenStatMenu;
+            @OpenStatMenu.performed += instance.OnOpenStatMenu;
+            @OpenStatMenu.canceled += instance.OnOpenStatMenu;
             @DEVBREAK.started += instance.OnDEVBREAK;
             @DEVBREAK.performed += instance.OnDEVBREAK;
             @DEVBREAK.canceled += instance.OnDEVBREAK;
             @HotSwitch.started += instance.OnHotSwitch;
             @HotSwitch.performed += instance.OnHotSwitch;
             @HotSwitch.canceled += instance.OnHotSwitch;
-            @OpenStatMenu.started += instance.OnOpenStatMenu;
-            @OpenStatMenu.performed += instance.OnOpenStatMenu;
-            @OpenStatMenu.canceled += instance.OnOpenStatMenu;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -833,15 +833,15 @@ public partial class @ActionAsset: IInputActionCollection2, IDisposable
             @OpenPauseMenu.started -= instance.OnOpenPauseMenu;
             @OpenPauseMenu.performed -= instance.OnOpenPauseMenu;
             @OpenPauseMenu.canceled -= instance.OnOpenPauseMenu;
+            @OpenStatMenu.started -= instance.OnOpenStatMenu;
+            @OpenStatMenu.performed -= instance.OnOpenStatMenu;
+            @OpenStatMenu.canceled -= instance.OnOpenStatMenu;
             @DEVBREAK.started -= instance.OnDEVBREAK;
             @DEVBREAK.performed -= instance.OnDEVBREAK;
             @DEVBREAK.canceled -= instance.OnDEVBREAK;
             @HotSwitch.started -= instance.OnHotSwitch;
             @HotSwitch.performed -= instance.OnHotSwitch;
             @HotSwitch.canceled -= instance.OnHotSwitch;
-            @OpenStatMenu.started -= instance.OnOpenStatMenu;
-            @OpenStatMenu.performed -= instance.OnOpenStatMenu;
-            @OpenStatMenu.canceled -= instance.OnOpenStatMenu;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -892,8 +892,8 @@ public partial class @ActionAsset: IInputActionCollection2, IDisposable
         void OnMoveCamera(InputAction.CallbackContext context);
         void OnOpenSpellMenu(InputAction.CallbackContext context);
         void OnOpenPauseMenu(InputAction.CallbackContext context);
+        void OnOpenStatMenu(InputAction.CallbackContext context);
         void OnDEVBREAK(InputAction.CallbackContext context);
         void OnHotSwitch(InputAction.CallbackContext context);
-        void OnOpenStatMenu(InputAction.CallbackContext context);
     }
 }

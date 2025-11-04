@@ -13,6 +13,8 @@ public class SkillUpgradeButton : MonoBehaviour {
     private Button button;
     private TextMeshProUGUI buttonText;
 
+    public SkillNode UpgradeNode => upgradeNode;
+
     private void Awake() {
         spellTree = GetComponentInParent<SkillTree>();
         button = GetComponent<Button>();

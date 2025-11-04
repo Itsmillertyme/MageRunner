@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SaveManager : MonoBehaviour {
 
-    #region Variabls
+    #region Variables
     [Header("Component References")]
     [SerializeField] PlayerController playerController;
     [SerializeField] XPSystem xpSystem;
@@ -17,6 +17,8 @@ public class SaveManager : MonoBehaviour {
 
     [Header("Settings")]
     [SerializeField] bool debugMode;
+
+    public bool DebugMode { get => debugMode; set => debugMode = value; }
 
     #endregion
 
@@ -47,7 +49,7 @@ public class SaveManager : MonoBehaviour {
             data.skillTreesData.trees.Add(treeData);
         }
 
-        SaveSystem.SaveGame(data);
+        SaveSystem.SaveGame(data, debugMode);
     }
     public void LoadGame() {
         SaveData data = SaveSystem.LoadGame();
