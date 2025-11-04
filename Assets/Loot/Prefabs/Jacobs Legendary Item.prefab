@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1491056288871698487}
   - component: {fileID: 2516633695234776291}
   m_Layer: 0
-  m_Name: Legendary Item
+  m_Name: Jacobs Legendary Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
