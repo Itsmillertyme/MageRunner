@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef815d4a2dfe3da42b128b4e2434c9bc, type: 3}
+  m_Name: Mana Shatterstone Barrage
+  m_EditorClassIdentifier: 
+  dropChance: 0
+  lifeSpan: 5
+  upwardForce: 12
+  outwardForce: 3
+  torqueStrength: 5
+  lootDrop: {fileID: 6745808954368080374, guid: 69833ad7fb0c79944921524afe2c8cbd, type: 3}
+  itemName: 
+  maxManaDropped: 3
+  matchingSpell: {fileID: 11400000, guid: b97ba2bfc6116cf449652b74933a620f, type: 2}
+  pursuitRange: 10
+  pursuitSpeed: 7
+  pursuitDelay: 1
+  minLocalScale: 0.4

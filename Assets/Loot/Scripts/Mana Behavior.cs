@@ -4,17 +4,16 @@ using UnityEngine;
 public class ManaBehavior : LootBehavior
 {
     private Mana mana;
-    private SpellBook spellBook;
     private Transform player;
-    private int manaDrop; // THE AMOUNT OF MANA THAT WILL BE DROPPED
+    [Tooltip("THE AMOUNT OF MANA THAT WILL BE DROPPED")]
+    private int replenishAmount; // THE AMOUNT OF MANA THAT WILL BE DROPPED
     private bool canPursue = false;
 
     public override void Awake()
     {
         mana = (Mana)loot;
-        spellBook = FindFirstObjectByType<SpellBook>();
         player = FindFirstObjectByType<PlayerAbilities>().gameObject.transform;
-        SetDrop();
+        SetDropCountAndScale();
         StartCoroutine(DelayPursuit());
         base.Awake();
     }
@@ -28,7 +27,8 @@ public class ManaBehavior : LootBehavior
     {
         if (collided.CompareTag("Player")) // IF PLAYER, ADD MANA AND UPDATE UI, THEN DELETE COLLIDED
         {
-            spellBook.SetSpecificSpellMana(mana.SpellToReplenish, manaDrop);
+            SpellBook spellBook = FindFirstObjectByType<SpellBook>();
+            spellBook.SetSpecificSpellMana(mana.SpellToReplenish, replenishAmount);
             spellBook.UpdateUI();
             Destroy(this.gameObject);
         }
@@ -41,10 +41,10 @@ public class ManaBehavior : LootBehavior
         }
     }
 
-    private void SetDrop()
+    private void SetDropCountAndScale()
     {
-        manaDrop = mana.MaxManaDropped + UtilityTools.RandomVarianceInt(-mana.MaxManaDropped + 1, 0);
-        float ratio = (float)manaDrop / (float)mana.MaxManaDropped;
+        replenishAmount = mana.MaxManaDropped + UtilityTools.RandomVarianceInt(-mana.MaxManaDropped + 1, 0);
+        float ratio = (float)replenishAmount / (float)mana.MaxManaDropped;
         float scale = Mathf.Max(ratio, mana.MinManaScale);
         transform.localScale = new(scale, scale, scale);
     }

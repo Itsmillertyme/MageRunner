@@ -8,6 +8,13 @@ public class Inventory : MonoBehaviour
     private int currentCapacity = 1;
     private int maxCapacity = 5;
 
+    public Item[] Items => items;
+
+    private void Awake()
+    {
+        items = new Item[maxCapacity];
+    }
+
     public void AddToInventory(Item item)
     {
         for (int i = 0; i < items.Length; i++)

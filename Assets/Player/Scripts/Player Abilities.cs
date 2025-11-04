@@ -51,15 +51,15 @@ public class PlayerAbilities : MonoBehaviour {
         UpdateHealthUI();
     }
 
-    public bool HealthIsFull() {
-        bool healthIsFull = true;
+    //public bool HealthIsFull() {
+    //    bool healthIsFull = true;
 
-        if (player.CurrentHealth < player.MaxHealth) {
-            return !healthIsFull;
-        }
+    //    if (player.CurrentHealth < player.MaxHealth) {
+    //        return !healthIsFull;
+    //    }
 
-        return healthIsFull;
-    }
+    //    return healthIsFull;
+    //}
 
     private IEnumerator HealOverTime() {
         while (player.CurrentHealth < player.HealthRegenCap) {

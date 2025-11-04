@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Loot : ScriptableObject {
     [Header("Loot Attributes")]
-    [SerializeField] private string itemName;
-    [Tooltip("0 - 100 (Whole Numbers")]
+    [Tooltip("Percentage")]
+    [Range(0, 100)]
     [SerializeField] private int dropChance;
     [SerializeField] private float lifeSpan;
 

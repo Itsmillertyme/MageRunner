@@ -1,8 +1,14 @@
+using System.Collections;
 using UnityEngine;
 
 public class ItemBehavior : LootBehavior
 {
     private Item item;
+    [SerializeField] private GameObject stationaryEffect;
+    [SerializeField] private GameObject lootIconPopup;
+    [SerializeField] private GameObject lootMenuPopup;
+    private Upgrade[] perks;
+    private bool isLootMenuActive = true;
 
     public override void Awake()
     {
@@ -12,16 +18,49 @@ public class ItemBehavior : LootBehavior
 
     public override void OnTriggerEnter(Collider collided)
     {
-        if (collided.CompareTag("Player"))
-        {
-
-        }
-        else  // IF ENVIRONMENT, CHECK TO SEE IF THE LOOT IS ABOVE THE PLATFORM. IF SO, STOP MOVEMENT
+        if (!collided.CompareTag("Player")) // IF ENVIRONMENT, CHECK TO SEE IF THE LOOT IS ABOVE THE PLATFORM. IF SO, STOP MOVEMENT 
         {
             if (base.ShouldLootStopMovement(base.lootCollider, collided))
             {
-                StopRigidbodyMovement();
+                base.StopRigidbodyMovement();
+
+                // ENABLE STATIONARY VFX
+                stationaryEffect.SetActive(true);
+                StartCoroutine(ShowLootIconAfterDelay());
             }
+        }
+    }
+
+    private void OnTriggerStay(Collider collided)
+    {
+        if (Input.GetKeyDown(KeyCode.M)) // get interact button in input actions
+        {
+            isLootMenuActive = !isLootMenuActive;
+            if (isLootMenuActive)
+            {
+                lootIconPopup.SetActive(true);
+                lootMenuPopup.SetActive(false);
+            }
+            else
+            {
+                lootIconPopup.SetActive(false);
+                lootMenuPopup.SetActive(true);
+            }
+            
+
+            ///// move to interaction script
+            //Inventory playerInventory = collided.GetComponent<Inventory>();
+            //playerInventory.AddToInventory(item);
+            //Destroy(this.gameObject);
+        }
+    }
+
+    private void OnTriggerExit(Collider collided)
+    {
+        if (lootMenuPopup.activeSelf)
+        {
+            lootIconPopup.SetActive(true);
+            lootMenuPopup.SetActive(false);
         }
     }
 
@@ -40,5 +79,14 @@ public class ItemBehavior : LootBehavior
         return (up, outward, spin);
     }
 
-    // TURN THE VFX OFF UNTIL STOPPED FOR THE GROUND VFX. MIGHT NEED TO LIFT THE COLLIDER A BIT TOO
+    private void SetPerks(Upgrade[] perks)
+    {
+        this.perks = perks;
+    }
+
+    private IEnumerator ShowLootIconAfterDelay()
+    {
+        yield return new WaitForSeconds(item.IconShowDelay);
+        lootIconPopup.SetActive(true);
+    }    
 }

@@ -111,9 +111,10 @@ public class DeveloperScript : MonoBehaviour {
     #endregion
 
     #region DEBUGGING METHODS
-    public void SpawnLoot() {
-        LootSystem ls = testingObject.GetComponent<LootSystem>();
-        ls.SelectThenDropLoot(testObjectPosition.transform.position);
+    public void SpawnLoot()
+    {
+        LootSystem lotDropper = testingObject.GetComponent<LootSystem>();
+        lotDropper.SelectThenDropLoot(testObjectPosition.transform.position);
     }
 
     public void CreateDialogue() {

@@ -16,7 +16,7 @@ public static class UtilityTools
 
     public static int RandomVarianceInt(int lower, int upper)
     {
-        int variance = Random.Range(lower, upper + 1);
+        int variance = Random.Range(lower, upper + 1); // BOTH INCLUSIVE
         return variance;
     }
 }

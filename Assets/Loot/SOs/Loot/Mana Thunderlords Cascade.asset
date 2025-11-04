@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef815d4a2dfe3da42b128b4e2434c9bc, type: 3}
+  m_Name: Mana Thunderlords Cascade
+  m_EditorClassIdentifier: 
+  dropChance: 0
+  lifeSpan: 5
+  upwardForce: 12
+  outwardForce: 3
+  torqueStrength: 5
+  lootDrop: {fileID: 2847963751663224276, guid: a4b21d582ca887b42824be9369eac939, type: 3}
+  itemName: 
+  maxManaDropped: 2
+  matchingSpell: {fileID: 11400000, guid: 79da248aa9ba0ed4686afea072603736, type: 2}
+  pursuitRange: 10
+  pursuitSpeed: 7
+  pursuitDelay: 1
+  minLocalScale: 0.4

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56bd6a838c9b7114c83341cfd947d170, type: 3}
+  m_Name: Item Legendary Legs
+  m_EditorClassIdentifier: 
+  dropChance: 3
+  lifeSpan: 999
+  upwardForce: 12
+  outwardForce: 3
+  torqueStrength: 5
+  lootDrop: {fileID: 50637961161554585, guid: 2ba5b2cadb99b7f44a562dfd7e7ef5cb, type: 3}
+  rarity: 0
+  bodyPart: 3
+  iconShowDelay: 0.4
+  itemPerkPool:
+  - {fileID: 11400000, guid: ece69f5083bfbae45aa4066196778019, type: 2}
+  - {fileID: 11400000, guid: 1085d2f7fd6950e41a98c7792e0ddaa8, type: 2}
+  - {fileID: 11400000, guid: 4a42d09d415cb1841980384a78159e97, type: 2}
+  - {fileID: 11400000, guid: 7e9e1e3202129bc428fa4c2ebc572845, type: 2}
+  - {fileID: 11400000, guid: 43128e7cdd0fecc4c88f8ef1b9f9f9a5, type: 2}
+  - {fileID: 11400000, guid: 820d5bd7f66d97146adbb9880e2c5b31, type: 2}

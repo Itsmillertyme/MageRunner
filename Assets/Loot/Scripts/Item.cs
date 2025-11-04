@@ -4,22 +4,29 @@ using UnityEngine;
 
 public class Item : Loot {
     [Header("Unique Attributes")]
+    private string itemName;
     [SerializeField] private Rarity rarity;
     [SerializeField] private BodyPart bodyPart;
     [SerializeField] private Sprite itemIcon;
+    [SerializeField] private float iconShowDelay;
+    [SerializeField] private Upgrade[] itemPerkPool;
 
     public Rarity Rarity => rarity;
     public Sprite ItemIcon => itemIcon;
 
+    private Upgrade[] perks;
     private int perkCount;
     [Tooltip("1.0f = 100%")]
     private float perkBoostAmount;
     private int bodyPartIndex;
 
+    public Upgrade[] Perks => perks;
     public int BodyPartIndex => bodyPartIndex;
+    public float IconShowDelay => iconShowDelay;
 
     private void OnEnable() {
         perkBoostAmount = SetRarityInfo();
+        perks = ChooseRandomPerks();
     }
 
     private float SetRarityInfo() {
@@ -54,14 +61,15 @@ public class Item : Loot {
         return perkBoostAmount * perkBoostFactor;
     }
 
-    private void ChooseRandomPerks() {
-        // boost player health, mana, stats, etc here
-        // choose random amount of stats to boost
-
-        for (int i = 0; i < perkCount; i++) {
-            // i think we should do an upgrades class.
-            // might be able to make an abstract one and make it work with the skill tree system better
+    private Upgrade[] ChooseRandomPerks()
+    {
+        Upgrade[] perkList = new Upgrade[perkCount];
+        for (int i = 0; i < perkList.Length; i++)
+        {
+            int selection = Random.Range(0, perkList.Length);
+            perkList[i] = perkList[selection];
         }
+        return perkList;
     }
 }
 
