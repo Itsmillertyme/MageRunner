@@ -1,8 +1,6 @@
 using UnityEngine;
-
-[CreateAssetMenu(menuName = "Upgrades/Player/Mana")]
-
-public class UpgradePlayerMaxMana : Upgrade {
+[CreateAssetMenu(menuName = "Upgrades/Player/Magic")]
+public class UpgradePlayerMagicPotential : Upgrade {
     [Tooltip("Percentage amount to be multiplied to the base value of the stat")]
     [SerializeField] private float increase;
 
@@ -14,8 +12,8 @@ public class UpgradePlayerMaxMana : Upgrade {
 
     public override void Apply(Ability ability) {
         foreach (Spell spell in spellBook.AllSpells) {
-            int amountToAdd = (int) (spell.MaxMana * increase * 0.01f);
-            spell.SetMaxMana(amountToAdd);
+            int amountToDecrease = (int) (spell.CastCooldownTime * increase);
+            spell.SetCastCooldownTime(spell.CastCooldownTime - amountToDecrease);
         }
     }
 }

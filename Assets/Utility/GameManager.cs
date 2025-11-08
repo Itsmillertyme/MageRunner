@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour {
     }
     //
     private void OnApplicationFocus(bool focus) {
-        Cursor.visible = false;
+        //Cursor.visible = false;
     }
     //
     private void OnApplicationQuit() {

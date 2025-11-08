@@ -31,7 +31,10 @@ MonoBehaviour:
   maxStamina: 10
   staminaRegenAmount: 0
   staminaRegenFrequency: 0
-  meleeDamage: 0
+  damageResistance: 2
+  meleeDamage: 5
+  healingEfficiency: 10
+  lootDropLuck: 1
   playerHasDied: {fileID: 11400000, guid: 641c5fc0f46586f44a8419cca58f2d53, type: 2}
   skillTreeMenuButtonPressed: {fileID: 11400000, guid: 4f01a213d4a830b47b7b4745e210f4d1, type: 2}
   playerDeathSFX: {fileID: 8300000, guid: de4e1d318cb1dd842af7723ffd06046a, type: 3}

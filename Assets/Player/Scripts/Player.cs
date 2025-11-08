@@ -29,10 +29,10 @@ public class Player : Ability {
     [SerializeField] private int staminaRegenAmount;
     [SerializeField] private float staminaRegenFrequency;
     // MISC
-    private float damageResistance = 0;
+    [SerializeField] private float damageResistance = 0;
     [SerializeField] private float meleeDamage;
-    private float healingEfficiency = 0;
-    private float lootDropLuck = 0;
+    [SerializeField] private float healingEfficiency = 0;
+    [SerializeField] private float lootDropLuck = 0;
 
     [Header("Events")]
     [SerializeField] private GameEvent playerHasDied;

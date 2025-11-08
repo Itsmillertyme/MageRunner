@@ -47,6 +47,11 @@ public class SkillTree : MonoBehaviour {
         }
 
         uiController.UpdateSkillPoints();
+
+        //Update fill bar if applicable
+        if (ability is Player) {
+            GetComponent<PlayerStatsTreeBarController>()?.UpdateStatBars();
+        }
     }
 
     public void SkillPointEarned() {

@@ -16,12 +16,12 @@ public class XPSystem : MonoBehaviour {
             skillTree.gameObject.SetActive(false);
         }
 
+
         // FILL SPELL ARRAY WITH SPELLS
         spells = new Spell[skillTrees.Length];
 
-        for (int i = 0; i < skillTrees.Length; i++)
-        {
-            spells[i] = (Spell)skillTrees[i].AbilityToUpgrade;
+        for (int i = 0; i < skillTrees.Length; i++) {
+            spells[i] = (Spell) skillTrees[i].AbilityToUpgrade;
         }
     }
 
