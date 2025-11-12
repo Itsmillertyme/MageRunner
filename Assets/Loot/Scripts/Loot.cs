@@ -15,9 +15,6 @@ public class Loot : ScriptableObject {
     [Tooltip("Prefab")]
     [SerializeField] private GameObject lootDrop;
 
-    [SerializeField] private string itemName;
-
-    public string ItemName => itemName;
     public int DropChance => dropChance;
     public float LifeSpan => lifeSpan;
     public GameObject LootDrop => lootDrop;

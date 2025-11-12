@@ -153,12 +153,12 @@ public class LootSystem : MonoBehaviour
     private void SpawnLoot(Loot loot, Vector3 position) {
         GameObject lootInstance = Instantiate(loot.LootDrop, position, Quaternion.identity);
 
-        //Setup loot UI
-        if (loot is Item) {
-            Item item = (Item) loot;
-            ItemUIController itemUI = lootInstance.GetComponentInChildren<ItemUIController>();
-            itemUI.Initialize(item.Rarity, item.ItemName, item.ItemIcon, "buff text", "debuff text");
-        }
+        ////Setup loot UI
+        //if (loot is Item item)
+        //{
+        //    ItemUIController itemUI = lootInstance.GetComponentInChildren<ItemUIController>();
+        //    itemUI.Initialize(item.Rarity, item.ItemName, item.ItemIcon, "buff text", "debuff text");
+        //}
     }
 
     public void SpawnNonRandomLoot(Loot loot, Vector3 position)

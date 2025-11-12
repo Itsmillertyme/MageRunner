@@ -7,12 +7,13 @@ public class ItemBehavior : LootBehavior
     [SerializeField] private GameObject stationaryEffect;
     [SerializeField] private GameObject lootIconPopup;
     [SerializeField] private GameObject lootMenuPopup;
-    private Upgrade[] perks;
+    [SerializeField] private ItemPerk[] perks;
     private bool isLootMenuActive = true;
 
     public override void Awake()
     {
         item = (Item)loot;
+        SetPerks();
         base.Awake();
     }
 
@@ -79,14 +80,32 @@ public class ItemBehavior : LootBehavior
         return (up, outward, spin);
     }
 
-    private void SetPerks(Upgrade[] perks)
+    private void SetPerks()
     {
-        this.perks = perks;
+        (ItemPerk[], float[]) perkInfo = item.SetPerks();
+        perks = perkInfo.Item1;
+        float[] perkBoostAmounts = perkInfo.Item2;
+
+        // APPLY PERKS
+        for (int i = 0; i < perks.Length; i++)
+        {
+            DeveloperScript.Instance.debug($"{perks[i]} perk with value {perkBoostAmounts[i]}", true);
+            int sign = UtilityTools.RandomVarianceInt(0, 1);
+            perks[i].Add(perkBoostAmounts[i], sign);
+        }
     }
 
     private IEnumerator ShowLootIconAfterDelay()
     {
         yield return new WaitForSeconds(item.IconShowDelay);
         lootIconPopup.SetActive(true);
-    }    
+    }
+
+    private void OnDestroy()
+    {
+        foreach (ItemPerk perk in perks)
+        {
+            perk.Remove();
+        }
+    }
 }

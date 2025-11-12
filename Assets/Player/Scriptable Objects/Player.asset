@@ -23,17 +23,18 @@ MonoBehaviour:
   sprintMultiplier: 1.5
   dodgeForce: 10
   gravity: -20
-  inventoryCapacity: 0
-  currentHealth: 101
-  maxHealth: 101
+  currentCapacity: 1
+  maxCapacity: 5
+  currentHealth: 100
+  maxHealth: 100
   healthRegenAmount: 1
   healthRegenFrequency: 3
   maxStamina: 10
   staminaRegenAmount: 0
   staminaRegenFrequency: 0
-  damageResistance: 6
-  meleeDamage: 15
-  healingEfficiency: 30
+  damageResistance: 2
+  meleeDamage: 5
+  healingEfficiency: 10
   lootDropLuck: 1
   playerHasDied: {fileID: 11400000, guid: 641c5fc0f46586f44a8419cca58f2d53, type: 2}
   skillTreeMenuButtonPressed: {fileID: 11400000, guid: 4f01a213d4a830b47b7b4745e210f4d1, type: 2}

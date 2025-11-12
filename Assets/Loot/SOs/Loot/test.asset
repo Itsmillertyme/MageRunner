@@ -10,27 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56bd6a838c9b7114c83341cfd947d170, type: 3}
-  m_Name: Item Legendary Arms
+  m_Name: test
   m_EditorClassIdentifier: 
-  dropChance: 3
-  lifeSpan: 999
-  upwardForce: 12
-  outwardForce: 3
+  dropChance: 100
+  lifeSpan: 10
+  upwardForce: 10
+  outwardForce: 5
   torqueStrength: 5
-  lootDrop: {fileID: 50637961161554585, guid: 2ba5b2cadb99b7f44a562dfd7e7ef5cb, type: 3}
+  lootDrop: {fileID: 3016832193347112936, guid: 8e229d386bc4230439ff49fcdc5cf9be, type: 3}
   rarity: 0
   perkCountLegendary: 3
   perkCountExotic: 2
   perkCountRare: 2
   perkCountUncommon: 1
   perkCountCommon: 1
-  perkMaxValueLegendary: 0
-  perkMaxValueExotic: 0
-  perkMaxValueRare: 0
-  perkMaxValueUncommon: 0
-  perkMaxValueCommon: 0
+  perkMaxValueLegendary: 0.15
+  perkMaxValueExotic: 0.1
+  perkMaxValueRare: 0.075
+  perkMaxValueUncommon: 0.5
+  perkMaxValueCommon: 0.25
   itemPerkPool:
   - {fileID: 11400000, guid: 6fdf0f40dce6e4145af35e7b7886bc5f, type: 2}
-  itemIcon: {fileID: 0}
-  iconShowDelay: 0.4
-  itemName: 
+  - {fileID: 11400000, guid: 6fdf0f40dce6e4145af35e7b7886bc5f, type: 2}
+  itemIcon: {fileID: 21300000, guid: f02d0ab4fc14be74ab1f48816f67880f, type: 3}
+  iconShowDelay: 0
+  itemName: Name

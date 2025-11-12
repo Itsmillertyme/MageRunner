@@ -11,7 +11,7 @@ public class LootItemMenuController : MonoBehaviour
     private void Awake()
     {
         inventory = FindFirstObjectByType<Inventory>();
-        if (inventory.Items[loot.BodyPartIndex] == null) // IF SLOT IS EMPTY
+        if (!inventory.IsInventoryFull()) // IF SLOT IS EMPTY
         {
             buttonLayout1.SetActive(true);
         }

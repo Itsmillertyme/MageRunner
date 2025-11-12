@@ -14,7 +14,8 @@ public class Player : Ability {
     [SerializeField] private float gravity;
 
     [Header("Inventory")]
-    [SerializeField] private int inventoryCapacity; // MAX ITEMS THAT CAN BE HELD
+    [SerializeField] private int currentCapacity = 1;
+    [SerializeField] private int maxCapacity = 5;
 
     [Header("Stats")]
     // HEALTH
@@ -47,6 +48,8 @@ public class Player : Ability {
     public float SprintMultiplier => sprintMultiplier;
     public float DodgeForce => dodgeForce;
     public float Gravity => gravity;
+    public int InventoryCapacityCurrent => currentCapacity;
+    public int InventoryCapacityMax => maxCapacity;
     public int CurrentHealth => currentHealth;
     public int MaxHealth => maxHealth;
     public int HealthRegenAmount => healthRegenAmount;
@@ -69,19 +72,11 @@ public class Player : Ability {
         currentStamina = maxStamina;
     }
 
-    public void SaveData(Object data) {
-        // READY FOR YA BIG DAWG
-    }
-
-    public void LoadData(Object data) {
-        // READY FOR YA BIG DAWG
-    }
-
     public void SetGravity(float gravity) {
         this.gravity = gravity;
     }
 
-    public void IncreaseInventoryCapacity() => inventoryCapacity++;
+    public void IncreaseInventoryCapacity() => maxCapacity++;
 
     public void Heal(int value) {
         int adjustedValue = value + (int) healingEfficiency * value;
