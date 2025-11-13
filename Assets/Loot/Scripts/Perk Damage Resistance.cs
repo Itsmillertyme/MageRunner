@@ -4,30 +4,25 @@ using UnityEngine;
 
 public class PerkDamageResistance : ItemPerk
 {
-    private float amountToChange;
+    private float delta;
 
     public override void OnEnable()
     {
         // DO NOTHING
     }
 
-    public override void Add(float amount, int sign)
+    public override void Set(float delta)
     {
-        amountToChange = player.DamageResistance * amount;
+        this.delta = Mathf.Round(delta * 100f) / 100f;
+    }
 
-        if (sign == 0)  // SET SIGN VALUE. 0 FOR POSITIVE, 1 FOR NEGATIVE.
-        {
-
-            player.SetDamageResistance(amountToChange);
-        }
-        else
-        {
-            player.SetDamageResistance(-amountToChange);
-        }
+    public override void Apply()
+    {
+        player.SetDamageResistance(delta);
     }
 
     public override void Remove()
     {
-        player.SetDamageResistance(-amountToChange);
+        player.SetDamageResistance(-delta);
     }
 }

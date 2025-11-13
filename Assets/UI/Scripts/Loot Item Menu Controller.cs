@@ -4,26 +4,21 @@ public class LootItemMenuController : MonoBehaviour
 {
     private Inventory inventory;
     [SerializeField] private GameObject itemParent;
-    [SerializeField] private Item loot;
-    [SerializeField] private GameObject buttonLayout1; // EQUIP BUTTON
-    [SerializeField] private GameObject buttonLayout2; // REPLACE AND COMPARE BUTTONS
+    private ItemBehavior loot;
 
     private void Awake()
     {
+        loot = itemParent.GetComponent<ItemBehavior>();
         inventory = FindFirstObjectByType<Inventory>();
-        if (!inventory.IsInventoryFull()) // IF SLOT IS EMPTY
-        {
-            buttonLayout1.SetActive(true);
-        }
-        else // IF SLOT OCCUPIED
-        {
-            buttonLayout2.SetActive(true);
-        }
     }
 
     public void AddItemToInventory()
     {
-        inventory.AddToInventory(loot);
+        ItemInventoryData data = loot.GetItemInventoryData();
+        Item item = ScriptableObject.CreateInstance<Item>();
+        item.SetItem(data.ItemRarity, data.ItemIcon, data.Perks, data.PerksDeltas, data.ItemName);
+        inventory.AddToInventory(item);
+        item.ApplyPerks();
         Destroy(itemParent);
     }
 }

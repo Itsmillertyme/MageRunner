@@ -2,15 +2,36 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] Player player;
+    private Player player;
 
-    private Item[] items;
+    [SerializeField] private Item[] items;
 
     public Item[] ItemInventory => items;
 
-    private void Awake()
+    private void Start()
     {
+        player = PlayerAbilities.Instance.PlayerSO;
         items = new Item[player.InventoryCapacityMax];
+    }
+
+    private void Update()
+    {
+        RemoveAllPerks();
+    }
+
+    public void RemoveAllPerks()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            for (int i = 0; i < items.Length; i++)
+            {
+                if (items[i] != null)
+                {
+                    items[i].RemovePerks();
+                    items[i] = null;
+                }
+            }
+        }
     }
 
     public void AddToInventory(Item item)
@@ -23,30 +44,19 @@ public class Inventory : MonoBehaviour
                 return;
             }
         }
+        
+        // IF ALL SLOTS FULL, REPLACE AN ITEM RANDOMLY
+        RemoveFromInventory(item);
+    }
 
-        // CHOOSE RANDOM SLOT TO REPLACE OTHERWISE
+    private void RemoveFromInventory(Item item)
+    {
+        // CHOOSE RANDOM SLOT TO REPLACE
         int randomSlot = UtilityTools.RandomVarianceInt(0, items.Length - 1);
-        items[randomSlot] = item;
-    }
+        items[randomSlot] = null;
 
-    public void RemoveFromInventory(int index) // FOR REMOVAL FROM MENU
-    {
-        items[index] = null;
-    }
-
-    public bool IsInventoryFull()
-    {
-        bool isInventoryFull = true;
-
-        foreach (Item item in items) 
-        { 
-            if (item == null)
-            {
-                isInventoryFull = false;
-                return isInventoryFull;
-            }
-        }
-        return isInventoryFull;
+        // THEN ADD TO INVENTORY
+        AddToInventory(item);
     }
 
     public void IncreaseCapacity()

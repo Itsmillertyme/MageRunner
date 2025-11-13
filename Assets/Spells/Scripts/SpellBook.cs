@@ -43,8 +43,12 @@ public class SpellBook : MonoBehaviour
     public void SetCurrentSpellMana(int value) => spellBook[currentSpellIndex].SetCurrentMana(value);
     public void SetSpecificSpellMana(Spell spell, int value) => spell.SetCurrentMana(value);
 
+    public static SpellBook Instance { get; private set; } // SINGLETON PATTERN
+
     private void Awake()
     {
+        Instance = this; // SINGLETON PATTERN
+
         spellUI = FindFirstObjectByType<SpellUI>();
         spellLevels = FindFirstObjectByType<XPSystem>();
         gameManager = FindFirstObjectByType<GameManager>();

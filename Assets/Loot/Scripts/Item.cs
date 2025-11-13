@@ -1,4 +1,3 @@
-using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Loot Drops/Item")]
@@ -7,16 +6,16 @@ public class Item : Loot
 {
     [Header("Unique Attributes")]
     [SerializeField] private Rarity rarity;
-    [SerializeField] private int perkCountLegendary = 3;
-    [SerializeField] private int perkCountExotic = 2;
-    [SerializeField] private int perkCountRare = 2;
-    [SerializeField] private int perkCountUncommon = 1;
-    [SerializeField] private int perkCountCommon = 1;
-    [SerializeField] private float perkMaxValueLegendary = 0.15f;
-    [SerializeField] private float perkMaxValueExotic = 0.10f;
-    [SerializeField] private float perkMaxValueRare = 0.075f;
-    [SerializeField] private float perkMaxValueUncommon = 0.5f;
-    [SerializeField] private float perkMaxValueCommon = 0.25f;
+    private readonly int perkCountLegendary = 3;
+    private readonly int perkCountExotic = 2;
+    private readonly int perkCountRare = 2;
+    private readonly int perkCountUncommon = 1;
+    private readonly int perkCountCommon = 1;
+    private readonly float perkMaxValueLegendary = 0.15f;
+    private readonly float perkMaxValueExotic = 0.10f;
+    private readonly float perkMaxValueRare = 0.075f;
+    private readonly float perkMaxValueUncommon = 0.05f;
+    private readonly float perkMaxValueCommon = 0.025f;
 
     [SerializeField] private ItemPerk[] itemPerkPool;
     [Header("UI")]
@@ -24,15 +23,26 @@ public class Item : Loot
     [SerializeField] private float iconShowDelay;
     [SerializeField] private string itemName;
 
-    private ItemPerk[] perks;
+    [SerializeField] private ItemPerk[] perks;
+    [SerializeField] float[] perksDeltas;
     private int perkCount;
-    private float perkBoostAmount;
+    private float perkDelta;
 
     public Rarity Rarity => rarity;
     public Sprite ItemIcon => itemIcon;
     public ItemPerk[] Perks => perks;
+    public float[] PerksDeltas => perksDeltas;
     public float IconShowDelay => iconShowDelay;
     public string ItemName => itemName;
+
+    public void SetItem(Rarity rarity, Sprite itemIcon, ItemPerk[] perks, float[] perksDeltas, string itemName)
+    {
+        this.rarity = rarity;
+        this.itemIcon = itemIcon;
+        this.perks = perks;
+        this.perksDeltas = perksDeltas;
+        this.itemName = itemName;
+    }
 
     private void SetPerkAttributes()
     {
@@ -40,23 +50,23 @@ public class Item : Loot
         {
             case Rarity.Legendary:
                 perkCount = perkCountLegendary;
-                perkBoostAmount = perkMaxValueLegendary;
+                perkDelta = perkMaxValueLegendary;
                 break;
             case Rarity.Exotic:
                 perkCount = perkCountExotic;
-                perkBoostAmount = perkMaxValueExotic;
+                perkDelta = perkMaxValueExotic;
                 break;
             case Rarity.Rare:
                 perkCount = perkCountRare;
-                perkBoostAmount = perkMaxValueRare;
+                perkDelta = perkMaxValueRare;
                 break;
             case Rarity.Uncommon:
                 perkCount = perkCountUncommon;
-                perkBoostAmount = perkMaxValueUncommon;
+                perkDelta = perkMaxValueUncommon;
                 break;
             case Rarity.Common:
                 perkCount = perkCountCommon;
-                perkBoostAmount = perkMaxValueCommon;
+                perkDelta = perkMaxValueCommon;
                 break;
         }
     }
@@ -67,27 +77,48 @@ public class Item : Loot
         SetPerkAttributes();
 
         // CHOOSE PERKS
-        perks = ChooseRandomPerks().Item1;
-        float[] perkValues = ChooseRandomPerks().Item2;
-        return (perks, perkValues);
+        (ItemPerk[], float[]) perkData = ChooseRandomPerks();
+        perks = perkData.Item1;
+        perksDeltas = perkData.Item2;
+        return (perks, perksDeltas);
     }
         
     private (ItemPerk[], float[]) ChooseRandomPerks()
     {
+        // ITEM 1
         ItemPerk[] perkList = new ItemPerk[perkCount];
         for (int i = 0; i < perkList.Length; i++)
         {
-            int selection = Random.Range(0, itemPerkPool.Length);
+            int selection = UnityEngine.Random.Range(0, itemPerkPool.Length);
             perkList[i] = itemPerkPool[selection];
         }
 
-        float[] perkValues = new float[perkCount];
+        // ITEM 2
+        float[] perksDelta = new float[perkCount];
+        float perkBoostFactor = perkDelta / 2;
         for (int i = 0; i < perkList.Length; i++)
         {
-            float perkBoostFactor = perkBoostAmount / 2;
-            perkBoostAmount += UtilityTools.RandomVarianceFloat(-perkBoostFactor, 0);
+            float value = UtilityTools.RandomVarianceFloat(-perkBoostFactor, 0);
+            perkDelta += value;
+            perksDelta[i] = Mathf.Round(perkDelta * 100f) / 100f;
         }
-        return (perkList, perkValues);
+        return (perkList, perksDelta); // ITEM 1 AND 2
+    }
+
+    public void ApplyPerks()
+    {
+        foreach (ItemPerk perk in perks)
+        {
+            perk.Apply();
+        }
+    }
+
+    public void RemovePerks()
+    {
+        foreach (ItemPerk perk in perks)
+        {
+            perk.Remove();
+        }
     }
 }
 

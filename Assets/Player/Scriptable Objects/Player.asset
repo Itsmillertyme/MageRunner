@@ -22,7 +22,7 @@ MonoBehaviour:
   movementSpeed: 6
   sprintMultiplier: 1.5
   dodgeForce: 10
-  gravity: -20
+  gravity: -21.333334
   currentCapacity: 1
   maxCapacity: 5
   currentHealth: 100
@@ -32,7 +32,7 @@ MonoBehaviour:
   maxStamina: 10
   staminaRegenAmount: 0
   staminaRegenFrequency: 0
-  damageResistance: 2
+  damageResistance: 0
   meleeDamage: 5
   healingEfficiency: 10
   lootDropLuck: 1

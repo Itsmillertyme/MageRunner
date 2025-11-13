@@ -8,6 +8,7 @@ public class ItemBehavior : LootBehavior
     [SerializeField] private GameObject lootIconPopup;
     [SerializeField] private GameObject lootMenuPopup;
     [SerializeField] private ItemPerk[] perks;
+    [SerializeField] private float[] perksDeltas;
     private bool isLootMenuActive = true;
 
     public override void Awake()
@@ -34,7 +35,7 @@ public class ItemBehavior : LootBehavior
 
     private void OnTriggerStay(Collider collided)
     {
-        if (Input.GetKeyDown(KeyCode.M)) // get interact button in input actions
+        if (collided.CompareTag("Player") && Input.GetKeyDown(KeyCode.M)) // get interact button in input actions
         {
             isLootMenuActive = !isLootMenuActive;
             if (isLootMenuActive)
@@ -47,12 +48,6 @@ public class ItemBehavior : LootBehavior
                 lootIconPopup.SetActive(false);
                 lootMenuPopup.SetActive(true);
             }
-            
-
-            ///// move to interaction script
-            //Inventory playerInventory = collided.GetComponent<Inventory>();
-            //playerInventory.AddToInventory(item);
-            //Destroy(this.gameObject);
         }
     }
 
@@ -84,15 +79,23 @@ public class ItemBehavior : LootBehavior
     {
         (ItemPerk[], float[]) perkInfo = item.SetPerks();
         perks = perkInfo.Item1;
-        float[] perkBoostAmounts = perkInfo.Item2;
+        perksDeltas = perkInfo.Item2;
 
         // APPLY PERKS
+        string debugmsg = "";
         for (int i = 0; i < perks.Length; i++)
         {
-            DeveloperScript.Instance.debug($"{perks[i]} perk with value {perkBoostAmounts[i]}", true);
-            int sign = UtilityTools.RandomVarianceInt(0, 1);
-            perks[i].Add(perkBoostAmounts[i], sign);
+            int sign = UtilityTools.RandomVarianceInt(0, 1);  // SET SIGN VALUE. 0 FOR POSITIVE, 1 FOR NEGATIVE.
+
+            if (sign == 1) // MAKE AMOUNT NEGATIVE
+            {
+                perksDeltas[i] *= -1;
+            }
+
+            perks[i].Set(perksDeltas[i]);
+            debugmsg += $"{perks[i]} perk with value {perksDeltas[i]}\n";
         }
+        DeveloperScript.Instance.debug(debugmsg, true);
     }
 
     private IEnumerator ShowLootIconAfterDelay()
@@ -101,11 +104,9 @@ public class ItemBehavior : LootBehavior
         lootIconPopup.SetActive(true);
     }
 
-    private void OnDestroy()
+    public ItemInventoryData GetItemInventoryData()
     {
-        foreach (ItemPerk perk in perks)
-        {
-            perk.Remove();
-        }
+        ItemInventoryData data = new(item.Rarity, item.ItemIcon, perks, perksDeltas, item.ItemName);
+        return data;
     }
 }

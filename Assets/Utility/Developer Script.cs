@@ -42,8 +42,8 @@ public class DeveloperScript : MonoBehaviour {
     #region METHOD TRIGGERS
     public void Invoke() // BUTTON INVOKES THIS
     {
-        //SpawnLoot();
-        CreateDialogue();
+        SpawnLoot();
+        //CreateDialogue();
     }
 
     public void Update() // KBM INPUT INVOKES THIS
