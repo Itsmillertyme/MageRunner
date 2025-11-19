@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78df4f80dcc72ae4a8ff40ec0c68c781, type: 3}
-  m_Name: Perk Player Melee Damage
+  m_Script: {fileID: 11500000, guid: 3c0cf48bd38142d459c335734c483217, type: 3}
+  m_Name: Perk Damage Increase Specific Spell
   m_EditorClassIdentifier: 
-  increase: 2
+  abilityDelta: 1

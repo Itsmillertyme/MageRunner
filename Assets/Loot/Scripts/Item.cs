@@ -26,6 +26,7 @@ public class Item : Loot
     [SerializeField] private ItemPerk[] perks;
     private float[] perksDeltas;
     private Player player;
+    private SpellBook spellBook;
     private int perkCount;
     private float maxPerkDelta;
 
@@ -40,6 +41,7 @@ public class Item : Loot
     {
         SetPerkAttributes();
         player = FindFirstObjectByType<PlayerAbilities>().PlayerSO;
+        spellBook = FindFirstObjectByType<SpellBook>();
     }
 
     public void SetItem(Rarity rarity, Sprite itemIcon, ItemPerk[] perks, float[] perksDeltas, string itemName)
@@ -107,7 +109,16 @@ public class Item : Loot
         string msg = "";
         foreach (ItemPerk perk in perks)
         {
-            perk.ApplyModifier(player);
+            if (perk.AbilityDelta == ModifyAbility.Player)
+            {
+                perk.ApplyModifier(player);
+            }
+            else 
+            {
+                int selection = UtilityTools.RandomVarianceInt(0, spellBook.AllSpells.Length - 1); // CHOOSE RANDOM SPELL TO MODIFY
+                perk.ApplyModifier(spellBook.AllSpells[selection]);
+            }
+
             msg += $"Added {perk.name} with delta {((PerkDamageResistance)perk).Delta}\n";
         }
         DeveloperScript.Instance.debug(msg, true); // DELETE PUBLIC GETTER FOR PERK DELTA

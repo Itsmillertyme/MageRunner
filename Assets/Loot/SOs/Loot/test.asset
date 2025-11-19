@@ -17,8 +17,7 @@ MonoBehaviour:
   lootDrop: {fileID: 3016832193347112936, guid: 8e229d386bc4230439ff49fcdc5cf9be, type: 3}
   rarity: 2
   itemPerkPool:
-  - {fileID: 11400000, guid: 6fdf0f40dce6e4145af35e7b7886bc5f, type: 2}
-  - {fileID: 11400000, guid: 6fdf0f40dce6e4145af35e7b7886bc5f, type: 2}
+  - {fileID: 11400000, guid: 814fde5b92945d6438a92e39b97a8a0c, type: 2}
   itemIcon: {fileID: 21300000, guid: f02d0ab4fc14be74ab1f48816f67880f, type: 3}
   iconShowDelay: 0
   itemName: Name

@@ -8,6 +8,11 @@ public class PerkDamageResistance : ItemPerk
 
     public float Delta => delta;
 
+    private void OnEnable()
+    {
+        abilityDelta = ModifyAbility.Player;
+    }
+
     public override void SetDelta(float delta)
     {
         this.delta = delta;
