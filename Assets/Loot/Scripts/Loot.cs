@@ -8,16 +8,13 @@ public class Loot : ScriptableObject {
     [SerializeField] private float lifeSpan;
 
     [Header("Forces On Loot Spawn")]
-    [SerializeField] private float upwardForce = 10f;
-    [SerializeField] private float outwardForce = 5f;
-    [SerializeField] private float torqueStrength = 5f;
+    private readonly float upwardForce = 10f;
+    private readonly float outwardForce = 3f;
+    private readonly float torqueStrength = 5f;
 
     [Tooltip("Prefab")]
     [SerializeField] private GameObject lootDrop;
 
-    [SerializeField] private string itemName;
-
-    public string ItemName => itemName;
     public int DropChance => dropChance;
     public float LifeSpan => lifeSpan;
     public GameObject LootDrop => lootDrop;

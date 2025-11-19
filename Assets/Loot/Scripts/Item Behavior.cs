@@ -7,60 +7,58 @@ public class ItemBehavior : LootBehavior
     [SerializeField] private GameObject stationaryEffect;
     [SerializeField] private GameObject lootIconPopup;
     [SerializeField] private GameObject lootMenuPopup;
-    private Upgrade[] perks;
-    private bool isLootMenuActive = true;
+    private bool isPlayerInRange = false;
+    private bool isLootMenuActive = false;
 
-    public override void Awake()
+    public override void Awake() // BASE AWAKE GETS RB AND COLLIDER. THEN FLINGS LOOT AND SETS DISAPPEAR AFTER TIME. 
     {
-        item = (Item)loot;
+        item = Instantiate(loot as Item);
+        item.ChooseRandomPerks();   
         base.Awake();
+    }
+
+    private void Update()
+    {
+        if (isPlayerInRange && Input.GetKeyDown(KeyCode.M)) // GET IUNTERACT BUTTON INPUT HERE
+        {
+            isLootMenuActive = !isLootMenuActive;
+            lootIconPopup.SetActive(!isLootMenuActive);
+            lootMenuPopup.SetActive(isLootMenuActive);
+        }
     }
 
     public override void OnTriggerEnter(Collider collided)
     {
-        if (!collided.CompareTag("Player")) // IF ENVIRONMENT, CHECK TO SEE IF THE LOOT IS ABOVE THE PLATFORM. IF SO, STOP MOVEMENT 
+        if (collided.CompareTag("Player"))
         {
-            if (base.ShouldLootStopMovement(base.lootCollider, collided))
-            {
-                base.StopRigidbodyMovement();
-
-                // ENABLE STATIONARY VFX
-                stationaryEffect.SetActive(true);
-                StartCoroutine(ShowLootIconAfterDelay());
-            }
+            isPlayerInRange = true; // SET FLAG FOR IS IN RANGE
+            lootIconPopup.SetActive(true);
+            return;
         }
-    }
 
-    private void OnTriggerStay(Collider collided)
-    {
-        if (Input.GetKeyDown(KeyCode.M)) // get interact button in input actions
+        if (base.ShouldLootStopMovement(base.lootCollider, collided)) // IF ENVIRONMENT, CHECK TO SEE IF THE LOOT IS ABOVE THE PLATFORM. IF SO, STOP MOVEMENT 
         {
-            isLootMenuActive = !isLootMenuActive;
-            if (isLootMenuActive)
-            {
-                lootIconPopup.SetActive(true);
-                lootMenuPopup.SetActive(false);
-            }
-            else
-            {
-                lootIconPopup.SetActive(false);
-                lootMenuPopup.SetActive(true);
-            }
-            
+            // STOP MOVEMENT
+            base.StopRigidbodyMovement();
 
-            ///// move to interaction script
-            //Inventory playerInventory = collided.GetComponent<Inventory>();
-            //playerInventory.AddToInventory(item);
-            //Destroy(this.gameObject);
+            // ENABLE STATIONARY VFX AND INTERACT ICON
+            stationaryEffect.SetActive(true);
+            StartCoroutine(ShowLootIconAfterDelay());
         }
     }
 
     private void OnTriggerExit(Collider collided)
     {
-        if (lootMenuPopup.activeSelf)
+        if (collided.CompareTag("Player"))
         {
-            lootIconPopup.SetActive(true);
-            lootMenuPopup.SetActive(false);
+            isPlayerInRange = false; // SET FLAG FOR IS OUT OF RANGE
+
+            if (lootMenuPopup.activeSelf) // CLOSE MENU IF OPEN AND EXITING
+            {
+                lootIconPopup.SetActive(true);
+                lootMenuPopup.SetActive(false);
+                isLootMenuActive = true;
+            }
         }
     }
 
@@ -79,14 +77,15 @@ public class ItemBehavior : LootBehavior
         return (up, outward, spin);
     }
 
-    private void SetPerks(Upgrade[] perks)
-    {
-        this.perks = perks;
-    }
-
     private IEnumerator ShowLootIconAfterDelay()
     {
         yield return new WaitForSeconds(item.IconShowDelay);
         lootIconPopup.SetActive(true);
-    }    
+    }
+
+    public ItemInventoryData GetItemInventoryData()
+    {
+        ItemInventoryData data = new(item.Rarity, item.ItemIcon, item.Perks, item.PerksDeltas, item.ItemName);
+        return data;
+    }
 }

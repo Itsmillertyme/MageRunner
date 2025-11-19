@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 900b3c6964f90e246bbc697e2d2f386f, type: 3}
-  m_Name: Perk Player Max Health
+  m_Script: {fileID: 11500000, guid: 3c0cf48bd38142d459c335734c483217, type: 3}
+  m_Name: Perk Damage Increase Specific Spell
   m_EditorClassIdentifier: 
-  increase: 2
+  abilityDelta: 1

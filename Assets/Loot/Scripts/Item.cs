@@ -2,86 +2,145 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Loot Drops/Item")]
 
-public class Item : Loot {
+public class Item : Loot
+{
     [Header("Unique Attributes")]
     [SerializeField] private Rarity rarity;
-    [SerializeField] private BodyPart bodyPart;
+    private readonly int perkCountLegendary = 3;
+    private readonly int perkCountExotic = 2;
+    private readonly int perkCountRare = 2;
+    private readonly int perkCountUncommon = 1;
+    private readonly int perkCountCommon = 1;
+    private readonly float perkMaxValueLegendary = 0.15f;
+    private readonly float perkMaxValueExotic = 0.10f;
+    private readonly float perkMaxValueRare = 0.075f;
+    private readonly float perkMaxValueUncommon = 0.05f;
+    private readonly float perkMaxValueCommon = 0.025f;
+
+    [SerializeField] private ItemPerk[] itemPerkPool;
+    [Header("UI")]
     [SerializeField] private Sprite itemIcon;
     [SerializeField] private float iconShowDelay;
-    [SerializeField] private Upgrade[] itemPerkPool;
+    [SerializeField] private string itemName;
+
+    [SerializeField] private ItemPerk[] perks;
+    private float[] perksDeltas;
+    private Player player;
+    private SpellBook spellBook;
+    private int perkCount;
+    private float maxPerkDelta;
 
     public Rarity Rarity => rarity;
     public Sprite ItemIcon => itemIcon;
-
-    private Upgrade[] perks;
-    private int perkCount;
-    [Tooltip("1.0f = 100%")]
-    private float perkBoostAmount;
-    private int bodyPartIndex;
-
-    public Upgrade[] Perks => perks;
-    public int BodyPartIndex => bodyPartIndex;
+    public ItemPerk[] Perks => perks;
+    public float[] PerksDeltas => perksDeltas;
     public float IconShowDelay => iconShowDelay;
+    public string ItemName => itemName;
 
-    private void OnEnable() {
-        perkBoostAmount = SetRarityInfo();
-        perks = ChooseRandomPerks();
+    private void OnEnable()
+    {
+        SetPerkAttributes();
+        player = FindFirstObjectByType<PlayerAbilities>().PlayerSO;
+        spellBook = FindFirstObjectByType<SpellBook>();
     }
 
-    private float SetRarityInfo() {
-        float perkBoostAmount = 0;
+    public void SetItem(Rarity rarity, Sprite itemIcon, ItemPerk[] perks, float[] perksDeltas, string itemName)
+    {
+        this.rarity = rarity;
+        this.itemIcon = itemIcon;
+        this.perks = perks;
+        this.perksDeltas = perksDeltas;
+        this.itemName = itemName;
+    }
 
-        switch (rarity) {
+    private void SetPerkAttributes()
+    {
+        switch (rarity)
+        {
             case Rarity.Legendary:
-                perkCount = 4;
-                perkBoostAmount = 0.15f;
+                perkCount = perkCountLegendary;
+                maxPerkDelta = perkMaxValueLegendary;
                 break;
             case Rarity.Exotic:
-                perkCount = 3;
-                perkBoostAmount = 0.10f;
+                perkCount = perkCountExotic;
+                maxPerkDelta = perkMaxValueExotic;
                 break;
             case Rarity.Rare:
-                perkCount = 2;
-                perkBoostAmount = 0.08f;
+                perkCount = perkCountRare;
+                maxPerkDelta = perkMaxValueRare;
                 break;
             case Rarity.Uncommon:
-                perkCount = 1;
-                perkBoostAmount = 0.05f;
+                perkCount = perkCountUncommon;
+                maxPerkDelta = perkMaxValueUncommon;
                 break;
             case Rarity.Common:
-                perkCount = 1;
-                perkBoostAmount = 0.02f;
+                perkCount = perkCountCommon;
+                maxPerkDelta = perkMaxValueCommon;
                 break;
         }
+    }
+        
+    public void ChooseRandomPerks()
+    {
+        perks = new ItemPerk[perkCount];
+        perksDeltas = new float[perkCount];
 
-        bodyPartIndex = (int) bodyPart;
-        float perkBoostFactor = perkBoostAmount / 2;
-        perkBoostAmount += UtilityTools.RandomVarianceFloat(-0.5f, 0.5f);
-        return perkBoostAmount * perkBoostFactor;
+        // ITEM 1
+        for (int i = 0; i < perks.Length; i++)
+        {
+            int selection = Random.Range(0, itemPerkPool.Length);
+            perks[i] = Instantiate(itemPerkPool[selection]);
+        }
+
+        // ITEM 2
+        float halfDelta = maxPerkDelta / 2;
+        for (int i = 0; i < perks.Length; i++)
+        {
+            float variance = UtilityTools.RandomVarianceFloat(-halfDelta, 0);
+            int sign = UtilityTools.RandomVarianceInt(0, 1);  // SET SIGN VALUE. 0 FOR POSITIVE, 1 FOR NEGATIVE.
+            float finalValue = maxPerkDelta + variance;
+            perksDeltas[i] = (sign == 1) ? -finalValue : finalValue;
+            perks[i].SetDelta(perksDeltas[i]);
+        }
     }
 
-    private Upgrade[] ChooseRandomPerks() {
-        Upgrade[] perkList = new Upgrade[perkCount];
-        for (int i = 0; i < perkList.Length; i++) {
-            int selection = Random.Range(0, perkList.Length);
-            perkList[i] = perkList[selection];
+    public void ApplyPerks()
+    {
+        string msg = "";
+        foreach (ItemPerk perk in perks)
+        {
+            if (perk.AbilityDelta == ModifyAbility.Player)
+            {
+                perk.ApplyModifier(player);
+            }
+            else 
+            {
+                int selection = UtilityTools.RandomVarianceInt(0, spellBook.AllSpells.Length - 1); // CHOOSE RANDOM SPELL TO MODIFY
+                perk.ApplyModifier(spellBook.AllSpells[selection]);
+            }
+
+            msg += $"Added {perk.name} with delta {((PerkDamageResistance)perk).Delta}\n";
         }
-        return perkList;
+        DeveloperScript.Instance.debug(msg, true); // DELETE PUBLIC GETTER FOR PERK DELTA
+    }
+
+    public void RemovePerks()
+    {
+        string msg = "";
+        foreach (ItemPerk perk in perks)
+        {
+            perk.RemoveModifier(player);
+            msg += $"Removed {perk.name} with delta {((PerkDamageResistance)perk).Delta}\n";
+        }
+        DeveloperScript.Instance.debug(msg, true); // DELETE PUBLIC GETTER FOR PERK DELTA
     }
 }
 
-public enum Rarity {
+public enum Rarity
+{
     Legendary,
     Exotic,
     Rare,
     Uncommon,
     Common
-}
-
-public enum BodyPart {
-    Head,
-    Torso,
-    Arms,
-    Legs,
-    Feet
 }
