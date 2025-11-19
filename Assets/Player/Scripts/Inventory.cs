@@ -46,10 +46,10 @@ public class Inventory : MonoBehaviour
         }
         
         // IF ALL SLOTS FULL, REPLACE AN ITEM RANDOMLY
-        RemoveFromInventory(item);
+        ReplaceItemInInventory(item);
     }
 
-    private void RemoveFromInventory(Item item)
+    private void ReplaceItemInInventory(Item item)
     {
         // CHOOSE RANDOM SLOT TO REPLACE
         int randomSlot = UtilityTools.RandomVarianceInt(0, items.Length - 1);

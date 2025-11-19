@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: test
   m_EditorClassIdentifier: 
   dropChance: 100
-  lifeSpan: 10000
+  lifeSpan: 60
   lootDrop: {fileID: 3016832193347112936, guid: 8e229d386bc4230439ff49fcdc5cf9be, type: 3}
   rarity: 2
   itemPerkPool:
@@ -25,6 +25,3 @@ MonoBehaviour:
   perks:
   - {fileID: 11400000, guid: 6fdf0f40dce6e4145af35e7b7886bc5f, type: 2}
   - {fileID: 11400000, guid: 6fdf0f40dce6e4145af35e7b7886bc5f, type: 2}
-  perksDeltas:
-  - -0.05
-  - -0.04

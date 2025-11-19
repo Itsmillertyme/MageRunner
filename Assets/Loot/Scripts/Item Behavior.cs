@@ -7,56 +7,58 @@ public class ItemBehavior : LootBehavior
     [SerializeField] private GameObject stationaryEffect;
     [SerializeField] private GameObject lootIconPopup;
     [SerializeField] private GameObject lootMenuPopup;
-    [SerializeField] private ItemPerk[] perks;
-    [SerializeField] private float[] perksDeltas;
-    private bool isLootMenuActive = true;
+    private bool isPlayerInRange = false;
+    private bool isLootMenuActive = false;
 
-    public override void Awake()
+    public override void Awake() // BASE AWAKE GETS RB AND COLLIDER. THEN FLINGS LOOT AND SETS DISAPPEAR AFTER TIME. 
     {
-        item = (Item)loot;
-        SetPerks();
+        item = Instantiate(loot as Item);
+        item.ChooseRandomPerks();   
         base.Awake();
+    }
+
+    private void Update()
+    {
+        if (isPlayerInRange && Input.GetKeyDown(KeyCode.M)) // GET IUNTERACT BUTTON INPUT HERE
+        {
+            isLootMenuActive = !isLootMenuActive;
+            lootIconPopup.SetActive(!isLootMenuActive);
+            lootMenuPopup.SetActive(isLootMenuActive);
+        }
     }
 
     public override void OnTriggerEnter(Collider collided)
     {
-        if (!collided.CompareTag("Player")) // IF ENVIRONMENT, CHECK TO SEE IF THE LOOT IS ABOVE THE PLATFORM. IF SO, STOP MOVEMENT 
+        if (collided.CompareTag("Player"))
         {
-            if (base.ShouldLootStopMovement(base.lootCollider, collided))
-            {
-                base.StopRigidbodyMovement();
-
-                // ENABLE STATIONARY VFX
-                stationaryEffect.SetActive(true);
-                StartCoroutine(ShowLootIconAfterDelay());
-            }
+            isPlayerInRange = true; // SET FLAG FOR IS IN RANGE
+            lootIconPopup.SetActive(true);
+            return;
         }
-    }
 
-    private void OnTriggerStay(Collider collided)
-    {
-        if (collided.CompareTag("Player") && Input.GetKeyDown(KeyCode.M)) // get interact button in input actions
+        if (base.ShouldLootStopMovement(base.lootCollider, collided)) // IF ENVIRONMENT, CHECK TO SEE IF THE LOOT IS ABOVE THE PLATFORM. IF SO, STOP MOVEMENT 
         {
-            isLootMenuActive = !isLootMenuActive;
-            if (isLootMenuActive)
-            {
-                lootIconPopup.SetActive(true);
-                lootMenuPopup.SetActive(false);
-            }
-            else
-            {
-                lootIconPopup.SetActive(false);
-                lootMenuPopup.SetActive(true);
-            }
+            // STOP MOVEMENT
+            base.StopRigidbodyMovement();
+
+            // ENABLE STATIONARY VFX AND INTERACT ICON
+            stationaryEffect.SetActive(true);
+            StartCoroutine(ShowLootIconAfterDelay());
         }
     }
 
     private void OnTriggerExit(Collider collided)
     {
-        if (lootMenuPopup.activeSelf)
+        if (collided.CompareTag("Player"))
         {
-            lootIconPopup.SetActive(true);
-            lootMenuPopup.SetActive(false);
+            isPlayerInRange = false; // SET FLAG FOR IS OUT OF RANGE
+
+            if (lootMenuPopup.activeSelf) // CLOSE MENU IF OPEN AND EXITING
+            {
+                lootIconPopup.SetActive(true);
+                lootMenuPopup.SetActive(false);
+                isLootMenuActive = true;
+            }
         }
     }
 
@@ -75,29 +77,6 @@ public class ItemBehavior : LootBehavior
         return (up, outward, spin);
     }
 
-    private void SetPerks()
-    {
-        (ItemPerk[], float[]) perkInfo = item.SetPerks();
-        perks = perkInfo.Item1;
-        perksDeltas = perkInfo.Item2;
-
-        // APPLY PERKS
-        string debugmsg = "";
-        for (int i = 0; i < perks.Length; i++)
-        {
-            int sign = UtilityTools.RandomVarianceInt(0, 1);  // SET SIGN VALUE. 0 FOR POSITIVE, 1 FOR NEGATIVE.
-
-            if (sign == 1) // MAKE AMOUNT NEGATIVE
-            {
-                perksDeltas[i] *= -1;
-            }
-
-            perks[i].Set(perksDeltas[i]);
-            debugmsg += $"{perks[i]} perk with value {perksDeltas[i]}\n";
-        }
-        DeveloperScript.Instance.debug(debugmsg, true);
-    }
-
     private IEnumerator ShowLootIconAfterDelay()
     {
         yield return new WaitForSeconds(item.IconShowDelay);
@@ -106,7 +85,7 @@ public class ItemBehavior : LootBehavior
 
     public ItemInventoryData GetItemInventoryData()
     {
-        ItemInventoryData data = new(item.Rarity, item.ItemIcon, perks, perksDeltas, item.ItemName);
+        ItemInventoryData data = new(item.Rarity, item.ItemIcon, item.Perks, item.PerksDeltas, item.ItemName);
         return data;
     }
 }

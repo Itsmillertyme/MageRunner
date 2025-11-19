@@ -24,9 +24,10 @@ public class Item : Loot
     [SerializeField] private string itemName;
 
     [SerializeField] private ItemPerk[] perks;
-    [SerializeField] float[] perksDeltas;
+    private float[] perksDeltas;
+    private Player player;
     private int perkCount;
-    private float perkDelta;
+    private float maxPerkDelta;
 
     public Rarity Rarity => rarity;
     public Sprite ItemIcon => itemIcon;
@@ -34,6 +35,12 @@ public class Item : Loot
     public float[] PerksDeltas => perksDeltas;
     public float IconShowDelay => iconShowDelay;
     public string ItemName => itemName;
+
+    private void OnEnable()
+    {
+        SetPerkAttributes();
+        player = FindFirstObjectByType<PlayerAbilities>().PlayerSO;
+    }
 
     public void SetItem(Rarity rarity, Sprite itemIcon, ItemPerk[] perks, float[] perksDeltas, string itemName)
     {
@@ -50,75 +57,71 @@ public class Item : Loot
         {
             case Rarity.Legendary:
                 perkCount = perkCountLegendary;
-                perkDelta = perkMaxValueLegendary;
+                maxPerkDelta = perkMaxValueLegendary;
                 break;
             case Rarity.Exotic:
                 perkCount = perkCountExotic;
-                perkDelta = perkMaxValueExotic;
+                maxPerkDelta = perkMaxValueExotic;
                 break;
             case Rarity.Rare:
                 perkCount = perkCountRare;
-                perkDelta = perkMaxValueRare;
+                maxPerkDelta = perkMaxValueRare;
                 break;
             case Rarity.Uncommon:
                 perkCount = perkCountUncommon;
-                perkDelta = perkMaxValueUncommon;
+                maxPerkDelta = perkMaxValueUncommon;
                 break;
             case Rarity.Common:
                 perkCount = perkCountCommon;
-                perkDelta = perkMaxValueCommon;
+                maxPerkDelta = perkMaxValueCommon;
                 break;
         }
     }
-
-    public (ItemPerk[], float[]) SetPerks()
-    {
-        // SET ATTRIBUTES
-        SetPerkAttributes();
-
-        // CHOOSE PERKS
-        (ItemPerk[], float[]) perkData = ChooseRandomPerks();
-        perks = perkData.Item1;
-        perksDeltas = perkData.Item2;
-        return (perks, perksDeltas);
-    }
         
-    private (ItemPerk[], float[]) ChooseRandomPerks()
+    public void ChooseRandomPerks()
     {
+        perks = new ItemPerk[perkCount];
+        perksDeltas = new float[perkCount];
+
         // ITEM 1
-        ItemPerk[] perkList = new ItemPerk[perkCount];
-        for (int i = 0; i < perkList.Length; i++)
+        for (int i = 0; i < perks.Length; i++)
         {
-            int selection = UnityEngine.Random.Range(0, itemPerkPool.Length);
-            perkList[i] = itemPerkPool[selection];
+            int selection = Random.Range(0, itemPerkPool.Length);
+            perks[i] = Instantiate(itemPerkPool[selection]);
         }
 
         // ITEM 2
-        float[] perksDelta = new float[perkCount];
-        float perkBoostFactor = perkDelta / 2;
-        for (int i = 0; i < perkList.Length; i++)
+        float halfDelta = maxPerkDelta / 2;
+        for (int i = 0; i < perks.Length; i++)
         {
-            float value = UtilityTools.RandomVarianceFloat(-perkBoostFactor, 0);
-            perkDelta += value;
-            perksDelta[i] = Mathf.Round(perkDelta * 100f) / 100f;
+            float variance = UtilityTools.RandomVarianceFloat(-halfDelta, 0);
+            int sign = UtilityTools.RandomVarianceInt(0, 1);  // SET SIGN VALUE. 0 FOR POSITIVE, 1 FOR NEGATIVE.
+            float finalValue = maxPerkDelta + variance;
+            perksDeltas[i] = (sign == 1) ? -finalValue : finalValue;
+            perks[i].SetDelta(perksDeltas[i]);
         }
-        return (perkList, perksDelta); // ITEM 1 AND 2
     }
 
     public void ApplyPerks()
     {
+        string msg = "";
         foreach (ItemPerk perk in perks)
         {
-            perk.Apply();
+            perk.ApplyModifier(player);
+            msg += $"Added {perk.name} with delta {((PerkDamageResistance)perk).Delta}\n";
         }
+        DeveloperScript.Instance.debug(msg, true); // DELETE PUBLIC GETTER FOR PERK DELTA
     }
 
     public void RemovePerks()
     {
+        string msg = "";
         foreach (ItemPerk perk in perks)
         {
-            perk.Remove();
+            perk.RemoveModifier(player);
+            msg += $"Removed {perk.name} with delta {((PerkDamageResistance)perk).Delta}\n";
         }
+        DeveloperScript.Instance.debug(msg, true); // DELETE PUBLIC GETTER FOR PERK DELTA
     }
 }
 

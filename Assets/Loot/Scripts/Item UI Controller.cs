@@ -6,11 +6,7 @@ public class ItemUIController : MonoBehaviour {
     #region Variables
     [Header("UI Settings")]
     [SerializeField] float playerDetectionRedius;
-    [SerializeField] Color legendaryColor;
-    [SerializeField] Color exoticColor;
-    [SerializeField] Color rareColor;
-    [SerializeField] Color uncommonColor;
-    [SerializeField] Color commonColor;
+    [SerializeField] private UIColorManager colorManager;
 
     [Header("UI References")]
     [SerializeField] RectTransform itemCanvasRect;
@@ -80,11 +76,11 @@ public class ItemUIController : MonoBehaviour {
     private Color GetColorBasedOnRarity(Rarity itemRarity) {
         Color color = new Color();
         switch (itemRarity) {
-            case Rarity.Legendary: color = legendaryColor; break;
-            case Rarity.Exotic: color = exoticColor; break;
-            case Rarity.Rare: color = rareColor; break;
-            case Rarity.Uncommon: color = uncommonColor; break;
-            default: color = commonColor; break;
+            case Rarity.Legendary: color = colorManager.LegendaryColor; break;
+            case Rarity.Exotic: color = colorManager.ExoticColor; break;
+            case Rarity.Rare: color = colorManager.RareColor; break;
+            case Rarity.Uncommon: color = colorManager.UncommonColor; break;
+            default: color = colorManager.CommonColor; break;
         }
         return color;
     }

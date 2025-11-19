@@ -96,9 +96,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b558a5f31980d1d4495b9f01cc9468bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loot: {fileID: 11400000, guid: 2deba4cb397defc49b651ec6c2636438, type: 2}
-  blinkingParent: {fileID: 0}
+  loot: {fileID: 11400000, guid: 840dd9215fbf2724fa036774715aac8e, type: 2}
+  blinkingParent: {fileID: 4303906176140618357}
   lootCollider: {fileID: 0}
+  stationaryEffect: {fileID: 5430446426372424675}
+  lootIconPopup: {fileID: 187163472273867395}
+  lootMenuPopup: {fileID: 7242308694362473159}
 --- !u!1 &187163472273867395
 GameObject:
   m_ObjectHideFlags: 0

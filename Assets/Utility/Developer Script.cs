@@ -104,7 +104,7 @@ public class DeveloperScript : MonoBehaviour
 
     public void Invoke() // BUTTON INVOKES THIS
     {
-        SpawnLoot();
+        SelectThenDropLoot();
         //CreateDialogue();
     }
 
@@ -226,7 +226,7 @@ public class DeveloperScript : MonoBehaviour
     }
 
     #region DEBUGGING METHODS
-    public void SpawnLoot()
+    public void SelectThenDropLoot()
     {
         LootSystem lotDropper = testingObject.GetComponent<LootSystem>();
         lotDropper.SelectThenDropLoot(testTargetPosition.transform.position);

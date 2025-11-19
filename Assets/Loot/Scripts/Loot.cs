@@ -9,7 +9,7 @@ public class Loot : ScriptableObject {
 
     [Header("Forces On Loot Spawn")]
     private readonly float upwardForce = 10f;
-    private readonly float outwardForce = 5f;
+    private readonly float outwardForce = 3f;
     private readonly float torqueStrength = 5f;
 
     [Tooltip("Prefab")]

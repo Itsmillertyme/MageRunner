@@ -6,23 +6,20 @@ public class PerkDamageResistance : ItemPerk
 {
     private float delta;
 
-    public override void OnEnable()
+    public float Delta => delta;
+
+    public override void SetDelta(float delta)
     {
-        // DO NOTHING
+        this.delta = delta;
     }
 
-    public override void Set(float delta)
+    public override void ApplyModifier(Ability ability)
     {
-        this.delta = Mathf.Round(delta * 100f) / 100f;
+        ((Player)ability).SetDamageResistance(delta);
     }
 
-    public override void Apply()
+    public override void RemoveModifier(Ability ability)
     {
-        player.SetDamageResistance(delta);
-    }
-
-    public override void Remove()
-    {
-        player.SetDamageResistance(-delta);
+        ((Player)ability).SetDamageResistance(-delta);
     }
 }
