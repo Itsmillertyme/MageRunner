@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class XPSystem : MonoBehaviour {
@@ -18,11 +19,15 @@ public class XPSystem : MonoBehaviour {
 
 
         // FILL SPELL ARRAY WITH SPELLS
-        spells = new Spell[skillTrees.Length];
+        //spells = new Spell[skillTrees.Length];
+        List<Spell> spellsList = new List<Spell>();
 
         for (int i = 0; i < skillTrees.Length; i++) {
-            spells[i] = (Spell) skillTrees[i].AbilityToUpgrade;
+            if (skillTrees[i].AbilityToUpgrade is Spell) {
+                spellsList.Add((Spell) skillTrees[i].AbilityToUpgrade);
+            }
         }
+        spells = spellsList.ToArray();
     }
 
     public void AddXP(int xpGained) {

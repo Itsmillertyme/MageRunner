@@ -57,7 +57,13 @@ public class GameManager : MonoBehaviour {
     private void Start() {
 
         //load default spell and player SO values
-        saveManager.InitilalizeDefaults();
+        if (saveManager != null) {
+            saveManager.InitilalizeDefaults();
+        }
+        else {
+
+            Debug.Log("saveManager is null");
+        }
 
         // Check if SplashManager requested a save load
         if (PlayerPrefs.HasKey("LoadSaveOnStart")) {
@@ -174,10 +180,16 @@ public class GameManager : MonoBehaviour {
     private void StartNewGame() {
         if (debugMode) Debug.Log("[GameManager] Starting new game.");
 
-        //set default values
-        CurrentLevel = 1;
-        levelCreator.Seed = Random.Range(int.MinValue, int.MaxValue);
-        levelCreator.GenerateLevel();
+        if (levelCreator != null) {
+            //set default values
+            CurrentLevel = 1;
+            levelCreator.Seed = Random.Range(int.MinValue, int.MaxValue);
+            levelCreator.GenerateLevel();
+        }
+        else {
+
+            Debug.Log("levelCreator is null");
+        }
 
         if (saveManager != null) {
             saveManager.SaveGame();

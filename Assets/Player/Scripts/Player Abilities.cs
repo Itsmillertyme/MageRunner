@@ -75,7 +75,14 @@ public class PlayerAbilities : MonoBehaviour {
 
     private void UpdateHealthUI() {
         float value = (float) player.CurrentHealth / (float) player.MaxHealth;
-        healthUI.UpdateImageFill(value);
+        if (healthUI != null) {
+            healthUI.UpdateImageFill(value);
+        }
+        else {
+
+            Debug.Log("healthUI is null");
+        }
+
     }
 
     public void DecreaseStamina(int remove) {
@@ -115,7 +122,13 @@ public class PlayerAbilities : MonoBehaviour {
 
     private void UpdateStaminaUI() {
         float value = (float) player.CurrentStamina / (float) player.MaxStamina;
-        staminaUI.UpdateImageFill(value);
+        if (staminaUI != null) {
+            staminaUI.UpdateImageFill(value);
+        }
+        else {
+
+            Debug.Log("staminaUI is null");
+        }
     }
 
 }

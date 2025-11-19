@@ -24,7 +24,7 @@ MonoBehaviour:
   dodgeForce: 10
   gravity: -20
   inventoryCapacity: 0
-  currentHealth: 101
+  currentHealth: 301
   maxHealth: 101
   healthRegenAmount: 1
   healthRegenFrequency: 3

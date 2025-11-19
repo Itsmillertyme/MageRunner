@@ -2,220 +2,130 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyCombat : MonoBehaviour, IBehave {
-    //**PROPERTIES**    
-    [Header("Attack Settings")]
-    [SerializeField] float attackCoolDown;
-    [SerializeField] float attackRadius;
-    [SerializeField] int damage;
-    [SerializeField] AttackType attackType;
-    //
+[ExecuteAlways]
+public class EnemyCombat : MonoBehaviour, IEnemyCombatBehaviour {
+    #region Variables
     [Header("Component References")]
-    [SerializeField] GameObject projectilePrefab;
+    [SerializeField] Animator animator;
+    [SerializeField] NavMeshAgent agent;
     [SerializeField] Transform projectileSpawnPoint;
-    //
-    [Header("Debug - DO NOT INTERACT")]
-    [SerializeField] bool initialized = false;
-    [SerializeField] bool attackReady = true;
-    [SerializeField] bool playerInRange = false;
-    //
-    Animator animator;
-    NavMeshAgent agent;
-    GameObject player;
+
+    bool initialized;
+    bool attackReady = true;
+    bool isAttacking;
     bool aiDebugMode;
     bool spawningDebugMode;
 
-    //**UNITY METHODS**
-    private void Awake() {
-        animator = GetComponent<Animator>();
-        agent = GetComponent<NavMeshAgent>();
-        player = GameObject.FindWithTag("Player");
-    }
-    //
-    private void Update() {
+    EnemyProfile profile;
+    Transform player;
+    #endregion
 
-        //Check if initialized
-        if (initialized) {
-            //Look for player
-            float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
-
-            if (distanceToPlayer < attackRadius) {
-                //Set flag
-                playerInRange = true;
-
-                //Is attack ready
-                if (attackReady) {
-                    attackReady = false;
-                    StartCoroutine(SetupAttack());
-                }
-            }
-            else {
-                playerInRange = false;
-            }
-        }
-    }
-
-    //**UTILITY METHODS**    
+    #region Interface Methods
     public void Initialize(RoomData roomDataIn, bool spawningDebugMode = false, bool aiDebugMode = false) {
-        this.aiDebugMode = aiDebugMode;
         this.spawningDebugMode = spawningDebugMode;
+        this.aiDebugMode = aiDebugMode;
 
-        //Flag
+        if (animator == null) animator = GetComponentInChildren<Animator>();
+        if (agent == null) agent = GetComponent<NavMeshAgent>();
+        if (player == null) {
+            GameObject playerGO = GameObject.FindGameObjectWithTag("Player");
+            if (playerGO != null) player = playerGO.transform;
+        }
+
         initialized = true;
     }
-    //
-    void DoMeleeAttack() {
-        //test if still in range
-        if (playerInRange) {
-            //apply damage
-            PlayerAbilities playerHealth = player.GetComponent<PlayerAbilities>();
 
-            //Remove health
-            if (playerHealth != null) {
-                playerHealth.RemoveFromHealth(damage);
+    public void Tick(EnemyContext context) {
+        if (!initialized || isAttacking) return;
+
+        // Get context this tick
+        profile = context.profile;
+        player = context.player;
+        agent = context.agent;
+
+        if (profile == null || player == null) return;
+
+        float cooldown = Mathf.Max(0.1f, profile.baseAttackCooldown);
+
+        // Only attack while in Combat state
+        if (context.state == EnemyState.Combat && attackReady) {
+
+            // Recheck distances
+            if (context.distToPlayer <= profile.attackMaxRange &&
+                context.distToPlayer >= profile.attackMinRange) {
+                StartCoroutine(PerformAttack(cooldown));
+            }
+        }
+    }
+    #endregion
+
+    #region Attacks
+    IEnumerator PerformAttack(float cooldown) {
+        attackReady = false;
+        isAttacking = true;
+
+        // Snap idle animation if needed
+        if (animator != null && !animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            animator.CrossFade("Idle", 0f);
+
+        // Trigger attack animation
+        if (animator != null)
+            animator.SetTrigger("attack");
+
+        // Look at player 
+        if (!profile.use2DFlipFacing && player != null) {
+            Vector3 dir = (player.position - transform.position);
+            dir.y = 0f;
+            if (dir.sqrMagnitude > 0.001f)
+                transform.rotation = Quaternion.LookRotation(dir);
+        }
+
+        // Wait for wind-up (hit frame)
+        yield return new WaitForSeconds(profile.windUpTime);
+
+        if (profile.attackType == AttackType.Melee)
+            DoMeleeAttack();
+        else if (profile.attackType == AttackType.Ranged)
+            DoRangedAttack();
+
+        // Recovery window before another action
+        yield return new WaitForSeconds(profile.recoveryTime + cooldown);
+
+        isAttacking = false;
+        attackReady = true;
+    }
+
+    void DoMeleeAttack() {
+        if (player == null) return;
+
+        Vector3 center = transform.position + transform.forward * (profile.attackRadius * 0.75f) + Vector3.up;
+        Collider[] hits = Physics.OverlapSphere(center, profile.attackRadius, LayerMask.GetMask("Player"));
+
+        foreach (var hit in hits) {
+            PlayerAbilities ph = hit.GetComponent<PlayerAbilities>();
+            if (ph != null) {
+                ph.RemoveFromHealth(profile.damage);
+                if (aiDebugMode)
+                    Debug.Log($"[EnemyCombat] {name} hit {hit.name} for {profile.damage} damage.");
             }
         }
 
-        agent.updateRotation = true;
-
-        StartCoroutine(DoCooldown());
-    }
-    //
-    void DoRangedAttack(Vector3 target) {
-        //test if still in range
-        if (playerInRange) {
-
-            //Spawn projectile
-            GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
-            projectile.GetComponent<EnemyProjectileMover>().SetAttributes(10f, 8f, target, damage);
-        }
-
-        agent.updateRotation = true;
-
-        StartCoroutine(DoCooldown());
+        if (profile.showCombatGizmos)
+            Debug.DrawRay(center, transform.forward * profile.attackRadius, Color.red, 0.25f);
     }
 
-    //**COROUTINES**
-    IEnumerator DoCooldown() {
+    void DoRangedAttack() {
+        if (profile.projectilePrefab == null || projectileSpawnPoint == null) return;
 
-        if (aiDebugMode) Debug.Log($"[Enemy AI] {name} attack cooldown begins");
+        Vector3 targetPos = player.position + Vector3.up;
+        GameObject projectile = Instantiate(profile.projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
 
-        //Wait for cooldown
-        yield return new WaitForSeconds(attackCoolDown);
+        EnemyProjectileMover mover = projectile.GetComponent<EnemyProjectileMover>();
+        if (mover != null)
+            mover.SetAttributes(profile.projectileSpeed, profile.projectileLifetime, targetPos, profile.damage);
 
-        if (aiDebugMode) Debug.Log($"[Enemy AI] {name} attack ready");
-
-        //Set flag
-        attackReady = true;
+        if (aiDebugMode)
+            Debug.Log($"[EnemyCombat] {name} fired projectile toward {targetPos}");
     }
-    //
-    //IEnumerator DoMelee() {
-    //    //Trigger animation
-    //    animator.SetTrigger("attack");
-
-    //    //Wait for animation
-    //    yield return new WaitForSeconds(11 / 30f);
-
-    //    //test if still in range
-    //    if (playerInRange) {
-    //        //apply damage
-    //        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-
-    //        //Remove health
-    //        if (playerHealth != null) {
-    //            playerHealth.RemoveFromHealth(damage);
-    //        }
-    //    }
-
-    //    //Wait for cooldown
-    //    yield return new WaitForSeconds(attackCoolDown);
-
-    //    //Set flag
-    //    attackReady = true;
-    //}
-    ////
-    //IEnumerator DoRanged() {
-
-    //    //Move to Idle animation 
-    //    if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
-    //        animator.CrossFade("Idle", 0f);
-    //    }
-
-    //    //Get target 
-    //    Vector3 targetPosition = player.transform.position + new Vector3(0f, 1f, 0f);
-
-    //    //look at player
-    //    agent.updateRotation = false;
-
-    //    //Snap look at the player
-    //    Vector3 direction = (targetPosition - transform.position).normalized;
-    //    direction.y = 0;
-    //    if (direction != Vector3.zero) {
-    //        Quaternion lookRotation = Quaternion.LookRotation(direction);
-    //        transform.rotation = lookRotation;
-    //    }
-
-
-    //    //Trigger animation
-    //    animator.SetTrigger("attack");
-
-    //    //Wait for animation
-    //    yield return new WaitForSeconds(11 / 30f);
-
-    //    //test if still in range
-    //    if (playerInRange) {
-
-    //        //Spawn projectile
-    //        GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
-    //        projectile.GetComponent<EnemyProjectileMover>().SetAttributes(10f, 8f, targetPosition, damage);
-    //    }
-
-    //    agent.updateRotation = true;
-
-    //    //Wait for cooldown
-    //    yield return new WaitForSeconds(attackCoolDown);
-
-    //    //Set flag
-    //    attackReady = true;
-    //}
-    ////
-    IEnumerator SetupAttack() {
-        //Move to Idle animation 
-        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
-            animator.CrossFade("Idle", 0f);
-        }
-
-        //Get target 
-        Vector3 targetPosition = player.transform.position + new Vector3(0f, 1f, 0f);
-
-        //look at player
-        agent.updateRotation = false;
-
-        //Snap look at the player
-        Vector3 direction = (targetPosition - transform.position).normalized;
-        direction.y = 0;
-        if (direction != Vector3.zero) {
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-            transform.rotation = lookRotation;
-        }
-
-        //Trigger animation
-        animator.SetTrigger("attack");
-
-        //Wait for animation
-        yield return new WaitForSeconds(11 / 30f);
-
-        if (attackType == AttackType.Melee) {
-            DoMeleeAttack();
-        }
-        else if (attackType == AttackType.Ranged) {
-            DoRangedAttack(targetPosition);
-        }
-    }
-}
-
-public enum AttackType {
-    Melee,
-    Ranged,
-    Super
+    #endregion
 }

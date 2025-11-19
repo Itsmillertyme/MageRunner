@@ -252,9 +252,15 @@ public class PlayerController : MonoBehaviour {
 
     //**UTILITY METHODS**
     void SetupJumpVariables() {
-        float timeToApex = player.MaxJumpTime / 2;
-        player.SetGravity((-2 * player.MaxJumpHeight) / Mathf.Pow(timeToApex, 2));
-        initJumpVelocity = (2 * player.MaxJumpHeight) / timeToApex;
+        if (player != null) {
+            float timeToApex = player.MaxJumpTime / 2;
+            player.SetGravity((-2 * player.MaxJumpHeight) / Mathf.Pow(timeToApex, 2));
+            initJumpVelocity = (2 * player.MaxJumpHeight) / timeToApex;
+        }
+        else {
+
+            Debug.Log("player is null");
+        }
     }
     //Wrapper for movement input callbacks
     public void OnMovementInput(InputAction.CallbackContext context) {

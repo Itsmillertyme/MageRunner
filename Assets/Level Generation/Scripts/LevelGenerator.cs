@@ -73,6 +73,11 @@ public class LevelGenerator : MonoBehaviour {
         bool generationValid = false;
 
         do {
+            //Remove NavMesh
+            navMeshSurface.RemoveData();
+            UnityEngine.AI.NavMesh.RemoveAllNavMeshData();
+            navMeshSurface.navMeshData = null;
+
             ClearLevel();
             Initialize();
 
@@ -129,6 +134,12 @@ public class LevelGenerator : MonoBehaviour {
         if (navMeshSurface != null) {
 
             if (navMeshDebug) Debug.Log("[NavMesh Creation] Building NavMesh...");
+
+            //navmesh BS
+            navMeshSurface.RemoveData();
+            UnityEngine.AI.NavMesh.RemoveAllNavMeshData();
+            navMeshSurface.navMeshData = null;
+
             navMeshSurface.BuildNavMesh();
         }
         NavMeshLinkBuilder linkBuilder = GetComponent<NavMeshLinkBuilder>();
@@ -174,10 +185,14 @@ public class LevelGenerator : MonoBehaviour {
 
             foreach (GameObject child in children) {
 #if UNITY_EDITOR
-                if (!Application.isPlaying)
+                if (!Application.isPlaying) {
+                    child.SetActive(false);
                     DestroyImmediate(child);
-                else
+                }
+                else {
+                    child.SetActive(false);
                     Destroy(child);
+                }
 #else
             Destroy(child);
 #endif
@@ -224,6 +239,7 @@ public class LevelGenerator : MonoBehaviour {
 
         //Remove NavMesh
         navMeshSurface.RemoveData();
+        navMeshSurface.navMeshData = null;
     }
 
     //Place start room at designated position
