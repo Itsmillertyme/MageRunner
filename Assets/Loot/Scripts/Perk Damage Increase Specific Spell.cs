@@ -20,11 +20,20 @@ public class PerkDamageIncreaseSpecificSpell : ItemPerk
 
     public override void ApplyModifier(Ability ability)
     {
-        Debug.Log(((Spell)ability).Damage);
-        ((Spell)ability).SetDamage((int)delta);
+        float damage = ((Spell)ability).Damage;
 
-        Debug.Log((Spell)ability);
-        Debug.Log(((Spell)ability).Damage);
+        if (damage > 0)
+        {
+            //damage *= delta;
+            // multiply then add to result. that's where if should be. 
+            // damage is int. so casting int it just multiples by zero. 
+        }
+        else if (damage < 0)
+        {
+            //float Mathf.Abs(damage *= delta);
+        }
+            ((Spell)ability).SetDamage((int)delta);
+
     }
 
     public override void RemoveModifier(Ability ability)

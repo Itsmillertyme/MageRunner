@@ -40,8 +40,6 @@ public class Item : Loot
     private void OnEnable()
     {
         SetPerkAttributes();
-        player = FindFirstObjectByType<PlayerAbilities>().PlayerSO;
-        spellBook = FindFirstObjectByType<SpellBook>();
     }
 
     public void SetItem(Rarity rarity, Sprite itemIcon, ItemPerk[] perks, float[] perksDeltas, string itemName)
@@ -51,6 +49,9 @@ public class Item : Loot
         this.perks = perks;
         this.perksDeltas = perksDeltas;
         this.itemName = itemName;
+
+        player = PlayerAbilities.Instance.PlayerSO;
+        spellBook = SpellBook.Instance;
     }
 
     private void SetPerkAttributes()
@@ -119,7 +120,7 @@ public class Item : Loot
                 perk.ApplyModifier(spellBook.AllSpells[selection]);
             }
 
-            msg += $"Added {perk.name} with delta {((PerkDamageResistance)perk).Delta}\n";
+            msg += $"Added {perk.name} with delta {((PerkDamageIncreaseSpecificSpell)perk).Delta}\n";
         }
         DeveloperScript.Instance.debug(msg, true); // DELETE PUBLIC GETTER FOR PERK DELTA
     }

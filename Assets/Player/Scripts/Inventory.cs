@@ -14,12 +14,12 @@ public class Inventory : MonoBehaviour
         items = new Item[player.InventoryCapacityMax];
     }
 
-    private void Update()
+    private void Update() // TEMP
     {
         RemoveAllPerks();
     }
 
-    public void RemoveAllPerks()
+    public void RemoveAllPerks() // TEMP
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
