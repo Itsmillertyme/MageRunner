@@ -20,11 +20,13 @@ public class PerkDamageResistance : ItemPerk
 
     public override void ApplyModifier(Ability ability)
     {
-        ((Player)ability).SetDamageResistance(delta);
+        Player player = (Player)ability;
+        player.SetDamageResistance(delta);
     }
 
     public override void RemoveModifier(Ability ability)
     {
-        ((Player)ability).SetDamageResistance(-delta);
+        Player player = (Player)ability;
+        player.SetDamageResistance(-delta);
     }
 }

@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class DeveloperScript : MonoBehaviour
@@ -40,7 +41,6 @@ public class DeveloperScript : MonoBehaviour
     public TMP_InputField consoleInputField3; // GAMEOBJECT TO FIND
     public bool debugEnabled = true;
     public bool debugHidden = false;
-    private int debugCallCounter = 0;
     public GameObject[] uiElements;
 
     [Header("Testing Data")]
@@ -195,28 +195,26 @@ public class DeveloperScript : MonoBehaviour
 
     public void debug(string message)
     {
-        debugMessage = message;
+        debugMessage = message + "--------------------------------------------------------------------------------------------------\n" + debugMessage;
         Debug.Log(debugMessage);
     }
 
     public void debug(string message, bool printToScreen)
     {
+        debugMessage = message + "--------------------------------------------------------------------------------------------------\n" + debugMessage;
         if (printToScreen)
         {
-            debugCallCounter++;
-            debugText.text = $"{message}: ({debugCallCounter})";
+            debugText.text = debugMessage;
         }
         else
         {
-            debugMessage = message;
-            Debug.Log(debugMessage);
+            debug(message);
         }
     }
 
     public void ClearDebugToScreenText()
     {
         debugText.text = "";
-        debugCallCounter = 0;
     }
 
     public void ClearConsole()

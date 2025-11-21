@@ -130,8 +130,16 @@ public class Item : Loot
         string msg = "";
         foreach (ItemPerk perk in perks)
         {
-            perk.RemoveModifier(player);
-            msg += $"Removed {perk.name} with delta {((PerkDamageResistance)perk).Delta}\n";
+            if (perk.AbilityDelta == ModifyAbility.Player)
+            {
+                perk.RemoveModifier(player);
+            }
+            else
+            {
+                int selection = UtilityTools.RandomVarianceInt(0, spellBook.AllSpells.Length - 1); // CHOOSE RANDOM SPELL TO MODIFY
+                perk.RemoveModifier(spellBook.AllSpells[selection]);
+            }
+            msg += $"Removed {perk.name} with delta {((PerkDamageIncreaseSpecificSpell)perk).Delta}\n";
         }
         DeveloperScript.Instance.debug(msg, true); // DELETE PUBLIC GETTER FOR PERK DELTA
     }

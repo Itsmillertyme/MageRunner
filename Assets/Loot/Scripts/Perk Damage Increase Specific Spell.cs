@@ -20,7 +20,9 @@ public class PerkDamageIncreaseSpecificSpell : ItemPerk
 
     public override void ApplyModifier(Ability ability)
     {
-        float damage = ((Spell)ability).Damage;
+        Spell spellDelta = (Spell)ability;
+        int deltaAsInt = (int)delta;
+        float damage = spellDelta.Damage;
 
         if (damage > 0)
         {
@@ -32,12 +34,14 @@ public class PerkDamageIncreaseSpecificSpell : ItemPerk
         {
             //float Mathf.Abs(damage *= delta);
         }
-            ((Spell)ability).SetDamage((int)delta);
+        spellDelta.SetDamage(deltaAsInt);
 
     }
 
     public override void RemoveModifier(Ability ability)
     {
-        ((Spell)ability).SetDamage((int)-delta);
+        Spell spellDelta = (Spell)ability;
+        int deltaAsInt = (int)delta;
+        spellDelta.SetDamage(-deltaAsInt);
     }
 }
