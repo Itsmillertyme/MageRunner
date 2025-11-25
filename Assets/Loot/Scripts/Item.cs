@@ -20,7 +20,6 @@ public class Item : Loot
     [SerializeField] private ItemPerk[] itemPerkPool;
     [Header("UI")]
     [SerializeField] private Sprite itemIcon;
-    [SerializeField] private float iconShowDelay;
     [SerializeField] private string itemName;
 
     [SerializeField] private ItemPerk[] perks;
@@ -33,8 +32,6 @@ public class Item : Loot
     public Rarity Rarity => rarity;
     public Sprite ItemIcon => itemIcon;
     public ItemPerk[] Perks => perks;
-    public float[] PerksDeltas => perksDeltas;
-    public float IconShowDelay => iconShowDelay;
     public string ItemName => itemName;
 
     private void OnEnable()
@@ -42,13 +39,13 @@ public class Item : Loot
         SetPerkAttributes();
     }
 
-    public void SetItem(Rarity rarity, Sprite itemIcon, ItemPerk[] perks, float[] perksDeltas, string itemName)
+    public void SetItem(Item item)
     {
-        this.rarity = rarity;
-        this.itemIcon = itemIcon;
-        this.perks = perks;
-        this.perksDeltas = perksDeltas;
-        this.itemName = itemName;
+        this.rarity = item.Rarity;
+        this.itemIcon = item.ItemIcon;
+        this.perks = item.perks;
+        this.perksDeltas = item.perksDeltas;
+        this.itemName = item.itemName;
 
         player = PlayerAbilities.Instance.PlayerSO;
         spellBook = SpellBook.Instance;
@@ -86,18 +83,18 @@ public class Item : Loot
         perks = new ItemPerk[perkCount];
         perksDeltas = new float[perkCount];
 
-        // ITEM 1
+        // PERK SELECTION
         for (int i = 0; i < perks.Length; i++)
         {
             int selection = Random.Range(0, itemPerkPool.Length);
             perks[i] = Instantiate(itemPerkPool[selection]);
         }
 
-        // ITEM 2
+        // PERK DELTA SELECTION
         float halfDelta = maxPerkDelta / 2;
         for (int i = 0; i < perks.Length; i++)
         {
-            float variance = UtilityTools.RandomVarianceFloat(-halfDelta, 0);
+            float variance = UtilityTools.RandomVarianceFloat(-halfDelta, 0, 4);
             int sign = UtilityTools.RandomVarianceInt(0, 1);  // SET SIGN VALUE. 0 FOR POSITIVE, 1 FOR NEGATIVE.
             float finalValue = maxPerkDelta + variance;
             perksDeltas[i] = (sign == 1) ? -finalValue : finalValue;
@@ -107,7 +104,6 @@ public class Item : Loot
 
     public void ApplyPerks()
     {
-        string msg = "";
         foreach (ItemPerk perk in perks)
         {
             if (perk.AbilityDelta == ModifyAbility.Player)
@@ -117,17 +113,15 @@ public class Item : Loot
             else 
             {
                 int selection = UtilityTools.RandomVarianceInt(0, spellBook.AllSpells.Length - 1); // CHOOSE RANDOM SPELL TO MODIFY
+
+                DeveloperScript.Instance.debug($"{spellBook.AllSpells[selection]}", true);
                 perk.ApplyModifier(spellBook.AllSpells[selection]);
             }
-
-            msg += $"Added {perk.name} with delta {((PerkDamageIncreaseSpecificSpell)perk).Delta}\n";
         }
-        DeveloperScript.Instance.debug(msg, true); // DELETE PUBLIC GETTER FOR PERK DELTA
     }
 
     public void RemovePerks()
     {
-        string msg = "";
         foreach (ItemPerk perk in perks)
         {
             if (perk.AbilityDelta == ModifyAbility.Player)
@@ -139,9 +133,7 @@ public class Item : Loot
                 int selection = UtilityTools.RandomVarianceInt(0, spellBook.AllSpells.Length - 1); // CHOOSE RANDOM SPELL TO MODIFY
                 perk.RemoveModifier(spellBook.AllSpells[selection]);
             }
-            msg += $"Removed {perk.name} with delta {((PerkDamageIncreaseSpecificSpell)perk).Delta}\n";
         }
-        DeveloperScript.Instance.debug(msg, true); // DELETE PUBLIC GETTER FOR PERK DELTA
     }
 }
 

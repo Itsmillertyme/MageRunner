@@ -6,14 +6,16 @@ public class ItemBehavior : LootBehavior
     private Item item;
     [SerializeField] private GameObject stationaryEffect;
     [SerializeField] private GameObject lootIconPopup;
-    [SerializeField] private GameObject lootMenuPopup;
     private bool isPlayerInRange = false;
     private bool isLootMenuActive = false;
+    [SerializeField] private GameEventGameObject updateItemDropUI;
+
+    public Item GetItem => item;
 
     public override void Awake() // BASE AWAKE GETS RB AND COLLIDER. THEN FLINGS LOOT AND SETS DISAPPEAR AFTER TIME. 
     {
         item = Instantiate(loot as Item);
-        item.ChooseRandomPerks();   
+        item.ChooseRandomPerks();
         base.Awake();
     }
 
@@ -21,9 +23,9 @@ public class ItemBehavior : LootBehavior
     {
         if (isPlayerInRange && Input.GetKeyDown(KeyCode.M)) // GET IUNTERACT BUTTON INPUT HERE
         {
+            updateItemDropUI.Raise(this.gameObject);
             isLootMenuActive = !isLootMenuActive;
             lootIconPopup.SetActive(!isLootMenuActive);
-            lootMenuPopup.SetActive(isLootMenuActive);
         }
     }
 
@@ -43,7 +45,6 @@ public class ItemBehavior : LootBehavior
 
             // ENABLE STATIONARY VFX AND INTERACT ICON
             stationaryEffect.SetActive(true);
-            StartCoroutine(ShowLootIconAfterDelay());
         }
     }
 
@@ -53,11 +54,10 @@ public class ItemBehavior : LootBehavior
         {
             isPlayerInRange = false; // SET FLAG FOR IS OUT OF RANGE
 
-            if (lootMenuPopup.activeSelf) // CLOSE MENU IF OPEN AND EXITING
+            if (lootIconPopup.activeSelf) // CLOSE MENU IF OPEN AND EXITING
             {
-                lootIconPopup.SetActive(true);
-                lootMenuPopup.SetActive(false);
-                isLootMenuActive = true;
+                lootIconPopup.SetActive(false);
+                isLootMenuActive = false;
             }
         }
     }
@@ -75,17 +75,5 @@ public class ItemBehavior : LootBehavior
         Vector3 spin = Vector3.zero;
 
         return (up, outward, spin);
-    }
-
-    private IEnumerator ShowLootIconAfterDelay()
-    {
-        yield return new WaitForSeconds(item.IconShowDelay);
-        lootIconPopup.SetActive(true);
-    }
-
-    public ItemInventoryData GetItemInventoryData()
-    {
-        ItemInventoryData data = new(item.Rarity, item.ItemIcon, item.Perks, item.PerksDeltas, item.ItemName);
-        return data;
     }
 }

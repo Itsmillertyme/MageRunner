@@ -150,15 +150,9 @@ public class LootSystem : MonoBehaviour
         return null;
     }
 
-    private void SpawnLoot(Loot loot, Vector3 position) {
-        GameObject lootInstance = Instantiate(loot.LootDrop, position, Quaternion.identity);
-
-        ////Setup loot UI
-        //if (loot is Item item)
-        //{
-        //    ItemUIController itemUI = lootInstance.GetComponentInChildren<ItemUIController>();
-        //    itemUI.Initialize(item.Rarity, item.ItemName, item.ItemIcon, "buff text", "debuff text");
-        //}
+    private void SpawnLoot(Loot loot, Vector3 position)
+    {
+        Instantiate(loot.LootDrop, position, Quaternion.identity);
     }
 
     public void SpawnNonRandomLoot(Loot loot, Vector3 position)
