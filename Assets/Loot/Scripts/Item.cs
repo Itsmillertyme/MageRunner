@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Item : Loot
 {
-    [Header("Unique Attributes")]
+    [Header("Item Generation Values")]
     [SerializeField] private Rarity rarity;
     private readonly int perkCountLegendary = 3;
     private readonly int perkCountExotic = 2;
@@ -18,9 +18,10 @@ public class Item : Loot
     private readonly float perkMaxValueCommon = 0.025f;
 
     [SerializeField] private ItemPerk[] itemPerkPool;
+    [SerializeField] private Sprite[] iconPool;
     [Header("UI")]
-    [SerializeField] private Sprite itemIcon;
-    [SerializeField] private string itemName;
+    [SerializeField] private Sprite itemIcon; // make this be randomly selected from icon pool
+    [SerializeField] private string itemName; // set item name to be the name of the sprite icon plus a modifier for the greatest valued stat. 
 
     [SerializeField] private ItemPerk[] perks;
     private float[] perksDeltas;

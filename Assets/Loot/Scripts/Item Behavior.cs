@@ -9,6 +9,7 @@ public class ItemBehavior : LootBehavior
     private bool isPlayerInRange = false;
     private bool isLootMenuActive = false;
     [SerializeField] private GameEventGameObject updateItemDropUI;
+    private LootItemMenuController lootMenuController;
 
     public Item GetItem => item;
 
@@ -16,6 +17,7 @@ public class ItemBehavior : LootBehavior
     {
         item = Instantiate(loot as Item);
         item.ChooseRandomPerks();
+        lootMenuController = FindFirstObjectByType<LootItemMenuController>();
         base.Awake();
     }
 
@@ -23,6 +25,11 @@ public class ItemBehavior : LootBehavior
     {
         if (isPlayerInRange && Input.GetKeyDown(KeyCode.M)) // GET IUNTERACT BUTTON INPUT HERE
         {
+            
+            if (lootMenuController.IsMenuActive) // PREVENT OVERLAPPING ITEMS FROM BOTH INVOKING THE MENU INTERACT
+            {
+                return;
+            }
             updateItemDropUI.Raise(this.gameObject);
             isLootMenuActive = !isLootMenuActive;
             lootIconPopup.SetActive(!isLootMenuActive);
