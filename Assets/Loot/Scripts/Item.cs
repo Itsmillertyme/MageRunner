@@ -20,10 +20,10 @@ public class Item : Loot
     [SerializeField] private ItemPerk[] itemPerkPool;
     [SerializeField] private Sprite[] iconPool;
     [Header("UI")]
-    [SerializeField] private Sprite itemIcon; // make this be randomly selected from icon pool
-    [SerializeField] private string itemName; // set item name to be the name of the sprite icon plus a modifier for the greatest valued stat. 
+    private Sprite itemIcon;
+    private string itemName;
 
-    [SerializeField] private ItemPerk[] perks;
+    private ItemPerk[] perks;
     private float[] perksDeltas;
     private Player player;
     private SpellBook spellBook;
@@ -79,7 +79,7 @@ public class Item : Loot
         }
     }
         
-    public void ChooseRandomPerks()
+    public void Initialize() // CHOOSE PERKS, PERK DELTAS (MODIFIER VALUES), UI ELEMENTS
     {
         perks = new ItemPerk[perkCount];
         perksDeltas = new float[perkCount];
@@ -87,20 +87,36 @@ public class Item : Loot
         // PERK SELECTION
         for (int i = 0; i < perks.Length; i++)
         {
-            int selection = Random.Range(0, itemPerkPool.Length);
-            perks[i] = Instantiate(itemPerkPool[selection]);
+            int perkSelection = Random.Range(0, itemPerkPool.Length);
+            perks[i] = Instantiate(itemPerkPool[perkSelection]);
         }
 
         // PERK DELTA SELECTION
         float halfDelta = maxPerkDelta / 2;
+        int greatestDelta = int.MinValue;
         for (int i = 0; i < perks.Length; i++)
         {
             float variance = UtilityTools.RandomVarianceFloat(-halfDelta, 0, 4);
             int sign = UtilityTools.RandomVarianceInt(0, 1);  // SET SIGN VALUE. 0 FOR POSITIVE, 1 FOR NEGATIVE.
             float finalValue = maxPerkDelta + variance;
-            perksDeltas[i] = (sign == 1) ? -finalValue : finalValue;
+            perksDeltas[i] = (sign == 1) ? -finalValue : finalValue; // 0 FOR POSITIVE, 1 FOR NEGATIVE.
             perks[i].SetDelta(perksDeltas[i]);
+
+            // STORE THE INDEX OF LARGEST DELTA VALUE FOR ITEM NAMING
+            if (perksDeltas[i] > greatestDelta)
+            {
+                greatestDelta = i;
+            }
         }
+
+        // ICON SELECTION
+        int iconSelection = UtilityTools.RandomVarianceInt(0, iconPool.Length - 1);
+        itemIcon = iconPool[iconSelection];
+
+        // NAME SELECTION
+        string descriptor = "";
+        descriptor += ItemNames.GetItemName(perks[greatestDelta]); // GET THE HIGHEST VALUED PERK ON THIS ITEM
+        itemName = $"{descriptor} {SpriteNameToFormattedString(itemIcon)}"; // NAME = PERKS ASSOCIATED ADJECTIVE + ICON FILENAME
     }
 
     public void ApplyPerks()
@@ -135,6 +151,18 @@ public class Item : Loot
                 perk.RemoveModifier(spellBook.AllSpells[selection]);
             }
         }
+    }
+
+    private string SpriteNameToFormattedString(Sprite sprite)
+    {
+        string name = sprite.name;
+        int end = name.Length;
+        while (end > 0 && char.IsDigit(name[end - 1]))
+        {
+            end--;
+        }
+
+        return name.Substring(0, end);
     }
 }
 

@@ -60,6 +60,9 @@ public class LootItemMenuController : MonoBehaviour
                 case PerkDamageResistance perk:
                     textContents += $"{perk.ItemName}: {perk.GetPerkDeltaRounded()}%\n";
                     break;
+                case PerkHealthBoost perk:
+                    textContents += $"{perk.ItemName}: {perk.GetPerkDeltaRounded()}%\n";
+                    break;
             }
         }
         return textContents;

@@ -16,7 +16,7 @@ public class ItemBehavior : LootBehavior
     public override void Awake() // BASE AWAKE GETS RB AND COLLIDER. THEN FLINGS LOOT AND SETS DISAPPEAR AFTER TIME. 
     {
         item = Instantiate(loot as Item);
-        item.ChooseRandomPerks();
+        item.Initialize();
         lootMenuController = FindFirstObjectByType<LootItemMenuController>();
         base.Awake();
     }

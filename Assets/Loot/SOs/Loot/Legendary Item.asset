@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56bd6a838c9b7114c83341cfd947d170, type: 3}
+  m_Name: Legendary Item
+  m_EditorClassIdentifier: 
+  dropChance: 100
+  lifeSpan: 60
+  lootDrop: {fileID: 3016832193347112936, guid: 8e229d386bc4230439ff49fcdc5cf9be, type: 3}
+  rarity: 0
+  itemPerkPool:
+  - {fileID: 11400000, guid: 6fdf0f40dce6e4145af35e7b7886bc5f, type: 2}
+  - {fileID: 11400000, guid: 7bdc8d79dc4c4634e9837d50f645636e, type: 2}
+  iconPool:
+  - {fileID: 21300000, guid: c9743815f7d2cbf4690f6c9cc2f4230d, type: 3}
+  - {fileID: 21300000, guid: d7b90804e9b630f4497d40c2c8a4e669, type: 3}
+  - {fileID: 21300000, guid: 8edcc399c7241754d970a7ebbfc6c71c, type: 3}
+  - {fileID: 21300000, guid: 1c3f12f22796a7e4894448554eaad785, type: 3}
+  - {fileID: 21300000, guid: 937df5960c125cf429233b21ba257310, type: 3}
+  - {fileID: 21300000, guid: fd6ee610353aa884da33ab28f376d6d8, type: 3}
+  - {fileID: 21300000, guid: 29819468db9ff1d4daffdd7e81e9b12d, type: 3}
+  - {fileID: 21300000, guid: 624a436a688f38441b84d1c566468d16, type: 3}
+  - {fileID: 21300000, guid: 9896f3648a2c9474590bf859f7213f82, type: 3}
+  - {fileID: 21300000, guid: 9f88cad9fdebfb04981ba156fc4a9680, type: 3}
+  - {fileID: 21300000, guid: 890e9fdc31a79cf4bbf494be638ba99f, type: 3}
+  - {fileID: 21300000, guid: f4b39c1a875b4574b93754b25c76aac3, type: 3}
+  - {fileID: 21300000, guid: 0a69c654b1e0eb443aa8d013314982a0, type: 3}
+  - {fileID: 21300000, guid: b12d8a3d68d671642893102e01368285, type: 3}
+  - {fileID: 21300000, guid: 08ef2ed20444ae74894e870db1f5a405, type: 3}
+  - {fileID: 21300000, guid: df947feff49d639468cc20cd6433f008, type: 3}
+  - {fileID: 21300000, guid: d23a01e5d224e8244b7f95477785aa9a, type: 3}
+  - {fileID: 21300000, guid: 9edaa5aa4d6ef8141bb1dec5dbec9e7b, type: 3}
+  - {fileID: 21300000, guid: 98f77e23ff543294685c8a05ec3cb187, type: 3}
+  - {fileID: 21300000, guid: d9af5b4a53cab1f42a98f5bd5ed0bbbc, type: 3}
+  itemIcon: {fileID: 21300000, guid: f02d0ab4fc14be74ab1f48816f67880f, type: 3}
+  itemName: Test Item
+  perks: []
