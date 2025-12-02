@@ -22,12 +22,14 @@ public class EnemyProfile : ScriptableObject {
     public bool use2DFlipFacing = true;
 
     [Header("Combat Settings")]
+    public Vector3 visionOriginOffset;
     public AttackType attackType = AttackType.Melee;
     public float baseAttackCooldown = 1.5f;
-    public float attackRadius = 1.5f;
     public int damage = 10;
 
     [Header("Melee Settings")]
+    [Tooltip("Range that can be attack within")]
+    public float attackRadius = 1.5f;
     [Tooltip("Delay before the hit is registered after attack begins.")]
     public float windUpTime = 0.35f;
     [Tooltip("Delay after hit before next action can occur.")]
@@ -45,6 +47,7 @@ public class EnemyProfile : ScriptableObject {
 
 public enum AttackType {
     Melee,
+    CritMelee,
     Ranged,
     Super
 }

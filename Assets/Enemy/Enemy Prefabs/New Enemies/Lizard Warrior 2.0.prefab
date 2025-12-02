@@ -1386,7 +1386,7 @@ Transform:
   - {fileID: 221388589636729421}
   - {fileID: 4545638534948675739}
   - {fileID: 8758801244473712501}
-  m_Father: {fileID: 1453435132482975923}
+  m_Father: {fileID: 8283563567565364091}
   m_LocalEulerAnglesHint: {x: 1.572, y: 104.875, z: -43.749}
 --- !u!1 &4519700954973597377
 GameObject:
@@ -1482,39 +1482,6 @@ Transform:
   m_Children:
   - {fileID: 1635634445863010661}
   m_Father: {fileID: 221388589636729421}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &4830195931015146453
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1453435132482975923}
-  m_Layer: 0
-  m_Name: Visual
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1453435132482975923
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4830195931015146453}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2234243387828001921}
-  - {fileID: 2228611413252667071}
-  m_Father: {fileID: 8283563567565364091}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4870852014996565808
 GameObject:
@@ -1620,7 +1587,8 @@ Transform:
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1453435132482975923}
+  - {fileID: 2234243387828001921}
+  - {fileID: 2228611413252667071}
   - {fileID: 7401443006962749587}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1655,7 +1623,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 5222568307164741218}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 1
+  m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -1751,6 +1719,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   guardPosition: {x: 0, y: 0, z: 0}
+  aiDebugMode: 0
+  spawningDebugMode: 0
 --- !u!114 &1006346967639313140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1766,6 +1736,7 @@ MonoBehaviour:
   animator: {fileID: 3866374669595005183}
   agent: {fileID: 2514231345462617117}
   projectileSpawnPoint: {fileID: 8758801244473712501}
+  modelTransform: {fileID: 2234243387828001921}
 --- !u!114 &8908848872913208235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2374,7 +2345,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1453435132482975923}
+  m_Father: {fileID: 8283563567565364091}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!137 &8247740384343763809
 SkinnedMeshRenderer:

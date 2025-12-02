@@ -12,15 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2045b7215aced4c4686b4dab3e2a123c, type: 3}
   m_Name: Abyssal Fang
   m_EditorClassIdentifier: 
+  currentLevel: 9
+  maxLevel: 9
+  currentXP: 1000
+  baseLevelValue: 100
+  levelingScalar: 1.7
   name: Abyssal Fang
-  description: 
-  loreText: 
-  currentMana: 981
+  currentMana: 48
   maxMana: 50
   damage: 500
   lifeSpan: 1
   castDelayTime: 11
-  castCooldownTime: 0.5
+  castCooldownTime: 2
   moveSpeed: 20
   projectileSize: {x: 0.75, y: 1, z: 0.75}
   destroyOnEnemyImpact: 1
@@ -28,11 +31,6 @@ MonoBehaviour:
   damageOverTime: 0
   canMoveDuringCast: 1
   canJumpDuringCast: 0
-  currentLevel: 9
-  maxLevel: 9
-  currentXP: 5400
-  baseLevelValue: 100
-  levelingScalar: 1.7
   projectile: {fileID: 5685377436292771932, guid: ae3ed7fd0b25522409d3baf333af4720, type: 3}
   spawnSFX: {fileID: 8300000, guid: f5e870bcbf26ca04d8159c5faaad6a84, type: 3}
   spawnSFXVolume: 1

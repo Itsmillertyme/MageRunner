@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aggroRadius: 12
   leashRadius: 20
-  meleeMinRange: 1.5
-  meleeIdealRange: 2.5
-  meleeMaxRange: 3.5
+  attackMinRange: 1.5
+  attackIdealRange: 2.5
+  attackMaxRange: 3.5
   moveSpeed: 3.5
   angularSpeed: 360
   use2DFlipFacing: 0
   attackType: 0
   baseAttackCooldown: 1.5
-  attackRadius: 1.5
+  attackRadius: 3.5
   damage: 10
   windUpTime: 0.3666667
   recoveryTime: 0.6666667

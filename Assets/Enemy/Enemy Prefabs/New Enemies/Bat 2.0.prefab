@@ -1383,7 +1383,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 5122791751604650877}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -1493,6 +1493,7 @@ MonoBehaviour:
   animator: {fileID: 5122791751595274401}
   agent: {fileID: 8691484778193208}
   projectileSpawnPoint: {fileID: 5196020918248084461}
+  modelTransform: {fileID: 5122791751604887363}
 --- !u!114 &8376772816428715790
 MonoBehaviour:
   m_ObjectHideFlags: 0

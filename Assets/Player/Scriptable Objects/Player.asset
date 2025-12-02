@@ -22,10 +22,10 @@ MonoBehaviour:
   movementSpeed: 6
   sprintMultiplier: 1.5
   dodgeForce: 10
-  gravity: -21.333334
+  gravity: -20
   currentCapacity: 1
   maxCapacity: 5
-  currentHealth: 100
+  currentHealth: 49870
   maxHealth: 100
   healthRegenAmount: 1
   healthRegenFrequency: 3

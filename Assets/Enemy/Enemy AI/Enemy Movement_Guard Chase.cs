@@ -5,12 +5,13 @@ public class EnemyMovement_GuardChase : MonoBehaviour, IEnemyMovementBehaviour {
     #region Variables
     [Header("Guard Settings")]
     [SerializeField] Vector3 guardPosition;
+    [SerializeField] bool aiDebugMode;
+    [SerializeField] bool spawningDebugMode;
 
     NavMeshAgent agent;
     Animator animator;
     bool initialized;
-    bool aiDebugMode;
-    bool spawningDebugMode;
+
     EnemyProfile profile;
     #endregion
 
@@ -23,7 +24,7 @@ public class EnemyMovement_GuardChase : MonoBehaviour, IEnemyMovementBehaviour {
         if (animator == null) animator = GetComponentInChildren<Animator>();
 
         // Get guard position
-        Vector3 desiredGuard = new Vector3(roomDataIn.PathNode.position.x, roomDataIn.PathNode.position.y, -2.5f);
+        Vector3 desiredGuard = transform.position;
 
         // Snap to nearest NavMesh position
         if (NavMesh.SamplePosition(desiredGuard, out NavMeshHit hit, 10f, NavMesh.AllAreas))
@@ -35,7 +36,7 @@ public class EnemyMovement_GuardChase : MonoBehaviour, IEnemyMovementBehaviour {
     }
 
     public void Tick(EnemyContext context) {
-        if (!initialized || context.agent == null) return;
+        if (!initialized || context.agent == null || context.state == EnemyState.Dead) return;
 
         //Get context references this tick
         profile = context.profile;

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: 01Castle_Enemies
   m_EditorClassIdentifier: 
   mobEnemies:
-  - prefab: {fileID: 6969136263848371978, guid: a17289acd0504fb4788d7a4dbf212cb0, type: 3}
+  - prefab: {fileID: 3765518717825326571, guid: 501cceff7b5550648b3f2e52a601d4c7, type: 3}
     weight: 100
-  - prefab: {fileID: 5122791751604650877, guid: e7dfb937331f6ac4989a508c0b1b46bb, type: 3}
-    weight: 1
-  - prefab: {fileID: 5222568307164741218, guid: 850d409caddb8e34f927b7b0ed8f15d5, type: 3}
-    weight: 1
-  bossPrefab: {fileID: 1802286859466036053, guid: 5c919a7942b487745ac37058fe3e8b6c, type: 3}
+  - prefab: {fileID: 7783689679491805921, guid: ca9657f047ce7b144a272407c53d74ff, type: 3}
+    weight: 100
+  - prefab: {fileID: 8143127869115323741, guid: f916c6411d27e6f42b7d069e28c87ff4, type: 3}
+    weight: 100
+  bossPrefab: {fileID: 3765518717825326571, guid: 501cceff7b5550648b3f2e52a601d4c7, type: 3}

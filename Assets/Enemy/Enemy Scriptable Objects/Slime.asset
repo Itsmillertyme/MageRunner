@@ -22,7 +22,7 @@ MonoBehaviour:
   use2DFlipFacing: 0
   attackType: 0
   baseAttackCooldown: 1.25
-  attackRadius: 1
+  attackRadius: 3.5
   damage: 5
   windUpTime: 0.5833333
   recoveryTime: 0.4166667

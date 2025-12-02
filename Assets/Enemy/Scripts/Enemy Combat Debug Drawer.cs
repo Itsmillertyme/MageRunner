@@ -19,7 +19,9 @@ public class EnemyCombatDebugDrawer : MonoBehaviour {
         if (profile == null || !profile.showCombatGizmos) return;
 
         // center for all spheres
-        Vector3 center = transform.position + transform.forward * (profile.attackRadius * 0.75f) + Vector3.up;
+        //Vector3 center = transform.position + transform.forward * (profile.attackRadius * 0.75f) + Vector3.up;
+        Vector3 center = profile.visionOriginOffset != null ? profile.visionOriginOffset : transform.position + Vector3.up + Vector3.forward;
+        center += transform.position;
 
         // ----- LEASH RADIUS -----
         Gizmos.color = leashRadiusColor;

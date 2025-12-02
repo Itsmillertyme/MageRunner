@@ -91,7 +91,7 @@ public class EnemyBrain : MonoBehaviour, IBehave {
     }
     #endregion
 
-    #region Utility Methods
+    #region Interface Methods
     public void Initialize(RoomData roomDataIn, bool spawningDebugMode = false, bool aiDebugMode = false) {
 
         if (initialized) return;
@@ -115,13 +115,21 @@ public class EnemyBrain : MonoBehaviour, IBehave {
 
         initialized = true;
     }
+    #endregion
 
+    #region Utility Methods    
     void UpdateState(float distToPlayer) {
         // Radius checks
 
         // Outside leash radius
         if (distToPlayer > profile.leashRadius) {
-            currentState = EnemyState.Return;
+            //test if arrived
+            if (HasArrived(agent)) {
+                currentState = EnemyState.Idle;
+            }
+            else {
+                currentState = EnemyState.Return;
+            }
             return;
         }
 
@@ -163,6 +171,23 @@ public class EnemyBrain : MonoBehaviour, IBehave {
             scale.x = -Mathf.Abs(scale.x);
             transform.localScale = scale;
         }
+    }
+
+    bool HasArrived(NavMeshAgent agent) {
+        if (agent.pathPending)
+            return false;
+
+        if (agent.remainingDistance > agent.stoppingDistance)
+            return false;
+
+        if (agent.hasPath && agent.velocity.sqrMagnitude != 0f)
+            return false;
+
+        return true;
+    }
+
+    public void SetStateDead() {
+        currentState = EnemyState.Dead;
     }
     #endregion
 }

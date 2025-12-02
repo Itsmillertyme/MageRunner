@@ -1,7 +1,5 @@
 using UnityEngine;
 
-
-
 [RequireComponent(typeof(Animator))]
 public class EnemyDie : MonoBehaviour {
     // DELETE THE BOSS SCRIPT, tack this one onto boss prefab, and set up a listener for boss death to do load screen stuff
@@ -21,8 +19,10 @@ public class EnemyDie : MonoBehaviour {
     public void Die() {
         //play death animation
         if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
-            animator.CrossFade("Idle", 0.01f);
+            animator.CrossFade("Idle", 0.0f);
         }
+
+        animator.SetBool("isWalking", false);
         animator.SetTrigger("die");
 
         //Turn off collider

@@ -30,6 +30,11 @@ public class EnemyHealth : MonoBehaviour {
             // call new death script here and move following logic there
             levelingSystem.AddXP(xpGrantedOnDeath);
             lootSystem.SelectThenDropLoot(transform.position);
+
+            //tell brain
+            GetComponent<EnemyBrain>().SetStateDead();
+
+            //do the die
             EnemyDie enemyDie = GetComponent<EnemyDie>();
             enemyDie.Die();
         }

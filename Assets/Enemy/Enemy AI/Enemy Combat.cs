@@ -9,6 +9,7 @@ public class EnemyCombat : MonoBehaviour, IEnemyCombatBehaviour {
     [SerializeField] Animator animator;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Transform projectileSpawnPoint;
+    [SerializeField] Transform modelTransform;
 
     bool initialized;
     bool attackReady = true;
@@ -36,7 +37,7 @@ public class EnemyCombat : MonoBehaviour, IEnemyCombatBehaviour {
     }
 
     public void Tick(EnemyContext context) {
-        if (!initialized || isAttacking) return;
+        if (!initialized || isAttacking || context.state == EnemyState.Dead) return;
 
         // Get context this tick
         profile = context.profile;
@@ -46,6 +47,8 @@ public class EnemyCombat : MonoBehaviour, IEnemyCombatBehaviour {
         if (profile == null || player == null) return;
 
         float cooldown = Mathf.Max(0.1f, profile.baseAttackCooldown);
+
+        UpdateRotation(context);
 
         // Only attack while in Combat state
         if (context.state == EnemyState.Combat && attackReady) {
@@ -98,13 +101,15 @@ public class EnemyCombat : MonoBehaviour, IEnemyCombatBehaviour {
     void DoMeleeAttack() {
         if (player == null) return;
 
-        Vector3 center = transform.position + transform.forward * (profile.attackRadius * 0.75f) + Vector3.up;
+        //Vector3 center = transform.position + transform.forward * (profile.attackRadius * 0.75f) + Vector3.up;
+        Vector3 center = profile.visionOriginOffset != null ? profile.visionOriginOffset : transform.position + Vector3.up + Vector3.forward;
+        center += transform.position;
         Collider[] hits = Physics.OverlapSphere(center, profile.attackRadius, LayerMask.GetMask("Player"));
 
         foreach (var hit in hits) {
-            PlayerAbilities ph = hit.GetComponent<PlayerAbilities>();
-            if (ph != null) {
-                ph.RemoveFromHealth(profile.damage);
+            PlayerAbilities pa = hit.GetComponent<PlayerAbilities>();
+            if (pa != null) {
+                pa.RemoveFromHealth(profile.damage);
                 if (aiDebugMode)
                     Debug.Log($"[EnemyCombat] {name} hit {hit.name} for {profile.damage} damage.");
             }
@@ -126,6 +131,41 @@ public class EnemyCombat : MonoBehaviour, IEnemyCombatBehaviour {
 
         if (aiDebugMode)
             Debug.Log($"[EnemyCombat] {name} fired projectile toward {targetPos}");
+    }
+    #endregion
+
+    #region Utility Methods
+    void UpdateRotation(EnemyContext context) {
+        Transform player = context.player;
+        NavMeshAgent agent = context.agent;
+
+        // Face player
+        if (context.state == EnemyState.Combat ||
+            context.state == EnemyState.Chase ||
+            context.state == EnemyState.BackOff) {
+            if (player != null) {
+                Vector3 dir = player.position - modelTransform.position;
+                dir.y = 0f;
+
+                if (dir.sqrMagnitude > 0.001f)
+                    modelTransform.rotation = Quaternion.LookRotation(dir);
+            }
+            return;
+        }
+
+        if (context.state == EnemyState.Return) {
+            Vector3 dir = agent.destination - modelTransform.position;
+            dir.y = 0f;
+
+            if (dir.sqrMagnitude > 0.001f)
+                modelTransform.rotation = Quaternion.LookRotation(dir);
+            return;
+        }
+
+        if (context.state == EnemyState.Idle) {
+            modelTransform.rotation = Quaternion.LookRotation(Vector3.back);
+            return;
+        }
     }
     #endregion
 }

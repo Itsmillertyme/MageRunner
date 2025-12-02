@@ -90,8 +90,8 @@ public class EnemyMovement_PortalPatrol : MonoBehaviour, IEnemyMovementBehaviour
 
         if (dist <= waypointReachThreshold) {
             currentWaypointIndex = (currentWaypointIndex + 1) % patrolPoints.Count;
-            agent.SetDestination(patrolPoints[currentWaypointIndex]);
         }
+        agent.SetDestination(patrolPoints[currentWaypointIndex]);
     }
 
     void HandleChase(EnemyContext context) {
@@ -124,12 +124,12 @@ public class EnemyMovement_PortalPatrol : MonoBehaviour, IEnemyMovementBehaviour
         if (context.player == null) return;
 
         Vector3 away = (transform.position - context.player.position).normalized;
-        Vector3 retreatTarget = transform.position + away * 2f;
+        Vector3 retreatTarget = transform.position + away * 5f;
         agent.SetDestination(retreatTarget);
     }
 
     void HandleReturn(EnemyContext context) {
-        // Simply resume patrol
+        // Resume patrol
         HandlePatrolTraversal();
     }
 
