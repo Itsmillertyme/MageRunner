@@ -1,38 +1,24 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Upgrades/Item Perks/Damage Resistance")]
-
-public class PerkDamageResistance : ItemPerk
+[CreateAssetMenu(menuName = "Upgrades/Item Perks/Perk Health Boost")]
+public class PerkHealthBoost : ItemPerk
 {
     private float delta;
-    private float playerAppliedResistance;
-
-    //public float Delta => delta;
+    private float playerAppliedBoost;
 
     private void OnEnable()
     {
         abilityDelta = ModifyAbility.Player;
-        perkName = "Damage Resistance";
-    }
-
-    public override void SetDelta(float delta)
-    {
-        this.delta = delta;
+        perkName = "Healing Efficieny";
     }
 
     public override void ApplyModifier(Ability ability)
     {
         Player player = ability as Player;
-        float resistance = delta;
-        resistance *= player.DamageResistance;
-        player.SetDamageResistance(resistance);
-        playerAppliedResistance = resistance;
-    }
-
-    public override void RemoveModifier(Ability ability)
-    {
-        Player player = ability as Player;
-        player.SetDamageResistance(-playerAppliedResistance);
+        float boost = delta;
+        boost *= player.HealingEfficiency;
+        player.SetHealingEfficiency(boost);
+        playerAppliedBoost = boost;
     }
 
     public override string GetPerkDeltaRounded()
@@ -51,5 +37,16 @@ public class PerkDamageResistance : ItemPerk
             string formattedText = $"<color=red>{sign}{formatted:F2}</color>";
             return formattedText;
         }
+    }
+
+    public override void RemoveModifier(Ability ability)
+    {
+        Player player = ability as Player;
+        player.SetHealingEfficiency(-playerAppliedBoost);
+    }
+
+    public override void SetDelta(float delta)
+    {
+        this.delta = delta;
     }
 }

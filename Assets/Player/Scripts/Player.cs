@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Animations;
 
 [CreateAssetMenu(menuName = "Player/Player")]
 
@@ -79,12 +80,12 @@ public class Player : Ability {
     public void IncreaseInventoryCapacity() => maxCapacity++;
 
     public void Heal(int value) {
-        int adjustedValue = value + (int) healingEfficiency * value;
+        int adjustedValue = value + (int) healingEfficiency * value; // LOOK INTO THESE. PROBS ALREADY SWITCHING TO INT. NO NEED TO CAST IF SO
         currentHealth += adjustedValue;
     }
 
     public void TakeDamage(int value) {
-        int adjustedValue = value - (int) damageResistance * value;
+        int adjustedValue = value - (int) damageResistance * value; // LOOK INTO THESE. PROBS ALREADY SWITCHING TO INT. NO NEED TO CAST IF SO
         currentHealth -= adjustedValue;
     }
 
