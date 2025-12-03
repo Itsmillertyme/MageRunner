@@ -4,11 +4,11 @@ using UnityEngine.UI;
 
 public class LootItemMenuController : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI title;
+    [SerializeField] TMPro.TextMeshProUGUI title;
     [SerializeField] Image icon;
     [SerializeField] Image decoration1;
     [SerializeField] Image decoration2;
-    [SerializeField] TextMeshProUGUI statsText;
+    [SerializeField] TMPro.TextMeshProUGUI statsText;
     [Tooltip("The topmost item gameobject in the scene")]
     [SerializeField] private GameObject menu;
     [SerializeField] private Colors colorManager;

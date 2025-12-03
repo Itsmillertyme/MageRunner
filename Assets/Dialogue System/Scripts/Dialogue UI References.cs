@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class DialogueUIReferences : MonoBehaviour {
-    public TextMeshProUGUI dialogueText;
-    public TextMeshProUGUI speakerNameText;
+    public TMPro.TextMeshProUGUI dialogueTMP;
+    public TMPro.TextMeshProUGUI speakerNameTMP;
+    public TMPro.TextMeshProUGUI continuePromptTMP;
     public Image portraitImage;
 }

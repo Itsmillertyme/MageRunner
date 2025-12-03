@@ -21,6 +21,7 @@ public class DialogueUIController : MonoBehaviour {
     GameObject activeDialogueUI;
     TextMeshProUGUI dialogueTMP;
     TextMeshProUGUI speakerNameTMP;
+    TextMeshProUGUI continuePromptTMP;
     Image portraitImage;
     #endregion
 
@@ -29,8 +30,9 @@ public class DialogueUIController : MonoBehaviour {
         if (activeDialogueUI == null) {
             activeDialogueUI = Instantiate(dialogueUIPrefab, uiParent);
             var uiRefs = activeDialogueUI.GetComponent<DialogueUIReferences>();
-            dialogueTMP = uiRefs.dialogueText;
-            speakerNameTMP = uiRefs.speakerNameText;
+            dialogueTMP = uiRefs.dialogueTMP;
+            speakerNameTMP = uiRefs.speakerNameTMP;
+            continuePromptTMP = uiRefs.continuePromptTMP;
             portraitImage = uiRefs.portraitImage;
         }
 
@@ -42,6 +44,7 @@ public class DialogueUIController : MonoBehaviour {
         foreach (var line in data.lines) {
             UpdateSpeakerUI(line);
             yield return TypeLine(line.lineText);
+            continuePromptTMP.color = new Color(continuePromptTMP.color.r, continuePromptTMP.color.g, continuePromptTMP.color.b, 1f);
             yield return new WaitUntil(() => Input.anyKeyDown);
         }
         OnDialogueFinished?.Invoke();

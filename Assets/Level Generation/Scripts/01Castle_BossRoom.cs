@@ -1,7 +1,9 @@
 using Cinemachine;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class _01Castle_BossRoom : BossRoomBase {
     #region Fight Flow 
@@ -26,7 +28,7 @@ public class _01Castle_BossRoom : BossRoomBase {
 
         //Turn off Player input and trigger anim
         playerController.InCutscene = true;
-        playerController.gameObject.GetComponentInChildren<Animator>().SetBool("IsWalking", false);
+        playerController.gameObject.GetComponentInChildren<Animator>().SetBool("isWalking", false);
         playerController.gameObject.GetComponentInChildren<Animator>().CrossFade("Idle", 0f);
 
         //BASTARDRY, Only for demo, turn off hud
@@ -82,9 +84,25 @@ public class _01Castle_BossRoom : BossRoomBase {
 
         Destroy(BossInstance, delay);
 
-        //StartCoroutine(GoToMainMenu());
+        //Create TMP
+        GameObject thankYouGO = new GameObject("ThankYouTMP");
+        Canvas thankYouCanvas = thankYouGO.AddComponent<Canvas>();
+        thankYouCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        thankYouCanvas.sortingOrder = 100;
+        thankYouGO.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        thankYouGO.AddComponent<GraphicRaycaster>();
+        GameObject thankYouTextGO = new GameObject("ThankYouText");
+        thankYouTextGO.transform.parent = thankYouGO.transform;
+        TextMeshProUGUI thankYouTMP = thankYouTextGO.AddComponent<TextMeshProUGUI>();
+        thankYouTMP.text = "Thank you for playing the MageRunner Demo";
+        thankYouTMP.enableAutoSizing = true;
+        thankYouTMP.alignment = TextAlignmentOptions.Center;
+        RectTransform thankYouRT = thankYouTextGO.GetComponent<RectTransform>();
+        thankYouRT.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 40, 50);
+        thankYouRT.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 25, 750);
+
         //show demo outro menu
-        StartCoroutine(ShowDemoOutroPanel(delay + 3));
+        StartCoroutine(ShowDemoOutroPanel(delay + 6));
     }
 
     public override void PlayBossMusic(AudioClip clip) {

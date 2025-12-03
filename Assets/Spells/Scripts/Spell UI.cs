@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class SpellUI : MonoBehaviour {
-    [SerializeField] private TextMeshProUGUI spellBookUIManaText;
+    [SerializeField] private TMPro.TextMeshProUGUI spellBookUIManaText;
     [SerializeField] private Image manaBarImage;
     [SerializeField] private Image activeSpellIcon;
     [SerializeField] private Image activeSpellReticle;

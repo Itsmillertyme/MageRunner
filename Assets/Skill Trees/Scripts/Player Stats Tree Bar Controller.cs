@@ -25,27 +25,27 @@ public class PlayerStatsTreeBarController : MonoBehaviour {
     public void UpdateStatBars() {
         //Health
         HealthBar.fillAmount = (float) playerStats.MaxHealth / (2 * defaultStats.MaxHealth);
-        HealthBar.GetComponentInChildren<TextMeshProUGUI>().text = $"{playerStats.MaxHealth}/{2 * defaultStats.MaxHealth}";
+        HealthBar.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = $"{playerStats.MaxHealth}/{2 * defaultStats.MaxHealth}";
         //Strength
         StrengthBar.fillAmount = (float) playerStats.MeleeDamage / (2 * defaultStats.MeleeDamage);
-        StrengthBar.GetComponentInChildren<TextMeshProUGUI>().text = $"{playerStats.MeleeDamage}/{2 * defaultStats.MeleeDamage}";
+        StrengthBar.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = $"{playerStats.MeleeDamage}/{2 * defaultStats.MeleeDamage}";
         //Stamina
         StaminaBar.fillAmount = (float) playerStats.MaxStamina / (2 * defaultStats.MaxStamina);
-        StaminaBar.GetComponentInChildren<TextMeshProUGUI>().text = $"{playerStats.MaxStamina}/{2 * defaultStats.MaxStamina}";
+        StaminaBar.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = $"{playerStats.MaxStamina}/{2 * defaultStats.MaxStamina}";
         //Endurance
         EnduranceBar.fillAmount = (float) playerStats.DamageResistance / (2 * defaultStats.DamageResistance);
-        EnduranceBar.GetComponentInChildren<TextMeshProUGUI>().text = $"{playerStats.DamageResistance}/{2 * defaultStats.DamageResistance}";
+        EnduranceBar.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = $"{playerStats.DamageResistance}/{2 * defaultStats.DamageResistance}";
         //Healing
         HealingBar.fillAmount = (float) playerStats.HealingEfficiency / (2 * defaultStats.HealingEfficiency);
-        HealingBar.GetComponentInChildren<TextMeshProUGUI>().text = $"{playerStats.HealingEfficiency}/{2 * defaultStats.HealingEfficiency}";
+        HealingBar.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = $"{playerStats.HealingEfficiency}/{2 * defaultStats.HealingEfficiency}";
         //Mana
         ManaBar.fillAmount = 0;
-        ManaBar.GetComponentInChildren<TextMeshProUGUI>().text = $"{0}/{0}";
+        ManaBar.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = $"{0}/{0}";
         //Magic
         MagicBar.fillAmount = 0;
-        MagicBar.GetComponentInChildren<TextMeshProUGUI>().text = $"{0}/{0}";
+        MagicBar.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = $"{0}/{0}";
         //Luck
         LuckBar.fillAmount = (float) playerStats.LootDropLuck / (2 * defaultStats.LootDropLuck);
-        LuckBar.GetComponentInChildren<TextMeshProUGUI>().text = $"{playerStats.LootDropLuck}/{2 * defaultStats.LootDropLuck}";
+        LuckBar.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = $"{playerStats.LootDropLuck}/{2 * defaultStats.LootDropLuck}";
     }
 }
