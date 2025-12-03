@@ -19,8 +19,8 @@ public class DialogueUIController : MonoBehaviour {
     public event Action OnDialogueFinished;
 
     GameObject activeDialogueUI;
-    TextMeshProUGUI dialogueText;
-    TextMeshProUGUI speakerNameText;
+    TextMeshProUGUI dialogueTMP;
+    TextMeshProUGUI speakerNameTMP;
     Image portraitImage;
     #endregion
 
@@ -29,8 +29,8 @@ public class DialogueUIController : MonoBehaviour {
         if (activeDialogueUI == null) {
             activeDialogueUI = Instantiate(dialogueUIPrefab, uiParent);
             var uiRefs = activeDialogueUI.GetComponent<DialogueUIReferences>();
-            dialogueText = uiRefs.dialogueText;
-            speakerNameText = uiRefs.speakerNameText;
+            dialogueTMP = uiRefs.dialogueText;
+            speakerNameTMP = uiRefs.speakerNameText;
             portraitImage = uiRefs.portraitImage;
         }
 
@@ -49,17 +49,17 @@ public class DialogueUIController : MonoBehaviour {
     }
 
     private void UpdateSpeakerUI(DialogueLine line) {
-        if (speakerNameText != null)
-            speakerNameText.text = line.speakerName;
+        if (speakerNameTMP != null)
+            speakerNameTMP.text = line.speakerName;
 
         if (portraitImage != null)
             portraitImage.sprite = line.portrait;
     }
 
     private IEnumerator TypeLine(string line) {
-        dialogueText.text = "";
+        dialogueTMP.text = "";
         foreach (char c in line) {
-            dialogueText.text += c;
+            dialogueTMP.text += c;
             yield return new WaitForSeconds(CharDelay);
         }
     }

@@ -10590,6 +10590,7 @@ GameObject:
   - component: {fileID: 3766390456363489484}
   - component: {fileID: 7656335465491416343}
   - component: {fileID: 8002579992287147842}
+  - component: {fileID: -2123922569053616018}
   m_Layer: 0
   m_Name: BossLvl1_AirWarlord_Pe
   m_TagString: Boss Enemy
@@ -10848,6 +10849,23 @@ MonoBehaviour:
     m_RotationOrder: 4
   parabolicHeight: 2
   parabolicTime: 1
+--- !u!114 &-2123922569053616018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3765518717825326571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdcbb98b100f11b408785bd5546280dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loot:
+  - {fileID: 11400000, guid: 9d2eef538f65d9640b47dc4ef4d822fb, type: 2}
+  - {fileID: 11400000, guid: 9d2eef538f65d9640b47dc4ef4d822fb, type: 2}
+  - {fileID: 11400000, guid: 9d2eef538f65d9640b47dc4ef4d822fb, type: 2}
+  - {fileID: 11400000, guid: 9d2eef538f65d9640b47dc4ef4d822fb, type: 2}
 --- !u!1 &3843903233374494932
 GameObject:
   m_ObjectHideFlags: 0

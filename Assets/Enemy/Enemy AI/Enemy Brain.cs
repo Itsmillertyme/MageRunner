@@ -25,6 +25,9 @@ public class EnemyBrain : MonoBehaviour, IBehave {
     RoomData roomData;
     bool initialized;
 
+    private bool inCutscene = false;
+    public bool InCutscene { get => inCutscene; set => inCutscene = value; }
+
     public EnemyProfile Profile => profile;
 
     #endregion
@@ -60,7 +63,7 @@ public class EnemyBrain : MonoBehaviour, IBehave {
     }
 
     void Update() {
-        if (!initialized || player == null || currentState == EnemyState.Dead)
+        if (!initialized || player == null || currentState == EnemyState.Dead || inCutscene)
             return;
 
         //Get player distance

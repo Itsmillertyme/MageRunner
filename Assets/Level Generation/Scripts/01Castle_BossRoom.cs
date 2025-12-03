@@ -22,13 +22,23 @@ public class _01Castle_BossRoom : BossRoomBase {
         cc.SetToCutSceneCamera(midpoint.transform);
 
         //Turn off boss AI
-        BossInstance.GetComponent<Lvl1BossCombat>().InCutscene = true;
-        BossInstance.GetComponent<Lvl1BossGuardCenter>().InCutscene = true;
-        //Turn off Player input
-        playerController.InCutscene = true;
+        BossInstance.GetComponent<EnemyBrain>().InCutscene = true;
 
-        //trigger taunt anim
+        //Turn off Player input and trigger anim
+        playerController.InCutscene = true;
+        playerController.gameObject.GetComponentInChildren<Animator>().SetBool("IsWalking", false);
+        playerController.gameObject.GetComponentInChildren<Animator>().CrossFade("Idle", 0f);
+
+        //BASTARDRY, Only for demo, turn off hud
+        playerController.transform.GetChild(1).transform.GetChild(1).gameObject.SetActive(false);
+        playerController.transform.GetChild(1).transform.GetChild(2).gameObject.SetActive(false);
+        playerController.transform.GetChild(1).transform.GetChild(3).gameObject.SetActive(false);
+        playerController.transform.GetChild(1).transform.GetChild(4).gameObject.SetActive(false);
+
+        //trigger boss taunt anim
         BossInstance.GetComponent<Animator>().SetTrigger("taunt");
+
+        //trigger dialogue
 
         //TODO:
         //turn off music manager current track
@@ -43,11 +53,18 @@ public class _01Castle_BossRoom : BossRoomBase {
         StartCoroutine(ResetCinemachineBlend(2));
 
         // Enable boss AI
-        BossInstance.GetComponent<Lvl1BossCombat>().InCutscene = false;
-        BossInstance.GetComponent<Lvl1BossGuardCenter>().InCutscene = false;
+        BossInstance.GetComponent<EnemyBrain>().InCutscene = false;
+        BossInstance.GetComponent<EnemyCombat_BossLvl1>().PlayerInBossRoom = true;
 
         //enable player 
         playerController.InCutscene = false;
+
+
+        //BASTARDRY, Only for demo, turn on hud
+        playerController.transform.GetChild(1).transform.GetChild(1).gameObject.SetActive(true);
+        playerController.transform.GetChild(1).transform.GetChild(2).gameObject.SetActive(true);
+        playerController.transform.GetChild(1).transform.GetChild(3).gameObject.SetActive(true);
+        playerController.transform.GetChild(1).transform.GetChild(4).gameObject.SetActive(true);
     }
 
     public override void ActivateHazards() {
@@ -61,9 +78,13 @@ public class _01Castle_BossRoom : BossRoomBase {
         // Cleanup hazards
         base.EndBossFight();
 
-        Destroy(BossInstance, BossInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length + 1.5f);
+        float delay = BossInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length + 1.5f;
 
-        StartCoroutine(GoToMainMenu());
+        Destroy(BossInstance, delay);
+
+        //StartCoroutine(GoToMainMenu());
+        //show demo outro menu
+        StartCoroutine(ShowDemoOutroPanel(delay + 3));
     }
 
     public override void PlayBossMusic(AudioClip clip) {
@@ -71,11 +92,21 @@ public class _01Castle_BossRoom : BossRoomBase {
     }
     #endregion
 
+    public void TriggerDialogue(DialogueData dialogue) {
+        playerController.GetComponent<PlayerDialogueDriver>().TriggerDialogue(dialogue);
+    }
+
     IEnumerator GoToMainMenu() {
         yield return new WaitForSeconds(5f);
         SceneManager.LoadScene("Splash");
     }
 
+    IEnumerator ShowDemoOutroPanel(float delay) {
+        yield return new WaitForSeconds(delay);
+
+        DemoOutroPanelController outro = FindAnyObjectByType<DemoOutroPanelController>(FindObjectsInactive.Include);
+        outro.ShowPanel(0.33f);
+    }
     IEnumerator ResetCinemachineBlend(float newBlendTime) {
         CinemachineBrain cb = FindAnyObjectByType<CinemachineBrain>();
         yield return new WaitForSeconds(cb.m_DefaultBlend.m_Time);

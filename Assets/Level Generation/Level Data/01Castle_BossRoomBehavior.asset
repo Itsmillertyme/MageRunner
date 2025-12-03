@@ -21,3 +21,4 @@ MonoBehaviour:
   useHazards: 0
   introSFX: {fileID: 8300000, guid: 50a0fa632fb45e1419a5342f8ec44b26, type: 3}
   bossDefeatSFX: {fileID: 8300000, guid: d1e8945c23f32804f8b7b5b5ce87dba3, type: 3}
+  bossIntroDialogue: {fileID: 11400000, guid: dfecdd2cfc5b4ff47b17a2ae2e019510, type: 2}

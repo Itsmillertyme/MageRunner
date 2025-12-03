@@ -3,13 +3,17 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "BossRooms/01Castle_BossRoomBehavior", fileName = "01Castle_BossRoomBehavior")]
 public class _01Castle_BossRoomBehavior : BossRoomBehaviorBase {
-    #region Castle Data
-    [Header("Castle FX / SFX")]
+    #region Castle Data 
+    [Header("Castle FX/SFX")]
     [Tooltip("Optional SFX to play during pre-fight buildup.")]
     public AudioClip introSFX;
 
     [Tooltip("Optional SFX to play after boss defeat.")]
     public AudioClip bossDefeatSFX;
+
+    [Header("Castle Dialogue")]
+    [Tooltip("Dialogue to play during the boss intro sequence.")]
+    public DialogueData bossIntroDialogue;
     #endregion
 
     #region Director Overrides
@@ -21,6 +25,9 @@ public class _01Castle_BossRoomBehavior : BossRoomBehaviorBase {
         // play intro sfx
         TryPlaySFX(introSFX);
 
+        //trigger dialogue
+        _01Castle_BossRoom bossRoom = room as _01Castle_BossRoom;
+        bossRoom.TriggerDialogue(bossIntroDialogue);
         // Continue with unified sequence
         room.BeginPreFightSequence();
         room.StartCoroutine(EnterRoutine(room));

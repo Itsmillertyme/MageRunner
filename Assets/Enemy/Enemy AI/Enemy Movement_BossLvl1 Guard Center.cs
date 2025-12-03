@@ -30,7 +30,7 @@ public class EnemyMovement_BossLvl1GuardCenter : MonoBehaviour, IEnemyMovementBe
             // Use room center
             desiredGuard = new Vector3(
                 roomDataIn.PathNode.position.x,
-                roomDataIn.PathNode.position.y,
+                roomDataIn.EnemySpawns[0].position.y,
                 transform.position.z
             );
         }

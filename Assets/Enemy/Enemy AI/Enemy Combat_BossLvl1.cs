@@ -7,27 +7,28 @@ public class EnemyCombat_BossLvl1 : MonoBehaviour, IEnemyCombatBehaviour {
 
     [Header("Crit Settings")]
     [SerializeField, Tooltip("Damage multiplier for crit melee attacks.")]
-    private float critMultiplier = 1.5f;
+    float critMultiplier = 1.5f;
 
     [Header("Cooldown Multipliers")]
-    [SerializeField] private float meleeCooldownMultiplier = 1.0f;
-    [SerializeField] private float rangedCooldownMultiplier = 1.0f;
+    [SerializeField] float meleeCooldownMultiplier = 1.0f;
+    [SerializeField] float rangedCooldownMultiplier = 1.0f;
 
     [Header("Super Attack Settings")]
-    [SerializeField, Range(0f, 1f)] private float superAttackChance = 0.25f;
-    [SerializeField] private float superAttackCooldown = 6f;
+    [SerializeField, Range(0f, 1f)] float superAttackChance = 0.25f;
+    [SerializeField] float superAttackCooldown = 6f;
 
     [Header("Projectile Overrides (Optional)")]
-    [SerializeField] private GameObject projectilePrefabOverride;
-    [SerializeField] private Transform projectileSpawnPoint;
-    [SerializeField] private GameObject weaponParticles;
+    [SerializeField] GameObject projectilePrefabOverride;
+    [SerializeField] Transform projectileSpawnPoint;
+    [SerializeField] GameObject weaponParticles;
 
     [Header("Debug (Read Only)")]
-    [SerializeField] private bool initialized = false;
-    [SerializeField] private bool attackReady = true;
-    [SerializeField] private bool superReady = true;
-    [SerializeField] private bool playerInMeleeRange = false;
-    [SerializeField] private bool playerInRangedRange = false;
+    [SerializeField] bool initialized = false;
+    [SerializeField] bool playerInBossRoom = false;
+    [SerializeField] bool attackReady = true;
+    [SerializeField] bool superReady = true;
+    [SerializeField] bool playerInMeleeRange = false;
+    [SerializeField] bool playerInRangedRange = false;
 
     private Animator animator;
     private NavMeshAgent agent;
@@ -56,8 +57,7 @@ public class EnemyCombat_BossLvl1 : MonoBehaviour, IEnemyCombatBehaviour {
     private float projectileSpeed;
     private float projectileLifetime;
 
-    private bool inCutscene = false;
-    public bool InCutscene { get => inCutscene; set => inCutscene = value; }
+    public bool PlayerInBossRoom { get => playerInBossRoom; set => playerInBossRoom = value; }
 
     #endregion
 
@@ -119,7 +119,7 @@ public class EnemyCombat_BossLvl1 : MonoBehaviour, IEnemyCombatBehaviour {
     }
 
     public void Tick(EnemyContext context) {
-        if (!initialized || inCutscene || context.state == EnemyState.Dead) return;
+        if (!initialized || context.state == EnemyState.Dead || !playerInBossRoom) return;
 
         agent = context.agent;
         profile = context.profile ?? profile;
