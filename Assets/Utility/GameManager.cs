@@ -158,6 +158,12 @@ public class GameManager : MonoBehaviour {
         //hide screen
         //ShowLoadingScreenForDuration(0.25f, 3f);
 
+        //reset player health
+        PlayerController pc = player.GetComponent<PlayerController>();
+        pc.Player.SetCurrentHealth(pc.Player.MaxHealth);
+        PlayerHealthUI phi = FindFirstObjectByType<PlayerHealthUI>();
+        phi.UpdateImageFill(pc.Player.CurrentHealth);
+
         //move player
         levelCreator.PlacePlayerInStartRoom();
     }
