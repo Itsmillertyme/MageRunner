@@ -12,11 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef815d4a2dfe3da42b128b4e2434c9bc, type: 3}
   m_Name: Mana Shatterstone Barrage
   m_EditorClassIdentifier: 
-  dropChance: 0
+  dropChance: 52
   lifeSpan: 5
-  upwardForce: 12
-  outwardForce: 3
-  torqueStrength: 5
   lootDrop: {fileID: 6745808954368080374, guid: 69833ad7fb0c79944921524afe2c8cbd, type: 3}
   itemName: 
   maxManaDropped: 3

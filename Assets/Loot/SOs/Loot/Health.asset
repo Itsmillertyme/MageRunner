@@ -12,11 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8238c672697fb5d47ab9c3c60ea5363a, type: 3}
   m_Name: Health
   m_EditorClassIdentifier: 
-  dropChance: 0
+  dropChance: 25
   lifeSpan: 5
-  upwardForce: 12
-  outwardForce: 3
-  torqueStrength: 5
   lootDrop: {fileID: 2061256399033957071, guid: a6ccdbcc50df4d74cb1b8578dc5ab803, type: 3}
   maxHealthDropped: 75
   minLocalScale: 6

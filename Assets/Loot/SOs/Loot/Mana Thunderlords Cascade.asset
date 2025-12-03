@@ -12,12 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef815d4a2dfe3da42b128b4e2434c9bc, type: 3}
   m_Name: Mana Thunderlords Cascade
   m_EditorClassIdentifier: 
-  dropChance: 0
+  dropChance: 30
   lifeSpan: 5
-  upwardForce: 12
-  outwardForce: 3
-  torqueStrength: 5
-  lootDrop: {fileID: 2847963751663224276, guid: a4b21d582ca887b42824be9369eac939, type: 3}
+  lootDrop: {fileID: 1902279238067960212, guid: 6f4da544a46297049bfa84d4f547e460, type: 3}
   itemName: 
   maxManaDropped: 2
   matchingSpell: {fileID: 11400000, guid: 79da248aa9ba0ed4686afea072603736, type: 2}

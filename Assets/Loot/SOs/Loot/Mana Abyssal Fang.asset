@@ -12,11 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef815d4a2dfe3da42b128b4e2434c9bc, type: 3}
   m_Name: Mana Abyssal Fang
   m_EditorClassIdentifier: 
-  dropChance: 0
+  dropChance: 65
   lifeSpan: 5
-  upwardForce: 12
-  outwardForce: 3
-  torqueStrength: 5
   lootDrop: {fileID: 5868907568504283672, guid: 2bf9a6e2021de6546a778e7f953268ff, type: 3}
   itemName: 
   maxManaDropped: 10

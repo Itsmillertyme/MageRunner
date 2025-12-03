@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56bd6a838c9b7114c83341cfd947d170, type: 3}
   m_Name: Legendary Item
   m_EditorClassIdentifier: 
-  dropChance: 100
+  dropChance: 5
   lifeSpan: 60
   lootDrop: {fileID: 3016832193347112936, guid: 8e229d386bc4230439ff49fcdc5cf9be, type: 3}
   rarity: 0
@@ -40,6 +40,3 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9edaa5aa4d6ef8141bb1dec5dbec9e7b, type: 3}
   - {fileID: 21300000, guid: 98f77e23ff543294685c8a05ec3cb187, type: 3}
   - {fileID: 21300000, guid: d9af5b4a53cab1f42a98f5bd5ed0bbbc, type: 3}
-  itemIcon: {fileID: 21300000, guid: f02d0ab4fc14be74ab1f48816f67880f, type: 3}
-  itemName: Test Item
-  perks: []

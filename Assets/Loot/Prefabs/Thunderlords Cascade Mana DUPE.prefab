@@ -14702,6 +14702,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loot: {fileID: 11400000, guid: 52c89cab65b715e448229136150d0bc7, type: 2}
+  blinkingParent: {fileID: 1902279238067960212}
+  lootCollider: {fileID: 0}
 --- !u!1 &6414118812801651895
 GameObject:
   m_ObjectHideFlags: 0
