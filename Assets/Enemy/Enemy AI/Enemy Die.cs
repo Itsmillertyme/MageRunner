@@ -42,6 +42,12 @@ public class EnemyDie : MonoBehaviour {
         GetComponent<EnemyHealth>().enabled = false;
         GetComponentInChildren<Canvas>().gameObject.SetActive(false);
 
+        // TRY TO GET GUARANTEED LOOT DROPPER. IF PRESENT SPAWN LOOT.
+        if (TryGetComponent<GuaranteedLootDropper>(out var lootDropper))
+        {
+            lootDropper.DropLoot();
+        }
+
         if (isBoss && bossRoom != null) {
             //Let boss fight controller know if this is a boss
             bossRoom.NotifyBossDefeated();

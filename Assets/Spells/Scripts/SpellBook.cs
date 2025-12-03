@@ -216,7 +216,7 @@ public class SpellBook : MonoBehaviour {
 
         boltCollider.size = new(xSize, ySize, zSize);
         boltCollider.center = new(0, ySize / 2, 0);
-        boltCollider.gameObject.transform.rotation = Quaternion.Euler(0, 0, zRotation * Mathf.Rad2Deg);
+        boltCollider.gameObject.transform.rotation = Quaternion.Euler(0, 0, -zRotation * Mathf.Rad2Deg);
     }
     #endregion
 

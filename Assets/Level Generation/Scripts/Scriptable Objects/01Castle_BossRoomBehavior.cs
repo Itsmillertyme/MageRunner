@@ -42,7 +42,7 @@ public class _01Castle_BossRoomBehavior : BossRoomBehaviorBase {
     }
 
     public override void OnBossDefeated(BossRoomBase room) {
-        Debug.Log($"[Boss Fight] Boss defeated");
+        //Debug.Log($"[Boss Fight] Boss defeated");
 
         // Castle victory flair first
         TryPlaySFX(bossDefeatSFX);

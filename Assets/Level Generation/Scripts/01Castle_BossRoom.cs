@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class _01Castle_BossRoom : BossRoomBase {
     #region Fight Flow 
     public override void BeginPreFightSequence() {
-        Debug.Log($"[Boss Fight] Pre-Fight sequence begun");
+        //Debug.Log($"[Boss Fight] Pre-Fight sequence begun");
 
         base.BeginPreFightSequence();
 
@@ -45,7 +45,7 @@ public class _01Castle_BossRoom : BossRoomBase {
     }
 
     public override void StartBossFight() {
-        Debug.Log($"[Boss Fight] Boss fight started");
+        //Debug.Log($"[Boss Fight] Boss fight started");
 
         base.StartBossFight();
         CameraController cc = FindAnyObjectByType<CameraController>();
@@ -69,11 +69,11 @@ public class _01Castle_BossRoom : BossRoomBase {
 
     public override void ActivateHazards() {
         // dissapearing platforms
-        Debug.Log($"[Boss Fight] Hazards activated");
+        //Debug.Log($"[Boss Fight] Hazards activated");
     }
 
     public override void EndBossFight() {
-        Debug.Log($"[Boss Fight] Boss fight cleanup");
+        //Debug.Log($"[Boss Fight] Boss fight cleanup");
 
         // Cleanup hazards
         base.EndBossFight();

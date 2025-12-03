@@ -10,12 +10,7 @@ public class GuaranteedLootDropper : MonoBehaviour
         lootDropper = FindFirstObjectByType<LootSystem>();
     }
 
-    private void OnDestroy()
-    {
-        DropLoot();
-    }
-
-    private void DropLoot()
+    public void DropLoot()
     {
         foreach (Item item in loot)
         {

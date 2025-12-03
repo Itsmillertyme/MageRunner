@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56bd6a838c9b7114c83341cfd947d170, type: 3}
   m_Name: test
   m_EditorClassIdentifier: 
-  dropChance: 5
+  dropChance: 100
   lifeSpan: 60
   lootDrop: {fileID: 3016832193347112936, guid: 8e229d386bc4230439ff49fcdc5cf9be, type: 3}
   rarity: 0
