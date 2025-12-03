@@ -21,7 +21,7 @@ MonoBehaviour:
   angularSpeed: 360
   use2DFlipFacing: 0
   visionOriginOffset: {x: 0, y: 0.79, z: 0.92}
-  attackType: 1
+  attackType: 2
   baseAttackCooldown: 1
   damage: 10
   attackRadius: 1.5

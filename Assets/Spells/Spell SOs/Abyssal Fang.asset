@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2045b7215aced4c4686b4dab3e2a123c, type: 3}
   m_Name: Abyssal Fang
   m_EditorClassIdentifier: 
-  currentLevel: 9
+  currentLevel: 2
   maxLevel: 9
-  currentXP: 1000
+  currentXP: 200
   baseLevelValue: 100
   levelingScalar: 1.7
   name: Abyssal Fang
-  currentMana: 48
+  currentMana: 43
   maxMana: 50
   damage: 500
   lifeSpan: 1
